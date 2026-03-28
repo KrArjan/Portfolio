@@ -10,6 +10,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Material Symbols -->
@@ -18,12 +19,11 @@
   <!-- Stylesheets (order matters) -->
   <link rel="stylesheet" href="assets/css/variables.css" />
   <link rel="stylesheet" href="assets/css/base.css" />
-  <link rel="stylesheet" href="assets/css/animations.css" />
-  <link rel="stylesheet" href="assets/css/layout.css" />
-  <link rel="stylesheet" href="assets/css/components.css" />
-
-  <!-- tsParticles (particles background) -->
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+  
+  <!-- Deferred Stylesheets (Non-blocking) -->
+  <link rel="stylesheet" href="assets/css/animations.css" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="assets/css/layout.css"     media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="assets/css/components.css" media="print" onload="this.media='all'" />
 </head>
 <body>
 
@@ -41,9 +41,10 @@
 <!-- =====================================================================
      SCRIPTS
      loader.js fetches all page partials, builds the DOM, then loads
-     the app scripts in order. No other scripts needed here.
+     the app scripts in order. Included here at the bottom with defer.
      ===================================================================== -->
-<script src="assets/js/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js" defer></script>
+<script src="assets/js/loader.js" defer></script>
 
 </body>
 </html>

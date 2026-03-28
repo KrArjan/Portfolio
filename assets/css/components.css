@@ -910,7 +910,7 @@
   font-size: 0.5625rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #3a3a3a;
+  color: #8a9a9b;
   transition: color var(--dur-base);
 }
 .footer__link:hover { color: var(--primary-container); }
@@ -920,7 +920,7 @@
   font-size: 0.5rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: #2a2a2a;
+  color: #6a7a7b;
 }
 
 .footer__dots {

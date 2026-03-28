@@ -163,7 +163,7 @@ const Renderer = (() => {
         <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--surface-dim) 30%, transparent);"></div>
         <div style="position:relative;z-index:1;">
           <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--tertiary-fixed);display:block;margin-bottom:12px;">AUTOMATION ENGINE</span>
-          <h4 class="headline-lg" style="color:#fff;margin-bottom:8px;font-family:var(--font-headline);">${main.title}</h4>
+          <h3 class="headline-lg" style="color:#fff;margin-bottom:8px;font-family:var(--font-headline);">${main.title}</h3>
           <p class="body-sm" style="color:var(--on-surface-variant);max-width:420px;margin-bottom:20px;">${main.description}</p>
           <button class="btn btn-ghost btn-sm" onclick="Router.navTo('projects')">Details</button>
         </div>
@@ -175,7 +175,7 @@ const Renderer = (() => {
             <div style="position:absolute;top:12px;right:12px;opacity:0.15;">
               <span class="material-symbols-outlined" style="font-size:4rem;color:${p.color}">${p.icon}</span>
             </div>
-            <h5 class="headline-sm" style="color:var(--primary);margin-bottom:6px;font-family:var(--font-headline);">${p.title}</h5>
+            <h4 class="headline-sm" style="color:var(--primary);margin-bottom:6px;font-family:var(--font-headline);">${p.title}</h4>
             <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:12px;">${p.description.slice(0,80)}...</p>
             <span style="font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--primary-container);">${p.tags.join(' // ')}</span>
           </div>
@@ -274,7 +274,7 @@ const Renderer = (() => {
               <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:${entry.borderColor};">${entry.era}</span>
               <span style="font-family:var(--font-headline);font-size:0.6rem;font-style:italic;color:var(--outline-variant);">${entry.year}</span>
             </div>
-            <h3 class="headline-md" style="font-family:var(--font-headline);margin-bottom:16px;color:var(--on-surface);">${entry.title}</h3>
+            <h2 class="headline-md" style="font-family:var(--font-headline);margin-bottom:16px;color:var(--on-surface);">${entry.title}</h2>
             <p class="body-sm" style="color:var(--on-surface-variant);line-height:1.7;margin-bottom:20px;">${entry.description}</p>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
               ${entry.tags.map(t => `
@@ -309,7 +309,7 @@ const Renderer = (() => {
         <div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
             <span class="material-symbols-outlined" style="color:var(--primary-container);">${main.icon}</span>
-            <h3 style="font-family:var(--font-headline);font-size:1.25rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Currently Building: ${main.title}</h3>
+            <h2 style="font-family:var(--font-headline);font-size:1.25rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Currently Building: ${main.title}</h2>
           </div>
           <p class="body-sm" style="color:var(--on-surface-variant);max-width:480px;margin-bottom:24px;">${main.description}</p>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
@@ -333,7 +333,7 @@ const Renderer = (() => {
         <div class="col-4 glass-card glow-border-inset reveal" style="padding:24px;display:flex;flex-direction:column;justify-content:space-between;min-height:240px;border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-md);">
           <div>
             <span class="material-symbols-outlined" style="color:${p.color || 'var(--primary-container)'};font-size:2rem;margin-bottom:12px;display:block;">${p.icon}</span>
-            <h4 style="font-family:var(--font-headline);font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:8px;">${p.title}</h4>
+            <h3 style="font-family:var(--font-headline);font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:8px;">${p.title}</h3>
             <p class="body-sm" style="color:var(--on-surface-variant);">${p.description}</p>
           </div>
           <span class="badge" style="margin-top:16px;align-self:flex-start;background:rgba(0,0,0,0.3);color:${statusColors[p.status] || 'var(--on-surface-variant)'};border:1px solid currentColor;">${p.status}</span>
@@ -344,7 +344,7 @@ const Renderer = (() => {
       <div class="col-12 glass glow-border-top reveal" style="padding:32px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
           <span class="material-symbols-outlined" style="color:var(--primary-container);">terminal</span>
-          <h3 style="font-family:var(--font-headline);font-size:1.1rem;font-weight:700;">LAB_NOTES // Recent Activity</h3>
+          <h2 style="font-family:var(--font-headline);font-size:1.1rem;font-weight:700;">LAB_NOTES // Recent Activity</h2>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
           ${SITE_DATA.labNotes.map(n => `

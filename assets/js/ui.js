@@ -7,26 +7,42 @@
 const UI = (() => {
 
   /* ===================== DRAWER ===================== */
-  function openDrawer() {
-    document.getElementById('mobile-drawer')?.classList.add('open');
-    document.getElementById('drawer-overlay')?.classList.add('open');
+
+
+  /* ===================== MOBILE BOTTOM SHEET ===================== */
+  function openBottomSheet() {
+    document.getElementById('mobile-bottom-sheet')?.classList.add('open');
+    document.getElementById('bottom-sheet-overlay')?.classList.add('open');
+    document.getElementById('mobile-fab')?.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeDrawer() {
-    document.getElementById('mobile-drawer')?.classList.remove('open');
-    document.getElementById('drawer-overlay')?.classList.remove('open');
+  function closeBottomSheet() {
+    document.getElementById('mobile-bottom-sheet')?.classList.remove('open');
+    document.getElementById('bottom-sheet-overlay')?.classList.remove('open');
+    document.getElementById('mobile-fab')?.classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  function initDrawer() {
-    document.getElementById('drawer-overlay')?.addEventListener('click', closeDrawer);
-    document.getElementById('btn-menu-open')?.addEventListener('click', openDrawer);
-    document.getElementById('btn-menu-close')?.addEventListener('click', closeDrawer);
+  function initBottomSheet() {
+    const fab     = document.getElementById('mobile-fab');
+    const overlay = document.getElementById('bottom-sheet-overlay');
 
-    // Close on Escape
+    fab?.addEventListener('click', () => {
+      fab.classList.contains('open') ? closeBottomSheet() : openBottomSheet();
+    });
+
+    overlay?.addEventListener('click', closeBottomSheet);
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDrawer();
+      if (e.key === 'Escape') closeBottomSheet();
+    });
+
+    // Sync active state whenever Router changes page
+    Router.onChange((page) => {
+      document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === page);
+      });
     });
   }
 
@@ -117,6 +133,24 @@ const UI = (() => {
     setInterval(update, 1000);
   }
 
+  /* ===================== SCROLL TO TOP ===================== */
+  function initScrollTop() {
+    const btn = document.getElementById('btn-scroll-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   /* ===================== SCROLL REVEAL ===================== */
   function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
@@ -183,13 +217,14 @@ const UI = (() => {
 
   /* ===================== PUBLIC INIT ===================== */
   function init() {
-    initDrawer();
+    initBottomSheet();
     initFilters();
     initContactForm();
     initLabTimer();
     initScrollReveal();
     initCardTilt();
     animateProgressBars();
+    initScrollTop();
 
     // Re-run scroll reveal & progress bars on page change
     Router.onChange(() => {
@@ -200,5 +235,5 @@ const UI = (() => {
     });
   }
 
-  return { init, openDrawer, closeDrawer, showToast, animateCounters };
+  return { init, openBottomSheet, closeBottomSheet, showToast, animateCounters };
 })();

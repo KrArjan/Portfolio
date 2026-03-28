@@ -43,20 +43,40 @@ const Renderer = (() => {
          onclick="Router.navTo('${l.id}'); return false;">${l.label}</a>`
     ).join('');
 
-    const drawerHTML = navLinks.map(l =>
-      `<a href="#" class="drawer__link" data-page="${l.id}"
-         onclick="Router.navTo('${l.id}'); UI.closeDrawer(); return false;">
-         ${icon(l.icon)} ${l.label}
-       </a>`
+    const navLinksEl = document.getElementById('nav-links');
+    if (navLinksEl) navLinksEl.innerHTML = linksHTML;
+
+    const sidebarIconsEl = document.getElementById('sidebar-icons');
+    if (sidebarIconsEl) {
+      sidebarIconsEl.innerHTML = navLinks.map(l =>
+        `<span class="sidebar-right__icon material-symbols-outlined"
+               title="${l.label}"
+               onclick="Router.navTo('${l.id}')">${l.icon}</span>`
+      ).join('');
+    }
+  }
+
+  /* ===================== BOTTOM SHEET NAV ===================== */
+
+  function renderBottomSheetNav() {
+    const container = document.getElementById('bottom-sheet-nav');
+    if (!container) return;
+
+    container.innerHTML = SITE_DATA.navLinks.map(l =>
+      `<button class="bottom-sheet__btn" data-page="${l.id}"
+               onclick="Router.navTo('${l.id}'); UI.closeBottomSheet();">
+         <span class="material-symbols-outlined">${l.icon}</span>
+         ${l.label}
+       </button>`
     ).join('');
 
-    document.getElementById('nav-links').innerHTML    = linksHTML;
-    document.getElementById('drawer-nav').innerHTML   = drawerHTML;
-    document.getElementById('sidebar-icons').innerHTML = navLinks.map(l =>
-      `<span class="sidebar-right__icon material-symbols-outlined"
-             title="${l.label}"
-             onclick="Router.navTo('${l.id}')">${l.icon}</span>`
-    ).join('');
+    // Mark the current active page immediately
+    const current = Router?.getCurrent?.();
+    if (current) {
+      container.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === current);
+      });
+    }
   }
 
   /* ===================== FOOTER ===================== */
@@ -359,6 +379,7 @@ const Renderer = (() => {
 
   function init() {
     renderNav();
+    renderBottomSheetNav();
     renderFooter();
     renderStats();
     renderFeatured();

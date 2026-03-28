@@ -1,0 +1,75 @@
+<!-- ================================================================
+     PAGE: 404 // SIGNAL LOST
+     ================================================================ -->
+<section id="page-404" class="page-section">
+  <!-- Atmospheric decorations -->
+  <div class="bg-digital-grid" style="position:fixed;inset:0;z-index:0;opacity:0.2;pointer-events:none;"></div>
+  <div class="bloom bloom-purple" style="width:400px;height:400px;top:20%;left:-10%;opacity:0.1;filter:blur(120px);"></div>
+  <div class="bloom bloom-cyan"   style="width:400px;height:400px;bottom:20%;right:-10%;opacity:0.1;filter:blur(120px);"></div>
+
+  <div class="container" style="position:relative;z-index:1;min-height:calc(100vh - 72px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;">
+    
+    <!-- Technical Status Node -->
+    <div class="status-node anim-fade-in-up" style="margin-bottom:32px;">
+      <span class="status-node__dot"></span>
+      <span class="status-node__text">SYSTEM_FAILURE: ERROR_CODE_404</span>
+    </div>
+
+    <!-- Kinetic Icon Module -->
+    <div class="anim-fade-in-up" style="position:relative;margin-bottom:48px;">
+      <!-- Glowing background -->
+      <div style="position:absolute;inset:0;background:var(--gradient-primary);opacity:0.15;filter:blur(40px);transform:scale(1.2);"></div>
+      
+      <div class="glass" style="position:relative;width:128px;height:128px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,242,255,0.2);border-radius:var(--radius-md);">
+        <span class="material-symbols-outlined" style="font-size:4rem;color:var(--primary-container);font-variation-settings:'FILL' 1;">wifi_off</span>
+        
+        <!-- Decorative technical corners -->
+        <div style="position:absolute;top:0;left:0;width:12px;height:12px;border-top:2px solid var(--primary-container);border-left:2px solid var(--primary-container);"></div>
+        <div style="position:absolute;bottom:0;right:0;width:12px;height:12px;border-bottom:2px solid var(--secondary-container);border-right:2px solid var(--secondary-container);"></div>
+      </div>
+    </div>
+
+    <!-- Error Headlines -->
+    <div class="anim-fade-in-up" style="margin-bottom:48px;">
+      <h1 class="display-lg glitch-text" style="color:var(--on-surface);margin-bottom:16px;">
+        404 <span class="text-primary-container" style="font-weight:300;">//</span> SIGNAL LOST
+      </h1>
+      <p class="label-lg" style="color:var(--primary-container);opacity:0.8;max-width:600px;margin:0 auto;">
+        The requested module could not be located in the current architectural layer.
+      </p>
+    </div>
+
+    <!-- Information Glass Panel -->
+    <div class="glass glow-border-left anim-fade-in-up" style="padding:24px 32px;max-width:540px;margin-bottom:48px;text-align:left;position:relative;">
+      <div style="position:absolute;top:12px;right:12px;font-family:var(--font-headline);font-size:0.56rem;color:var(--on-surface-variant);opacity:0.4;letter-spacing:0.2em;">VER_2.0.4.LOCAL</div>
+      <p class="body-md" style="color:var(--on-surface-variant);border-left:2px solid var(--outline-variant);padding-left:20px;line-height:1.7;">
+        The route you are looking for has been decommissioned or moved. Connection to the specified data node has timed out or was severed by the architectural firewall.
+      </p>
+    </div>
+
+    <!-- Action Cluster -->
+    <div class="anim-fade-in-up" style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
+      <button class="btn btn-primary" onclick="Router.navTo('home')">
+        <span class="material-symbols-outlined">refresh</span>
+        REBOOT INTERFACE
+      </button>
+      <button class="btn btn-secondary" onclick="Router.navTo('home')">
+        <span class="material-symbols-outlined">home</span>
+        RETURN TO HOME
+      </button>
+    </div>
+
+    <!-- Technical Metadata Overlays (Desktop Only) -->
+    <div class="hide-mobile" style="position:absolute;bottom:40px;left:40px;text-align:left;font-family:var(--font-headline);font-size:0.625rem;color:var(--on-surface-variant);opacity:0.3;letter-spacing:0.3em;text-transform:uppercase;line-height:2;">
+      <div>Coordinate_X: 40.7128</div>
+      <div>Coordinate_Y: -74.0060</div>
+      <div style="color:var(--primary-container);">Status: Seeking_Path...</div>
+    </div>
+    <div class="hide-mobile" style="position:absolute;bottom:40px;right:40px;text-align:right;font-family:var(--font-headline);font-size:0.625rem;color:var(--on-surface-variant);opacity:0.3;letter-spacing:0.3em;text-transform:uppercase;line-height:2;">
+      <div>Layer: Root_Architect</div>
+      <div>Module: Null_Pointer</div>
+      <div style="color:var(--secondary-container);">Encryption: AES_256_ACTIVE</div>
+    </div>
+
+  </div>
+</section><!-- /page-404 -->

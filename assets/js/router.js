@@ -33,6 +33,11 @@ const Router = (() => {
       link.classList.toggle('active', link.dataset.page === page);
     });
 
+    // Update bottom-sheet buttons
+    document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.page === page);
+    });
+
     // Scroll top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -59,8 +64,8 @@ const Router = (() => {
   /* ---- Init: Read hash or default to home ---- */
   function init() {
     const hash = window.location.hash.replace('#', '');
-    const validPages = ['home','profile','projects','stack','journey','lab','connect'];
-    const startPage = validPages.includes(hash) ? hash : 'home';
+    const validPages = ['home','profile','projects','stack','journey','lab','connect','404'];
+    const startPage = validPages.includes(hash) ? hash : (hash ? '404' : 'home');
 
     // Set initial active state
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -69,6 +74,10 @@ const Router = (() => {
 
     document.querySelectorAll('.nav__link').forEach(l => {
       l.classList.toggle('active', l.dataset.page === startPage);
+    });
+
+    document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.page === startPage);
     });
 
     currentPage = startPage;

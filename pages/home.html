@@ -1,0 +1,188 @@
+<!-- ================================================================
+     PAGE: HOME
+     ================================================================ -->
+<section id="page-home" class="page-section">
+
+  <!-- Hero -->
+  <div class="bg-digital-grid" style="position:relative;min-height:calc(100vh - 72px);display:flex;align-items:center;overflow:hidden;">
+    <div class="bloom bloom-purple" style="width:400px;height:400px;top:15%;left:-8%;"></div>
+    <div class="bloom bloom-cyan"   style="width:400px;height:400px;bottom:10%;right:-10%;opacity:0.08;"></div>
+
+    <div class="container" style="position:relative;z-index:1;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:64px;padding:80px 0;">
+        <!-- Left text block -->
+        <div style="max-width:720px;text-align:center;" class="anim-fade-in-up">
+
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;margin-bottom:24px;border-radius:999px;" class="glass badge badge-amber">
+            <span class="dot"></span>
+            <span class="label-md">System_Online // Ver_2.0.4</span>
+          </div>
+
+          <h1 class="display-xl" style="margin-bottom:16px;">
+            KrArjan<br>
+            <span class="gradient-text">The Kinetic Architect.</span>
+          </h1>
+
+          <p class="body-lg anim-fade-in-up delay-2" style="color:var(--on-surface-variant);max-width:560px;margin:0 auto 40px;">
+            Student Developer &amp; Technical Builder. Building software, bots, tools, and digital systems that move the needle.
+          </p>
+
+          <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:40px;" class="anim-fade-in-up delay-3">
+            <button class="btn btn-primary" onclick="Router.navTo('projects')">
+              <span class="material-symbols-outlined">code</span> View Projects
+            </button>
+            <button class="btn btn-secondary" onclick="Router.navTo('stack')">
+              <span class="material-symbols-outlined">layers</span> Explore My Stack
+            </button>
+          </div>
+
+          <div style="display:flex;gap:28px;justify-content:center;" class="anim-fade-in-up delay-4">
+            <a href="mailto:krarjan@nullbyte.qzz.io" style="display:flex;align-items:center;gap:6px;color:#4a4a4a;transition:color 0.2s;font-family:var(--font-headline);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;"
+               onmouseenter="this.style.color='var(--primary)'" onmouseleave="this.style.color='#4a4a4a'">
+              <span class="material-symbols-outlined">alternate_email</span> Contact
+            </a>
+            <a href="https://github.com/KrArjan" target="_blank" rel="noopener"
+               style="display:flex;align-items:center;gap:6px;color:#4a4a4a;transition:color 0.2s;font-family:var(--font-headline);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;"
+               onmouseenter="this.style.color='var(--primary)'" onmouseleave="this.style.color='#4a4a4a'">
+              <span class="material-symbols-outlined">code</span> GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Floating tech tag cluster -->
+        <div style="position:relative;width:100%;max-width:280px;height:280px;flex-shrink:0;margin:0 auto;" class="anim-fade-in delay-3">
+          <div class="glass" style="width:200px;height:200px;border-radius:var(--radius-xl);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+            <span class="material-symbols-outlined" style="font-size:3rem;color:var(--primary-container);margin-bottom:12px;">bolt</span>
+            <p style="font-family:var(--font-headline);font-weight:700;font-size:0.875rem;">Technical Builder</p>
+            <p class="body-sm" style="color:var(--on-surface-variant);margin-top:6px;">Architecting systems since 2021.</p>
+          </div>
+          <span class="glass tag-float-1 hide-mobile" style="position:absolute;top:-10px;right:-10px;padding:8px 14px;border-radius:var(--radius-md);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;color:var(--primary-container);">JAVASCRIPT</span>
+          <span class="glass tag-float-2 hide-mobile" style="position:absolute;top:30%;left:-60px;padding:8px 14px;border-radius:var(--radius-md);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;color:var(--secondary);">NODE.JS</span>
+          <span class="glass tag-float-3 hide-mobile" style="position:absolute;bottom:10px;right:-40px;padding:8px 14px;border-radius:var(--radius-md);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;color:var(--tertiary-fixed);">PYTHON</span>
+          <span class="glass tag-float-4 hide-mobile" style="position:absolute;bottom:-16px;left:10px;padding:8px 14px;border-radius:var(--radius-md);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;color:var(--primary);">DISCORD BOTS</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div style="background:var(--surface-low);">
+    <div id="stats-row" class="stats-row">
+      <!-- Populated by renderer.js -->
+    </div>
+  </div>
+
+  <!-- Featured Projects -->
+  <div class="section-lg">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;">
+        <div>
+          <h2 class="display-md" style="font-family:var(--font-headline);">FEATURED_WORK</h2>
+          <div style="height:3px;width:60px;background:linear-gradient(to right,var(--primary-container),transparent);margin-top:10px;"></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="Router.navTo('projects')"
+                style="display:flex;align-items:center;gap:6px;">
+          VIEW_ALL <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
+        </button>
+      </div>
+      <div id="featured-grid" class="bento-featured">
+        <!-- Populated by renderer.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <div class="section-lg bg-surface-low" style="border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <div class="mission-grid">
+        <div>
+          <h2 class="display-md" style="font-family:var(--font-headline);margin-bottom:32px;">CORE_MISSION</h2>
+          <p class="body-lg" style="color:var(--on-surface-variant);margin-bottom:40px;line-height:1.8;">
+            I believe software should be an extension of human intent. My focus is on creating tools that remove friction from the creative and technical process. Whether it's a <span style="color:var(--primary-container);">custom Discord bot</span> to manage thousands of users or a <span style="color:var(--secondary);">complex web utility</span>, I prioritize stability and elegant architecture.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:24px;">
+            <div style="display:flex;align-items:flex-start;gap:16px;" class="reveal">
+              <div style="width:48px;height:48px;border-radius:var(--radius-md);background:rgba(0,242,255,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span class="material-symbols-outlined" style="color:var(--primary-container);">hub</span>
+              </div>
+              <div>
+                <h4 class="headline-sm" style="font-family:var(--font-headline);margin-bottom:4px;">System Automation</h4>
+                <p class="body-sm" style="color:#4a4a4a;">Creating autonomous pipelines that save hundreds of human hours.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;" class="reveal">
+              <div style="width:48px;height:48px;border-radius:var(--radius-md);background:rgba(119,1,208,0.10);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span class="material-symbols-outlined" style="color:var(--secondary);">terminal</span>
+              </div>
+              <div>
+                <h4 class="headline-sm" style="font-family:var(--font-headline);margin-bottom:4px;">Backend Engineering</h4>
+                <p class="body-sm" style="color:#4a4a4a;">Designing scalable APIs and database schemas for long-term growth.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:16px;" class="reveal">
+              <div style="width:48px;height:48px;border-radius:var(--radius-md);background:rgba(255,225,115,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span class="material-symbols-outlined" style="color:var(--tertiary-fixed);">cloud_queue</span>
+              </div>
+              <div>
+                <h4 class="headline-sm" style="font-family:var(--font-headline);margin-bottom:4px;">Infrastructure &amp; DevOps</h4>
+                <p class="body-sm" style="color:#4a4a4a;">Self-hosted VPS setups, Docker, Coolify, Traefik, Cloudflare.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quad icon grid -->
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+
+          <!-- Lab Focus -->
+          <div class="mission-nav-card"
+               style="--card-accent:var(--primary-container);--card-glow:rgba(0,242,255,0.08);"
+               onclick="Router.navTo('lab')">
+            <div class="mission-nav-card__accent"></div>
+            <span class="material-symbols-outlined mission-nav-card__icon" style="color:var(--primary-container);">science</span>
+            <p class="mission-nav-card__title">Lab Focus</p>
+            <p class="mission-nav-card__sub">AI Integrations</p>
+            <span class="material-symbols-outlined mission-nav-card__arrow">arrow_outward</span>
+          </div>
+
+          <!-- Evolution -->
+          <div class="mission-nav-card"
+               style="--card-accent:var(--secondary);--card-glow:rgba(119,1,208,0.08);"
+               onclick="Router.navTo('journey')">
+            <div class="mission-nav-card__accent"></div>
+            <span class="material-symbols-outlined mission-nav-card__icon" style="color:var(--secondary);">timeline</span>
+            <p class="mission-nav-card__title">Evolution</p>
+            <p class="mission-nav-card__sub">Continuous Build</p>
+            <span class="material-symbols-outlined mission-nav-card__arrow">arrow_outward</span>
+          </div>
+
+          <!-- Stack -->
+          <div class="mission-nav-card"
+               style="--card-accent:var(--tertiary-fixed);--card-glow:rgba(255,225,115,0.07);"
+               onclick="Router.navTo('stack')">
+            <div class="mission-nav-card__accent"></div>
+            <span class="material-symbols-outlined mission-nav-card__icon" style="color:var(--tertiary-fixed);">layers</span>
+            <p class="mission-nav-card__title">Stack</p>
+            <p class="mission-nav-card__sub">Full-Stack Dev</p>
+            <span class="material-symbols-outlined mission-nav-card__arrow">arrow_outward</span>
+          </div>
+
+          <!-- Mindset -->
+          <div class="mission-nav-card"
+               style="--card-accent:#a0b0b1;--card-glow:rgba(160,176,177,0.06);"
+               onclick="Router.navTo('profile')">
+            <div class="mission-nav-card__accent"></div>
+            <span class="material-symbols-outlined mission-nav-card__icon" style="color:#a0b0b1;">psychology</span>
+            <p class="mission-nav-card__title">Mindset</p>
+            <p class="mission-nav-card__sub">Problem Solving</p>
+            <span class="material-symbols-outlined mission-nav-card__arrow">arrow_outward</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section><!-- /page-home -->

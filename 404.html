@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>S.I.G.N.A.L-L.O.S.T // Redirecting...</title>
+    <script type="text/javascript">
+      // Captured path mapping for SPA routing
+      // This solves the 'Cannot GET /path' server error on static hosts
+      (function() {
+        var path = window.location.pathname.replace(/^\/|\/$/g, '');
+        var newHash = path ? '#' + path : '';
+        window.location.replace(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + newHash);
+      })();
+    </script>
+  </head>
+  <body style="background:#0a0a0a;"></body>
+</html>

@@ -1,0 +1,76 @@
+
+
+
+<!-- =====================================================================
+     TOP NAVIGATION BAR
+     ===================================================================== -->
+<nav id="main-nav" class="nav" style="display:none;">
+  <div class="nav__logo" onclick="Router.navTo('home')">
+    <span class="material-symbols-outlined" style="color:var(--primary-container);">terminal</span>
+    <span class="nav__logo-text">KRARJAN</span>
+  </div>
+
+  <div id="nav-links" class="nav__links">
+    <!-- Populated by renderer.js -->
+  </div>
+
+  <!-- Top hamburger hidden on mobile; replaced by FAB bottom sheet -->
+  <button id="btn-menu-open" class="nav__menu-btn nav__menu-btn--desktop">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+</nav>
+
+
+<!-- =====================================================================
+     RIGHT SIDEBAR (desktop only)
+     ===================================================================== -->
+<aside id="sidebar-right" class="sidebar-right" style="display:none;">
+  <div id="sidebar-icons" style="display:flex;flex-direction:column;gap:28px;align-items:center;">
+    <!-- Populated by renderer.js -->
+  </div>
+  <div class="sidebar-right__divider"></div>
+  <span class="sidebar-right__label">SYSTEM_MENU_V2.0.4</span>
+</aside>
+
+
+<!-- =====================================================================
+     MOBILE BOTTOM SHEET NAV
+     ===================================================================== -->
+
+<!-- FAB trigger (mobile only) -->
+<button id="mobile-fab" class="mobile-fab" aria-label="Open navigation">
+  <span class="material-symbols-outlined mobile-fab__icon">menu</span>
+  <span class="material-symbols-outlined mobile-fab__icon mobile-fab__icon--close">close</span>
+</button>
+
+<!-- Scroll to top button (dynamic visibility) -->
+<button id="btn-scroll-top" class="scroll-top" aria-label="Scroll to top" title="Back to top">
+  <span class="material-symbols-outlined">arrow_upward</span>
+</button>
+
+<!-- Backdrop -->
+<div id="bottom-sheet-overlay" class="bottom-sheet-overlay"></div>
+
+<!-- Bottom sheet -->
+<div id="mobile-bottom-sheet" class="mobile-bottom-sheet" role="dialog" aria-label="Navigation">
+
+  <!-- Drag handle -->
+  <div class="bottom-sheet__handle"></div>
+
+  <!-- Header -->
+  <div class="bottom-sheet__header">
+    <span class="bottom-sheet__title">NAVIGATE</span>
+    <div class="bottom-sheet__dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Nav grid (populated by renderer.js) -->
+  <nav id="bottom-sheet-nav" class="bottom-sheet__nav"></nav>
+
+  <!-- Footer strip -->
+  <div class="bottom-sheet__footer">
+    <span>KRARJAN // VER_2.0.4</span>
+  </div>
+
+</div>

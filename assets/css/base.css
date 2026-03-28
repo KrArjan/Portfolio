@@ -27,6 +27,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* === Global Particle Canvas === */
+#particles-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;        /* Behind every layer */
+  pointer-events: none; /* Never blocks clicks */
+}
+
+/* tsParticles injects a <canvas> inside — make sure it fills */
+#particles-bg canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* === Selection === */
 ::selection {
   background: var(--primary-container);

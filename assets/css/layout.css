@@ -40,10 +40,11 @@
 .main-content {
   flex: 1;
   padding-top: 72px; /* nav height */
+  overflow-x: hidden;
 }
 
 @media (min-width: 1024px) {
-  .main-content { padding-right: 64px; } /* sidebar width */
+  .main-content { padding-right: 64px; padding-left: 64px; } /* sidebar balance */
 }
 
 /* ===================== SECTIONS ===================== */
@@ -51,6 +52,7 @@
 .page-section {
   display: none;
   min-height: calc(100vh - 72px);
+  overflow-x: hidden;
 }
 
 .page-section.active {
@@ -74,10 +76,10 @@
 .grid-auto-lg { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
 
 /* Fixed column grids */
-.grid-2  { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.grid-3  { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.grid-4  { grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.grid-12 { grid-template-columns: repeat(12, 1fr); gap: 24px; }
+.grid-2  { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.grid-3  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4  { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
 
 /* Responsive overrides */
 @media (max-width: 767px) {
@@ -277,3 +279,14 @@
 .rounded-lg { border-radius: var(--radius-lg); }
 .rounded-xl { border-radius: var(--radius-xl); }
 .rounded-full { border-radius: var(--radius-pill); }
+
+/* ===================== VISIBILITY UTILITIES ===================== */
+.hide-mobile { display: none; }
+@media (min-width: 1024px) {
+  .hide-mobile { display: block; }
+}
+
+.hide-desktop { display: block; }
+@media (min-width: 1024px) {
+  .hide-desktop { display: none; }
+}

@@ -1,36 +1,33 @@
 /* ============================================================
    boot.js — Boot Screen Animation & Sequence
+   Updated for the cinematic terminal boot design.
    ============================================================ */
 
 'use strict';
 
 const Boot = (() => {
 
-  const DURATION  = 3000; // total boot time ms
-  const RING_CIRC = 628;  // SVG circle circumference (r=100)
+  const DURATION = 3200; // total boot time ms
 
   let onCompleteCallback = null;
 
-  /* ---- Animate the SVG ring progress ---- */
-  function animateRing() {
-    const ring = document.getElementById('boot-ring');
-    const pct  = document.getElementById('boot-pct');
-    const bar  = document.getElementById('boot-bar');
-    if (!ring) return;
+  /* ---- Animate the progress bar + percentage label ---- */
+  function animateProgress() {
+    const bar   = document.getElementById('boot-bar');
+    const label = document.getElementById('boot-pct-label');
+    if (!bar) return;
 
     let start = null;
 
     function step(timestamp) {
       if (!start) start = timestamp;
-      const elapsed = timestamp - start;
+      const elapsed  = timestamp - start;
       const progress = Math.min(elapsed / DURATION, 1);
       const eased    = easeInOutCubic(progress);
       const value    = Math.round(eased * 100);
-      const offset   = RING_CIRC - (eased * RING_CIRC);
 
-      ring.style.strokeDashoffset = offset;
-      if (pct)  pct.innerHTML = `${value}<span style="color:var(--primary-container);font-size:1.25rem">%</span>`;
-      if (bar)  bar.style.width = value + '%';
+      bar.style.width = value + '%';
+      if (label) label.textContent = value + '%';
 
       if (progress < 1) {
         requestAnimationFrame(step);
@@ -40,57 +37,61 @@ const Boot = (() => {
     requestAnimationFrame(step);
   }
 
-  /* ---- Reveal boot log lines one by one ---- */
-  function revealLogLines() {
-    const lines = document.querySelectorAll('.boot-log__line');
-    lines.forEach((line, i) => {
-      const delay = 300 + i * 550;
-      setTimeout(() => {
-        line.style.opacity = '1';
-        line.style.transform = 'translateX(0)';
-      }, delay);
+  /* ---- Pulse the ring glow on hover ---- */
+  function initRingGlow() {
+    const wrap = document.querySelector('#boot-screen .boot-ring-wrap');
+    const glow = document.querySelector('#boot-screen .boot-ring-glow');
+    if (!wrap || !glow) return;
+    wrap.addEventListener('mouseenter', () => {
+      glow.style.background = 'rgba(0,242,255,0.28)';
+    });
+    wrap.addEventListener('mouseleave', () => {
+      glow.style.background = 'rgba(0,242,255,0.18)';
     });
   }
 
-  /* ---- Dismiss boot screen and show site ---- */
+  /* ---- Dismiss boot screen and reveal the site ---- */
   function dismiss() {
-    const bootScreen = document.getElementById('boot-screen');
-    const mainNav    = document.getElementById('main-nav');
+    const bootScreen  = document.getElementById('boot-screen');
+    const mainNav     = document.getElementById('main-nav');
     const mainContent = document.getElementById('main-content');
     const mainFooter  = document.getElementById('main-footer');
-    const sidebar    = document.getElementById('sidebar-right');
+    const sidebar     = document.getElementById('sidebar-right');
 
     if (bootScreen) {
-      bootScreen.style.opacity = '0';
+      bootScreen.style.opacity       = '0';
       bootScreen.style.pointerEvents = 'none';
+
       setTimeout(() => {
         bootScreen.style.display = 'none';
-        // Show site elements
+
         [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
           if (el) {
             el.style.removeProperty('display');
             el.classList.add('anim-fade-in');
           }
         });
+
         if (onCompleteCallback) onCompleteCallback();
-      }, 500);
+      }, 600);
     }
   }
 
-  /* ---- Easing function ---- */
+  /* ---- Cubic ease ---- */
   function easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  /* ---- Public: Init the boot sequence ---- */
+  /* ---- Public init ---- */
   function init(onComplete) {
     onCompleteCallback = onComplete;
 
-    animateRing();
-    revealLogLines();
+    animateProgress();
+    initRingGlow();
 
     setTimeout(dismiss, DURATION + 200);
   }
 
   return { init };
+
 })();

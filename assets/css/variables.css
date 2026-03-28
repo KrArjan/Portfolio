@@ -1,0 +1,107 @@
+/* ============================================================
+   variables.css — Design Token System
+   KRARJAN // THE_KINETIC_ARCHITECT
+   ============================================================ */
+
+:root {
+  /* === Surface Hierarchy === */
+  --surface-dim:              #131313;
+  --surface:                  #131313;
+  --surface-lowest:           #0e0e0e;
+  --surface-low:              #1c1b1b;
+  --surface-mid:              #201f1f;
+  --surface-high:             #2a2a2a;
+  --surface-highest:          #353534;
+
+  /* === Primary — Cyan === */
+  --primary:                  #e1fdff;
+  --primary-container:        #00f2ff;
+  --primary-fixed:            #74f5ff;
+  --primary-fixed-dim:        #00dbe7;
+  --on-primary:               #00363a;
+  --on-primary-container:     #006a71;
+  --on-primary-fixed:         #002022;
+  --on-primary-fixed-variant: #004f54;
+
+  /* === Secondary — Purple === */
+  --secondary:                #dcb8ff;
+  --secondary-container:      #7701d0;
+  --secondary-fixed:          #efdbff;
+  --secondary-fixed-dim:      #dcb8ff;
+  --on-secondary:             #480081;
+  --on-secondary-container:   #dcb7ff;
+  --on-secondary-fixed:       #2c0051;
+
+  /* === Tertiary — Amber === */
+  --tertiary:                 #fff6e4;
+  --tertiary-container:       #fed83a;
+  --tertiary-fixed:           #ffe173;
+  --tertiary-fixed-dim:       #e8c423;
+  --on-tertiary:              #3b2f00;
+  --on-tertiary-container:    #725e00;
+
+  /* === Text === */
+  --on-surface:               #e5e2e1;
+  --on-surface-variant:       #b9cacb;
+  --on-background:            #e5e2e1;
+  --outline:                  #849495;
+  --outline-variant:          #3a494b;
+
+  /* === Error === */
+  --error:                    #ffb4ab;
+  --error-container:          #93000a;
+  --on-error:                 #690005;
+
+  /* === Gradients === */
+  --gradient-primary:         linear-gradient(135deg, #00f2ff 0%, #7701d0 100%);
+  --gradient-primary-45:      linear-gradient(45deg, #00f2ff 0%, #7701d0 100%);
+  --gradient-text:            linear-gradient(135deg, #00f2ff 30%, #7701d0 100%);
+
+  /* === Glows === */
+  --glow-primary:             0 15px 40px rgba(119, 1, 208, 0.15);
+  --glow-primary-hover:       0 20px 60px rgba(119, 1, 208, 0.30);
+  --glow-cyan:                0 0 20px rgba(0, 242, 255, 0.15);
+  --glow-cyan-strong:         0 0 30px rgba(0, 242, 255, 0.40);
+
+  /* === Borders === */
+  --border-glass:             1px solid rgba(255, 255, 255, 0.06);
+  --border-cyan-dim:          1px solid rgba(0, 242, 255, 0.08);
+  --border-cyan-glow:         1px solid rgba(0, 242, 255, 0.30);
+
+  /* === Typography === */
+  --font-headline:            'Space Grotesk', sans-serif;
+  --font-body:                'Manrope', sans-serif;
+
+  /* === Spacing === */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   40px;
+  --space-2xl:  64px;
+  --space-3xl:  96px;
+  --space-4xl:  128px;
+
+  /* === Radius === */
+  --radius-sm:  2px;
+  --radius-md:  4px;
+  --radius-lg:  8px;
+  --radius-xl:  12px;
+  --radius-pill: 999px;
+
+  /* === Transitions === */
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:     150ms;
+  --dur-base:     250ms;
+  --dur-slow:     400ms;
+  --dur-xslow:    600ms;
+
+  /* === Z-Index Stack === */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-overlay:  50;
+  --z-nav:      100;
+  --z-drawer:   200;
+  --z-boot:     9999;
+}

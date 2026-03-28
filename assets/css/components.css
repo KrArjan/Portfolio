@@ -659,7 +659,7 @@
   font-size: 0.5rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #6a7c7d;
+  color: var(--on-surface-variant);
 }
 
 .bottom-sheet__btn:active { transform: scale(0.93); }
@@ -688,7 +688,7 @@
   font-size: 0.4375rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: #2a2a2a;
+  color: #7a8a8b;
   text-align: center;
 }
 

@@ -10,34 +10,6 @@
         a:hover { color: #00f2ff; border-color: #00f2ff; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
-    <script type="text/javascript">
-        // 404-to-SPA Redirect Pattern (v2.1)
-        // This script handles nested paths and funnels them back to a root index.html hashtag.
-        (function() {
-            var segmentCount = 0;
-            var pathSegments = window.location.pathname.split('/');
-            
-            // Clean up empty segments (e.g., trailing slash)
-            var cleanSegments = pathSegments.filter(function(s) { return s.length > 0; });
-            var hash = cleanSegments.join('/');
-            
-            // Calculate how many '../' we need to get back to root index.html
-            // If we are at /ergeg, we are 1 level deep.
-            var depth = cleanSegments.length;
-            var rootRedirect = '';
-            for (var i = 0; i < depth; i++) { rootRedirect += '../'; }
-            
-            // If at root, redirect to index.html directly
-            if (depth === 0) rootRedirect = './';
-            
-            // Universal Hash Funnel
-            // Example: /projects -> /index.html#projects
-            var target = rootRedirect + 'index.html' + (hash ? '#' + hash : '');
-            
-            console.log("Funnelling to Hash Shell: " + target);
-            window.location.replace(target);
-        })();
-    </script>
 </head>
 <body>
     <div class="spinner"></div>

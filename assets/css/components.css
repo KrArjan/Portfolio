@@ -139,6 +139,15 @@
   transform: scale(0.98);
 }
 
+.btn-primary:disabled {
+  background: var(--surface-highest);
+  color: var(--on-surface-variant);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
 .btn-secondary {
   background: rgba(53, 53, 52, 0.80);
   color: var(--on-surface);
@@ -408,11 +417,12 @@
 .field__label {
   display: block;
   font-family: var(--font-headline);
-  font-size: 0.5625rem;
-  letter-spacing: 0.25em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #5a5a5a;
-  margin-bottom: 10px;
+  color: #7a7a7a;
+  margin-bottom: 12px;
   transition: color var(--dur-base);
 }
 
@@ -422,15 +432,15 @@
 
 .field__input {
   width: 100%;
-  background: var(--surface-lowest);
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
   color: var(--on-surface);
-  padding: 12px 0;
+  padding: 14px 16px;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   outline: none;
-  transition: border-color var(--dur-slow) var(--ease-smooth);
+  transition: all var(--dur-slow) var(--ease-smooth);
 }
 
 .field__input:focus {
@@ -438,12 +448,27 @@
 }
 
 .field__input::placeholder {
-  color: #2e2e2e;
+  color: #5a5a5a;
+}
+
+.turnstile-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 32px 0 !important;
+  min-height: 65px; /* Prevent layout jump */
 }
 
 .field__input--select {
   appearance: none;
   cursor: pointer;
+  color-scheme: dark;
+  background: var(--surface-lowest);
+}
+
+.field__input--select option {
+  background-color: var(--surface-low);
+  color: var(--on-surface);
 }
 
 /* ===================== NAVIGATION ===================== */

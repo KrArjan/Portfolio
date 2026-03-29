@@ -85,6 +85,11 @@ const UI = (() => {
       document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === page);
       });
+
+      // Re-trigger Turnstile if moving to connect page
+      if (page === 'connect' && window.turnstile) {
+        window.turnstile.implicitRender();
+      }
     });
   }
 
@@ -123,23 +128,50 @@ const UI = (() => {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
+    // Define Turnstile callbacks globally for the widget
+    window.onSuccess = function() {
+      const btn = document.getElementById('connect-submit');
+      if (btn) btn.disabled = false;
+    };
+    window.onExpired = window.onError = function() {
+      const btn = document.getElementById('connect-submit');
+      if (btn) btn.disabled = true;
+    };
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      // Turnstile Validation
+      const turnstileResponse = window.turnstile ? window.turnstile.getResponse() : null;
+      if (window.turnstile && !turnstileResponse) {
+        showToast('SECURITY_CHECK_REQUIRED');
+        return;
+      }
+
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
       // Simulate sending
       if (btn) {
-        btn.disabled = true;
+        btn.disabled = true; // Stay disabled during transmission
         btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
       }
 
       setTimeout(() => {
         form.reset();
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
+        
+        // Reset Turnstile widget
+        if (window.turnstile) {
+          window.turnstile.reset();
+          // Button stays disabled until Turnstile verifies again
         }
+
+        if (btn) {
+          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
+          // Explicitly keep disabled after reset until next verification
+          btn.disabled = true;
+        }
+
         if (success) {
           success.classList.remove('hidden');
           showToast('TRANSMISSION_RECEIVED');

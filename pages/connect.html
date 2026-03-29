@@ -4,28 +4,31 @@
 <section id="page-connect" class="page-section">
   <div class="bg-digital-grid" style="position:fixed;inset:0;z-index:0;opacity:0.25;pointer-events:none;"></div>
   <div class="bloom bloom-purple" style="width:800px;height:800px;top:-15%;left:-15%;z-index:0;opacity:0.12;"></div>
-  <div class="bloom bloom-cyan"   style="width:700px;height:700px;bottom:-15%;right:-15%;z-index:0;opacity:0.07;"></div>
+  <div class="bloom bloom-cyan" style="width:700px;height:700px;bottom:-15%;right:-15%;z-index:0;opacity:0.07;"></div>
 
   <div class="container section-lg" style="position:relative;z-index:1;">
 
-    <div class="section-header anim-fade-in-up" style="text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:80px;">
+    <div class="section-header anim-fade-in-up"
+      style="text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:80px;">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
         <div style="width:48px;height:1px;background:var(--primary-container);"></div>
         <span class="label-lg" style="color:var(--primary-container);">ESTABLISH_CONNECTION</span>
         <div style="width:48px;height:1px;background:var(--primary-container);"></div>
       </div>
       <h1 class="display-xl" style="font-family:var(--font-headline);line-height:0.9;margin-bottom:24px;">
-        Let's Build the<br><span class="gradient-text">Future.</span>
+        Let's Build<br><span class="gradient-text">Something Great.</span>
       </h1>
       <p class="body-lg" style="color:var(--on-surface-variant);max-width:600px;margin:0 auto;font-weight:300;">
-        Currently open to high-impact projects, architectural collaborations, and deep-tech learning opportunities. Digital blueprints are ready for execution.
+        Open to coding projects, technical builds, creative ideas, and opportunities to learn while building real
+        things.
       </p>
     </div>
 
     <div class="connect-grid">
 
       <!-- Contact Form -->
-      <div class="glass glow-border-top" style="padding:48px;border-radius:var(--radius-md);position:relative;overflow:hidden;">
+      <div class="glass glow-border-top"
+        style="padding:48px;border-radius:var(--radius-md);position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;right:0;padding:16px;opacity:0.04;pointer-events:none;">
           <span class="material-symbols-outlined" style="font-size:8rem;">mail</span>
         </div>
@@ -54,15 +57,22 @@
 
           <div class="field">
             <label class="field__label">MESSAGE_PAYLOAD</label>
-            <textarea rows="4" placeholder="Describe the mission parameters..." class="field__input" style="resize:none;" required></textarea>
+            <textarea rows="8" placeholder="Describe the mission parameters..." class="field__input"
+              style="resize:none;min-height:200px;" required></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">
+          <div class="turnstile-wrapper" style="margin: 20px 0;">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACxrRyQCBE-RD7A1" data-theme="light" data-size="normal"
+              data-callback="onSuccess" data-expired-callback="onExpired" data-error-callback="onError"></div>
+          </div>
+
+          <button id="connect-submit" type="submit" class="btn btn-primary btn-full" style="margin-top:8px;" disabled>
             <span class="material-symbols-outlined">send</span>
             Initiate Transmission
           </button>
 
-          <div id="form-success" class="hidden" style="text-align:center;padding:20px;color:var(--primary-container);font-family:var(--font-headline);font-size:0.75rem;letter-spacing:0.15em;margin-top:16px;">
+          <div id="form-success" class="hidden"
+            style="text-align:center;padding:20px;color:var(--primary-container);font-family:var(--font-headline);font-size:0.75rem;letter-spacing:0.15em;margin-top:16px;">
             <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px;">check_circle</span>
             TRANSMISSION_RECEIVED // WILL_RESPOND_SOON
           </div>
@@ -74,16 +84,22 @@
       <div style="display:flex;flex-direction:column;gap:20px;">
 
         <!-- Status card -->
-        <div class="glass" style="padding:32px;border-radius:var(--radius-md);border-left:4px solid var(--tertiary-fixed);">
+        <div class="glass"
+          style="padding:32px;border-radius:var(--radius-md);border-left:4px solid var(--tertiary-fixed);">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
             <span style="position:relative;width:12px;height:12px;">
-              <span style="position:absolute;inset:0;border-radius:50%;background:var(--tertiary-fixed);animation:ping 1.8s ease-out infinite;"></span>
-              <span style="position:relative;width:12px;height:12px;border-radius:50%;background:var(--tertiary-fixed);display:block;"></span>
+              <span
+                style="position:absolute;inset:0;border-radius:50%;background:var(--tertiary-fixed);animation:ping 1.8s ease-out infinite;"></span>
+              <span
+                style="position:relative;width:12px;height:12px;border-radius:50%;background:var(--tertiary-fixed);display:block;"></span>
             </span>
             <span class="label-md" style="color:var(--tertiary-fixed);">SYSTEM_STATUS: ONLINE</span>
           </div>
-          <h3 class="headline-md" style="font-family:var(--font-headline);margin-bottom:10px;">Open for Collaboration</h3>
-          <p class="body-sm" style="color:var(--on-surface-variant);">Exploring opportunities in AI-integrated architectures, complex system design, and high-performance UI/UX frameworks.</p>
+          <h3 class="headline-md" style="font-family:var(--font-headline);margin-bottom:10px;">Open for Collaboration
+          </h3>
+          <p class="body-sm" style="color:var(--on-surface-variant);">
+            Exploring coding, backend systems, automation, and better ways to build useful digital projects.
+          </p>
         </div>
 
         <!-- Social grid -->

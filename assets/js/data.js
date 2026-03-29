@@ -27,10 +27,10 @@ const SITE_DATA = {
 
   /* ===================== STATS ===================== */
   stats: [
-    { value: '2021', label: 'Building Since', color: 'var(--primary-container)' },
-    { value: '12+', label: 'Real Projects', color: 'var(--secondary)' },
-    { value: '∞', label: 'Technical Hours', color: 'var(--tertiary-fixed)' },
-    { value: 'MULTI', label: 'Skill Background', color: 'var(--primary-container)' },
+    { value: '2021', label: 'Started Building', color: 'var(--primary-container)' },
+    { value: '10+', label: 'Projects Worked On', color: 'var(--secondary)' },
+    { value: '4+', label: 'Years of Experience', color: 'var(--tertiary-fixed)' },
+    { value: 'Code + Systems', label: 'Work Focus', color: 'var(--primary-container)' },
   ],
 
   /* ===================== PROJECTS ===================== */
@@ -204,7 +204,7 @@ const SITE_DATA = {
   /* ===================== JOURNEY / TIMELINE ===================== */
   journey: [
     {
-      year: '2021 — Present',
+      year: '2021 — PRESENT',
       era: 'Professional Growth',
       title: 'Professional Growth',
       description: 'Moved from technical setup and community work into more coding-focused development. Built experience through practical projects, experimentation, and real online work.',
@@ -226,7 +226,7 @@ const SITE_DATA = {
       side: 'right',
     },
     {
-      year: '2023 — Present',
+      year: '2023 — PRESENT',
       era: 'Infrastructure',
       title: 'VPS & Cloud Engineering',
       description: 'Built hands-on experience with deployment, hosting tools, Linux-based systems, reverse proxy setups, and service management.',
@@ -237,7 +237,7 @@ const SITE_DATA = {
       side: 'left',
     },
     {
-      year: '2024 — Present',
+      year: '2024 — PRESENT',
       era: 'Current Focus',
       title: 'Full-Stack & AI Systems',
       description: 'Currently exploring full-stack development, automation systems, APIs, AI-assisted tools, and more practical software-focused building.',

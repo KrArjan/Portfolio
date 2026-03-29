@@ -106,6 +106,12 @@ const Renderer = (() => {
 
     const socialEl = document.getElementById('footer-social-links');
     if (socialEl) socialEl.innerHTML = socialHtml;
+
+    // 3. Set email button href from data.js
+    const emailLink = document.getElementById('footer-email-link');
+    if (emailLink && SITE_DATA.meta.email) {
+      emailLink.href = `mailto:${SITE_DATA.meta.email}`;
+    }
   }
 
   /* ===================== HOME STATS ===================== */

@@ -323,6 +323,70 @@
   color: var(--on-surface);
 }
 
+/* ===================== SOCIAL CARDS ===================== */
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background: rgba(45, 45, 45, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-md);
+  transition: all var(--dur-base) var(--ease-smooth);
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.social-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 242, 255, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--dur-base);
+}
+
+.social-card:hover {
+  background: rgba(55, 55, 55, 0.50);
+  border-color: rgba(0, 242, 255, 0.40);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.social-card:hover::before {
+  opacity: 1;
+}
+
+.social-card__icon {
+  font-size: 2.25rem !important;
+  color: var(--on-surface-variant);
+  transition: color var(--dur-base), transform var(--dur-base);
+  z-index: 1;
+}
+
+.social-card:hover .social-card__icon {
+  color: var(--primary-container);
+  transform: scale(1.1);
+}
+
+.social-card__label {
+  font-family: var(--font-headline);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  transition: color var(--dur-base);
+  z-index: 1;
+}
+
+.social-card:hover .social-card__label {
+  color: var(--on-surface);
+}
+
 /* ===================== TIMELINE ===================== */
 .timeline {
   position: relative;

@@ -392,12 +392,9 @@ const Renderer = (() => {
     if (!container) return;
 
     container.innerHTML = SITE_DATA.social.map(s => `
-      <a href="${s.href}" target="_blank" rel="noopener noreferrer"
-         class="glass-card hover-lift"
-         style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius-md);transition:all 0.3s;">
-        <span class="material-symbols-outlined" style="font-size:2rem;color:#4a4a4a;transition:color 0.2s;"
-              onmouseenter="this.style.color='var(--primary-container)'" onmouseleave="this.style.color='#4a4a4a'">${s.icon}</span>
-        <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:#4a4a4a;">${s.label}</span>
+      <a href="${s.href}" target="_blank" rel="noopener noreferrer" class="social-card">
+        <span class="social-card__icon material-symbols-outlined">${s.icon}</span>
+        <span class="social-card__label">${s.label}</span>
       </a>
     `).join('');
   }

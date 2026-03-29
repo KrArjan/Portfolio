@@ -86,9 +86,12 @@ const UI = (() => {
         btn.classList.toggle('active', btn.dataset.page === page);
       });
 
-      // Re-trigger Turnstile if moving to connect page
+      // Re-trigger Turnstile if moving to connect page and not already rendered
       if (page === 'connect' && window.turnstile) {
-        window.turnstile.implicitRender();
+        const turnstileEl = document.getElementById('connect-turnstile');
+        if (turnstileEl && turnstileEl.children.length === 0) {
+          window.turnstile.implicitRender();
+        }
       }
     });
   }

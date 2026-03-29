@@ -82,12 +82,30 @@ const Renderer = (() => {
   /* ===================== FOOTER ===================== */
 
   function renderFooter() {
-    const { navLinks } = SITE_DATA;
-    const html = navLinks.map(l =>
-      `<a href="#" class="footer__link"
-         onclick="Router.navTo('${l.id}'); return false;">${l.label}</a>`
+    const { navLinks, social } = SITE_DATA;
+    
+    // 1. Render Directives (Nav links)
+    const navHtml = navLinks.map(l =>
+      `<a href="#" class="footer__link" 
+         style="display:flex; align-items:center; gap:8px;"
+         onclick="Router.navTo('${l.id}'); return false;">
+         <span class="material-symbols-outlined" style="font-size:1.1rem;">${l.icon}</span> ${l.label}
+       </a>`
     ).join('');
-    document.getElementById('footer-links').innerHTML = html;
+    
+    const navEl = document.getElementById('footer-nav-links');
+    if (navEl) navEl.innerHTML = navHtml;
+
+    // 2. Render Protocols (Social links)
+    const socialHtml = (social || []).map(l =>
+      `<a href="${l.href}" class="footer__link" target="_blank" rel="noopener"
+         style="display:flex; align-items:center; gap:8px;">
+         <span class="material-symbols-outlined" style="font-size:1.1rem;">${l.icon}</span> ${l.label}
+       </a>`
+    ).join('');
+    
+    const socialEl = document.getElementById('footer-social-links');
+    if (socialEl) socialEl.innerHTML = socialHtml;
   }
 
   /* ===================== HOME STATS ===================== */

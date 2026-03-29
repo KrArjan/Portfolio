@@ -394,15 +394,32 @@ const Renderer = (() => {
   /* ===================== SOCIAL LINKS ===================== */
 
   function renderSocial() {
-    const container = document.getElementById('social-grid');
-    if (!container) return;
+    const mainGrid = document.getElementById('social-grid');
+    const directoryGrid = document.getElementById('social-directory-grid');
+    
+    // Connect Page Grid
+    if (mainGrid) {
+      mainGrid.innerHTML = SITE_DATA.social.map(s => `
+        <a href="${s.href}" target="_blank" rel="noopener noreferrer" class="social-card">
+          <span class="social-card__icon material-symbols-outlined">${s.icon}</span>
+          <span class="social-card__label">${s.label}</span>
+        </a>
+      `).join('');
+    }
 
-    container.innerHTML = SITE_DATA.social.map(s => `
-      <a href="${s.href}" target="_blank" rel="noopener noreferrer" class="social-card">
-        <span class="social-card__icon material-symbols-outlined">${s.icon}</span>
-        <span class="social-card__label">${s.label}</span>
-      </a>
-    `).join('');
+    // Social Page Secondary Grid
+    if (directoryGrid) {
+      // Filter out those already featured in the bento grid at the top
+      const featured = ['github', 'discord', 'instagram', 'linkedin'];
+      const secondary = SITE_DATA.social.filter(s => !featured.includes(s.id));
+
+      directoryGrid.innerHTML = secondary.map(s => `
+        <a href="${s.href}" target="_blank" rel="noopener noreferrer" class="social-card">
+          <span class="social-card__icon material-symbols-outlined">${s.icon}</span>
+          <span class="social-card__label">${s.label}</span>
+        </a>
+      `).join('');
+    }
   }
 
   /* ===================== PUBLIC INIT ===================== */

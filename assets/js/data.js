@@ -323,9 +323,16 @@ const SITE_DATA = {
   /* ===================== SOCIAL LINKS ===================== */
   social: [
     { id: 'github', label: 'GitHub', icon: 'code', href: 'https://github.com/KrArjan' },
-    { id: 'discord', label: 'Discord', icon: 'forum', href: 'https://discord.gg/nullbyte' },
-    { id: 'email', label: 'Email', icon: 'alternate_email', href: 'mailto:krarjan@nullbyte.qzz.io' },
+    { id: 'discord', label: 'Discord', icon: 'forum', href: 'https://discord.com/users/606851356854321171' },
+    { id: 'email', label: 'Email', icon: 'alternate_email', href: 'mailto:krarjanwork@gmail.com' },
     { id: 'site', label: 'NullByte', icon: 'language', href: 'https://nullbyte.qzz.io' },
+    { id: 'instagram', label: 'Instagram', icon: 'photo_camera', href: '#' },
+    { id: 'linkedin', label: 'LinkedIn', icon: 'work', href: '#' },
+    { id: 'x', label: 'X', icon: 'close', href: '#' },
+    { id: 'reddit', label: 'Reddit', icon: 'forum', href: '#' },
+    { id: 'steam', label: 'Steam', icon: 'sports_esports', href: '#' },
+    { id: 'spotify', label: 'Spotify', icon: 'music_note', href: '#' },
+    { id: 'xbox', label: 'Xbox', icon: 'videogame_asset', href: '#' },
   ],
 
   /* ===================== BOOT LOG LINES ===================== */

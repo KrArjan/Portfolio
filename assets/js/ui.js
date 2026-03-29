@@ -81,25 +81,26 @@ const UI = (() => {
     });
 
     // Sync active state whenever Router changes page
+    // Handle Turnstile rendering in a Single Page App
     Router.onChange((page) => {
       document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === page);
       });
+      handleTurnstile(page);
+    });
+  }
 
-      // Handle Turnstile re-rendering on the connect page in a Single Page App
-      if (page === 'connect' && window.turnstile) {
-        const turnstileEl = document.getElementById('connect-turnstile');
-        if (turnstileEl) {
-          // If the Turnstile container is empty, trigger an implicit render.
-          // If it already has content, reset it to ensure it's functional.
-          if (turnstileEl.children.length === 0) {
-            window.turnstile.implicitRender();
-          } else {
-            window.turnstile.reset(turnstileEl);
-          }
+  function handleTurnstile(page) {
+    if (page === 'connect' && window.turnstile) {
+      const turnstileEl = document.getElementById('connect-turnstile');
+      if (turnstileEl) {
+        if (turnstileEl.children.length === 0) {
+          window.turnstile.implicitRender();
+        } else {
+          window.turnstile.reset(turnstileEl);
         }
       }
-    });
+    }
   }
 
   /* ===================== PROJECT FILTERS ===================== */
@@ -312,13 +313,16 @@ const UI = (() => {
     animateProgressBars();
     initScrollTop();
 
-    // Re-run scroll reveal & progress bars on page change
-    Router.onChange(() => {
+    // Re-run items on page change
+    Router.onChange((page) => {
       setTimeout(() => {
         initScrollReveal();
         animateProgressBars();
       }, 100);
     });
+
+    // Handle Turnstile on initial load (if direct entry to connect page)
+    setTimeout(() => handleTurnstile(Router.getCurrent()), 500);
   }
 
   return { init, openBottomSheet, closeBottomSheet, showToast, animateCounters };

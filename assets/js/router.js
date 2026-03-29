@@ -65,7 +65,7 @@ const Router = (() => {
   /* ---- Init: Read hash or default to home ---- */
   function init() {
     const path = window.location.pathname.replace(/^\/|\/$/g, '');
-    const validPages = ['home','profile','projects','stack','journey','lab','connect','404'];
+    const validPages = ['home','profile','projects','stack','journey','lab','connect','social','404'];
     const startPage = validPages.includes(path) ? path : (path ? '404' : 'home');
 
     // Set initial active state

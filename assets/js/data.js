@@ -261,6 +261,7 @@ const SITE_DATA = {
     { id: 'stack',    label: 'Stack',    icon: 'layers' },
     { id: 'journey',  label: 'Journey',  icon: 'timeline' },
     { id: 'lab',      label: 'Lab',      icon: 'science' },
+    { id: 'social',   label: 'Social',   icon: 'hub' },
     { id: 'connect',  label: 'Connect',  icon: 'alternate_email' },
   ],
 

@@ -24,6 +24,7 @@
     '/pages/journey.html',
     '/pages/lab.html',
     '/pages/connect.html',
+    '/pages/social.html',
     '/pages/404.html',
   ];
 

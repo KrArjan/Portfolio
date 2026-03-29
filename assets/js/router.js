@@ -38,8 +38,8 @@ const Router = (() => {
       btn.classList.toggle('active', btn.dataset.page === page);
     });
 
-    // Scroll top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll top instantly on page change
+    window.scrollTo({ top: 0, behavior: 'auto' });
 
     // URL update (no hash)
     const newPath = page === 'home' ? '/' : '/' + page;

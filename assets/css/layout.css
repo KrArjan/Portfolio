@@ -40,7 +40,6 @@
 .main-content {
   flex: 1;
   padding-top: 72px; /* nav height */
-  overflow-x: hidden;
 }
 
 @media (min-width: 1024px) {
@@ -52,7 +51,6 @@
 .page-section {
   display: none;
   min-height: calc(100vh - 72px);
-  overflow-x: hidden;
 }
 
 .page-section.active {

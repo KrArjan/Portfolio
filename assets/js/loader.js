@@ -9,16 +9,6 @@
 
 (async function () {
 
-  /* ── History API URL Rewrite (Clean URLs) ─────────────────────────── */
-  // If we were redirected from 404.html with a ?p= query param,
-  // clean it up and set the proper History API path before we boot.
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectPath = urlParams.get('p') || '';
-  if (redirectPath) {
-    const cleanPath = redirectPath === 'home' || redirectPath === '' ? '/' : '/' + redirectPath;
-    window.history.replaceState(null, '', cleanPath);
-  }
-
   /* ── Partials injected directly before <main> ─────────────────── */
   const chromeParts = [
     'pages/boot.html',

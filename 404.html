@@ -30,11 +30,11 @@
             // If at root, redirect to index.html directly
             if (depth === 0) rootRedirect = './';
             
-            // Capture the path and redirect to root index.html with query param
-            // Example: /projects -> /index.html?p=projects
-            var target = rootRedirect + 'index.html?p=' + hash;
+            // Universal Hash Funnel
+            // Example: /projects -> /index.html#projects
+            var target = rootRedirect + 'index.html' + (hash ? '#' + hash : '');
             
-            console.log("Redirecting to SPA Shell: " + target);
+            console.log("Funnelling to Hash Shell: " + target);
             window.location.replace(target);
         })();
     </script>

@@ -41,8 +41,7 @@ const Router = (() => {
     // Smooth scroll top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // History API: Clean URLs instead of hashtags
-    // "/" for home, "/projects" for others
+    // History API: Clean URLs (e.g., /projects)
     const path = page === 'home' ? '/' : '/' + page;
     history.pushState({ page }, '', path);
 
@@ -65,12 +64,13 @@ const Router = (() => {
 
   /* ---- Init: Read pathname or default to home ---- */
   function init() {
-    // Determine page from clean URL pathname
+    const validPages = ['home', 'profile', 'projects', 'stack', 'journey', 'lab', 'connect', '404'];
+
+    // 1. Determine starting page from Clean URL pathname
     // e.g., "/projects" -> "projects", "/" -> "home"
     let path = window.location.pathname.replace(/^\/|\/$/g, '');
-    if (path === 'index.html') path = ''; // handle index.html directly
+    if (path === 'index.html') path = ''; 
     
-    const validPages = ['home','profile','projects','stack','journey','lab','connect','404'];
     const startPage = validPages.includes(path) ? path : (path ? '404' : 'home');
 
     // Set initial active state
@@ -90,10 +90,12 @@ const Router = (() => {
 
     // Handle browser back/forward (pops from history)
     window.addEventListener('popstate', (e) => {
-      const path = window.location.pathname.replace(/^\/|\/$/g, '');
+      let path = window.location.pathname.replace(/^\/|\/$/g, '');
+      if (path === 'index.html') path = '';
+      
       const page = validPages.includes(path) ? path : (path ? '404' : 'home');
       
-      // Navigate without pushing new state
+      // Navigate without pushing new state again
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
       const target = document.getElementById('page-' + page);
       if (target) target.classList.add('active');

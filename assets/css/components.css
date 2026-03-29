@@ -520,7 +520,8 @@
   justify-content: center;
   width: 100%;
   margin: 32px 0 !important;
-  min-height: 65px; /* Prevent layout jump */
+  min-height: 65px;
+  /* Prevent layout jump */
 }
 
 .field__input--select {
@@ -565,10 +566,10 @@
 .nav__logo-text {
   font-family: var(--font-headline);
   font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-weight: 800;
+  letter-spacing: 0.15em;
   color: var(--primary-container);
-  text-transform: uppercase;
+  font-variant: small-caps;
 }
 
 /* Centered absolutely so logo stays left and links are truly centered */
@@ -853,10 +854,11 @@
 
 .bottom-sheet__title {
   font-family: var(--font-headline);
-  font-size: 0.5625rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
   color: var(--primary-container);
+  font-variant: small-caps;
 }
 
 .bottom-sheet__dots {
@@ -1183,8 +1185,8 @@
   font-family: var(--font-headline);
   font-size: 1rem;
   font-weight: 900;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-variant: small-caps;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

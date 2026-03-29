@@ -10,8 +10,8 @@ const SITE_DATA = {
   /* ===================== META ===================== */
   meta: {
     name: 'KrArjan',
-    title: 'KrArjan // TECHNICAL_BUILDER',
-    tagline: 'Buil',
+    title: 'KrArjan',
+    tagline: 'Building Since 2021.',
     role: 'Student Developer & Technical Builder',
     description: 'Building software, bots, tools, and digital systems that move the needle.',
     version: '2.0.4',
@@ -324,7 +324,7 @@ const SITE_DATA = {
   social: [
     { id: 'github', label: 'GitHub', icon: 'code', href: 'https://github.com/KrArjan' },
     { id: 'discord', label: 'Discord', icon: 'forum', href: 'https://discord.gg/nullbyte' },
-    { id: 'email', label: 'Email', icon: 'alternate_email', href: 'mailto:krarjanwork@gmail.com' },
+    { id: 'email', label: 'Email', icon: 'alternate_email', href: 'mailto:krarjan@nullbyte.qzz.io' },
     { id: 'site', label: 'NullByte', icon: 'language', href: 'https://nullbyte.qzz.io' },
   ],
 

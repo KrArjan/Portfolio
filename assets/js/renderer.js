@@ -408,6 +408,11 @@ const Renderer = (() => {
   /* ===================== PUBLIC INIT ===================== */
 
   function init() {
+    // 0. Set browser tab title
+    if (SITE_DATA.meta.title) {
+      document.title = SITE_DATA.meta.title;
+    }
+
     renderNav();
     renderBottomSheetNav();
     renderFooter();

@@ -26,8 +26,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right,  rgba(0,242,255,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,242,255,0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(0, 242, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 242, 255, 0.04) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
@@ -48,7 +48,7 @@
     flex-direction: column;
     font-family: monospace;
     font-size: 9px;
-    color: rgba(0,242,255,0.04);
+    color: rgba(0, 242, 255, 0.04);
     overflow: hidden;
     user-select: none;
     pointer-events: none;
@@ -59,29 +59,34 @@
   /* Scanline sweep */
   #boot-screen .boot-scanline {
     position: absolute;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     height: 100px;
-    background: linear-gradient(
-      0deg,
-      transparent 0%,
-      rgba(0,242,255,0.06) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(0deg,
+        transparent 0%,
+        rgba(0, 242, 255, 0.06) 50%,
+        transparent 100%);
     opacity: 0.12;
     animation: bootScanSweep 8s linear infinite;
     pointer-events: none;
   }
 
   @keyframes bootScanSweep {
-    0%   { top: -100px; }
-    100% { top: 100%; }
+    0% {
+      top: -100px;
+    }
+
+    100% {
+      top: 100%;
+    }
   }
 
   /* Top status bar */
   #boot-screen .boot-topbar {
     position: absolute;
     top: 48px;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,9 +103,10 @@
   #boot-screen .boot-topbar__label {
     font-family: var(--font-headline);
     font-size: 0.625rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.2em;
     color: var(--on-surface);
+    font-variant: small-caps;
   }
 
   /* ── 3D Holographic Cube ─────────────────────────────────────── */
@@ -113,7 +119,10 @@
   }
 
   @media (min-width: 768px) {
-    #boot-screen .cube-scene { width: 180px; height: 180px; }
+    #boot-screen .cube-scene {
+      width: 180px;
+      height: 180px;
+    }
   }
 
   /* Ambient bloom behind the cube */
@@ -121,7 +130,7 @@
     position: absolute;
     inset: -40px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,242,255,0.22) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 242, 255, 0.22) 0%, transparent 70%);
     filter: blur(28px);
     pointer-events: none;
   }
@@ -135,11 +144,25 @@
   }
 
   @keyframes cubeRotate {
-    0%   { transform: rotateX(20deg) rotateY(0deg)   rotateZ(0deg); }
-    25%  { transform: rotateX(30deg) rotateY(90deg)  rotateZ(5deg); }
-    50%  { transform: rotateX(20deg) rotateY(180deg) rotateZ(0deg); }
-    75%  { transform: rotateX(10deg) rotateY(270deg) rotateZ(-5deg); }
-    100% { transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg); }
+    0% {
+      transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
+    }
+
+    25% {
+      transform: rotateX(30deg) rotateY(90deg) rotateZ(5deg);
+    }
+
+    50% {
+      transform: rotateX(20deg) rotateY(180deg) rotateZ(0deg);
+    }
+
+    75% {
+      transform: rotateX(10deg) rotateY(270deg) rotateZ(-5deg);
+    }
+
+    100% {
+      transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg);
+    }
   }
 
   /* All 6 faces */
@@ -147,33 +170,55 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 1px dashed rgba(0,242,255,0.55);
+    border: 1px dashed rgba(0, 242, 255, 0.55);
     box-shadow:
-      0 0 12px rgba(0,242,255,0.18) inset,
-      0 0 6px  rgba(0,242,255,0.28);
-    background: rgba(0,242,255,0.025);
+      0 0 12px rgba(0, 242, 255, 0.18) inset,
+      0 0 6px rgba(0, 242, 255, 0.28);
+    background: rgba(0, 242, 255, 0.025);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   /* Front */
-  #boot-screen .cube__face--front  { transform: translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--front {
+    transform: translateZ(calc(var(--cube-half)));
+  }
+
   /* Back */
-  #boot-screen .cube__face--back   { transform: rotateY(180deg) translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--back {
+    transform: rotateY(180deg) translateZ(calc(var(--cube-half)));
+  }
+
   /* Left */
-  #boot-screen .cube__face--left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--left {
+    transform: rotateY(-90deg) translateZ(calc(var(--cube-half)));
+  }
+
   /* Right */
-  #boot-screen .cube__face--right  { transform: rotateY(90deg)  translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--right {
+    transform: rotateY(90deg) translateZ(calc(var(--cube-half)));
+  }
+
   /* Top */
-  #boot-screen .cube__face--top    { transform: rotateX(90deg)  translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--top {
+    transform: rotateX(90deg) translateZ(calc(var(--cube-half)));
+  }
+
   /* Bottom */
-  #boot-screen .cube__face--bottom { transform: rotateX(-90deg) translateZ(calc(var(--cube-half))); }
+  #boot-screen .cube__face--bottom {
+    transform: rotateX(-90deg) translateZ(calc(var(--cube-half)));
+  }
 
   /* CSS custom property for half-size (changes per breakpoint) */
-  #boot-screen .cube-scene         { --cube-half: 70px; }
+  #boot-screen .cube-scene {
+    --cube-half: 70px;
+  }
+
   @media (min-width: 768px) {
-    #boot-screen .cube-scene        { --cube-half: 90px; }
+    #boot-screen .cube-scene {
+      --cube-half: 90px;
+    }
   }
 
   /* Corner accent dots on frontal face */
@@ -182,26 +227,51 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: rgba(0,242,255,0.9);
-    box-shadow: 0 0 8px rgba(0,242,255,1), 0 0 16px rgba(0,242,255,0.6);
+    background: rgba(0, 242, 255, 0.9);
+    box-shadow: 0 0 8px rgba(0, 242, 255, 1), 0 0 16px rgba(0, 242, 255, 0.6);
   }
-  #boot-screen .cube__face--front .cube-corner:nth-child(1) { top: 8px;  left: 8px; }
-  #boot-screen .cube__face--front .cube-corner:nth-child(2) { top: 8px;  right: 8px; }
-  #boot-screen .cube__face--front .cube-corner:nth-child(3) { bottom: 8px; left: 8px; }
-  #boot-screen .cube__face--front .cube-corner:nth-child(4) { bottom: 8px; right: 8px; }
+
+  #boot-screen .cube__face--front .cube-corner:nth-child(1) {
+    top: 8px;
+    left: 8px;
+  }
+
+  #boot-screen .cube__face--front .cube-corner:nth-child(2) {
+    top: 8px;
+    right: 8px;
+  }
+
+  #boot-screen .cube__face--front .cube-corner:nth-child(3) {
+    bottom: 8px;
+    left: 8px;
+  }
+
+  #boot-screen .cube__face--front .cube-corner:nth-child(4) {
+    bottom: 8px;
+    right: 8px;
+  }
 
   /* Inner glowing square on front face */
   #boot-screen .cube__face--front .cube-inner {
     width: 40%;
     height: 40%;
-    border: 1px solid rgba(0,242,255,0.8);
-    box-shadow: 0 0 10px rgba(0,242,255,0.5) inset, 0 0 10px rgba(0,242,255,0.5);
+    border: 1px solid rgba(0, 242, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5) inset, 0 0 10px rgba(0, 242, 255, 0.5);
     animation: cubeInnerPulse 2.5s ease-in-out infinite;
   }
 
   @keyframes cubeInnerPulse {
-    0%, 100% { opacity: 0.7; box-shadow: 0 0 8px rgba(0,242,255,0.4) inset, 0 0 8px rgba(0,242,255,0.4); }
-    50%       { opacity: 1;   box-shadow: 0 0 18px rgba(0,242,255,0.9) inset, 0 0 18px rgba(0,242,255,0.9); }
+
+    0%,
+    100% {
+      opacity: 0.7;
+      box-shadow: 0 0 8px rgba(0, 242, 255, 0.4) inset, 0 0 8px rgba(0, 242, 255, 0.4);
+    }
+
+    50% {
+      opacity: 1;
+      box-shadow: 0 0 18px rgba(0, 242, 255, 0.9) inset, 0 0 18px rgba(0, 242, 255, 0.9);
+    }
   }
 
   /* Side projecting wing lines (the flat diamond-like extensions in the reference) */
@@ -216,17 +286,23 @@
   #boot-screen .cube-wing {
     position: absolute;
     background: transparent;
-    border: 1px dashed rgba(0,242,255,0.18);
+    border: 1px dashed rgba(0, 242, 255, 0.18);
   }
 
   #boot-screen .cube-wing--h {
-    top: 50%; left: -30px; right: -30px; height: 1px;
+    top: 50%;
+    left: -30px;
+    right: -30px;
+    height: 1px;
     border-width: 0 0 1px 0;
     transform: translateY(-50%);
   }
 
   #boot-screen .cube-wing--v {
-    left: 50%; top: -30px; bottom: -30px; width: 1px;
+    left: 50%;
+    top: -30px;
+    bottom: -30px;
+    width: 1px;
     border-width: 0 1px 0 0;
     transform: translateX(-50%);
   }
@@ -235,13 +311,13 @@
   #boot-screen .boot-title {
     font-family: var(--font-headline);
     font-size: clamp(0.875rem, 2.5vw, 1.25rem);
-    font-weight: 700;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.2em;
     color: var(--primary-container);
-    filter: drop-shadow(0 0 8px rgba(0,242,255,0.4));
+    filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.4));
     animation: glitch 4s ease-in-out infinite;
     text-align: center;
+    font-variant: small-caps;
   }
 
   #boot-screen .boot-status-list {
@@ -300,7 +376,7 @@
   #boot-screen .boot-progress-fill {
     height: 100%;
     background: var(--primary-container);
-    box-shadow: 0 0 10px rgba(0,242,255,0.8), 0 0 20px rgba(0,242,255,0.4);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.8), 0 0 20px rgba(0, 242, 255, 0.4);
     width: 0%;
     position: relative;
     border-radius: 999px;
@@ -310,7 +386,8 @@
   #boot-screen .boot-progress-fill::after {
     content: '';
     position: absolute;
-    top: 0; right: 0;
+    top: 0;
+    right: 0;
     width: 16px;
     height: 100%;
     background: white;
@@ -327,24 +404,33 @@
 
   #boot-screen .boot-progress-ticks span {
     display: block;
-    background: rgba(0,242,255,0.2);
+    background: rgba(0, 242, 255, 0.2);
   }
 
-  #boot-screen .boot-progress-ticks span:nth-child(odd)  { width: 1px; height: 16px; }
-  #boot-screen .boot-progress-ticks span:nth-child(even) { width: 1px; height: 8px; }
+  #boot-screen .boot-progress-ticks span:nth-child(odd) {
+    width: 1px;
+    height: 16px;
+  }
+
+  #boot-screen .boot-progress-ticks span:nth-child(even) {
+    width: 1px;
+    height: 8px;
+  }
 
   /* Floating glass panels */
   #boot-screen .boot-float-card {
     position: absolute;
-    border: 1px solid rgba(0,242,255,0.1);
-    background: rgba(42,42,42,0.05);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    background: rgba(42, 42, 42, 0.05);
     backdrop-filter: blur(12px);
     border-radius: var(--radius-xl);
     display: none;
   }
 
   @media (min-width: 1024px) {
-    #boot-screen .boot-float-card { display: block; }
+    #boot-screen .boot-float-card {
+      display: block;
+    }
   }
 
   #boot-screen .boot-float-card--right {
@@ -358,17 +444,19 @@
 
   #boot-screen .boot-float-card--right .card-line {
     height: 1px;
-    background: rgba(0,242,255,0.2);
+    background: rgba(0, 242, 255, 0.2);
     margin-bottom: 6px;
   }
 
-  #boot-screen .boot-float-card--right .card-line:nth-child(2) { width: 66%; }
+  #boot-screen .boot-float-card--right .card-line:nth-child(2) {
+    width: 66%;
+  }
 
   #boot-screen .boot-float-card--right .card-coords {
     padding-top: 16px;
     font-family: monospace;
     font-size: 0.5rem;
-    color: rgba(0,242,255,0.35);
+    color: rgba(0, 242, 255, 0.35);
     line-height: 1.5;
   }
 
@@ -384,7 +472,9 @@
   }
 
   @media (min-width: 1024px) {
-    #boot-screen .boot-float-card--left { display: flex; }
+    #boot-screen .boot-float-card--left {
+      display: flex;
+    }
   }
 
   #boot-screen .boot-float-card--left span {
@@ -392,7 +482,7 @@
     font-size: 0.5625rem;
     letter-spacing: 0.45em;
     text-transform: uppercase;
-    color: rgba(119,1,208,0.4);
+    color: rgba(119, 1, 208, 0.4);
   }
 
   /* Footer */
@@ -433,8 +523,13 @@
     letter-spacing: 0.05em;
   }
 
-  #boot-screen .boot-footer__item .label--cyan   { color: var(--primary-container); }
-  #boot-screen .boot-footer__item .label--purple  { color: var(--secondary); }
+  #boot-screen .boot-footer__item .label--cyan {
+    color: var(--primary-container);
+  }
+
+  #boot-screen .boot-footer__item .label--purple {
+    color: var(--secondary);
+  }
 
   #boot-screen .boot-footer__item .value {
     font-family: var(--font-headline);
@@ -458,7 +553,7 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    box-shadow: inset 0 0 0 1px rgba(0,242,255,0.08);
+    box-shadow: inset 0 0 0 1px rgba(0, 242, 255, 0.08);
   }
 
   /* Noise texture overlay */
@@ -513,7 +608,8 @@
   </div>
 
   <!-- ── Layer 2: main content ───────────────────────────────────── -->
-  <main style="position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:48px;padding:24px;">
+  <main
+    style="position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:48px;padding:24px;">
 
     <!-- 3D Holographic Cube -->
     <div class="cube-scene">

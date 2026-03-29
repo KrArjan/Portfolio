@@ -9,3 +9,18 @@ exclude = ["node_modules", ".env", ".dev.vars", ".git", ".antigravity*"]
 [vars]
 # Public Turnstile Site Key (Centralized)
 TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1

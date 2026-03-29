@@ -11,8 +11,11 @@ export async function onRequestPost(context) {
     const formData = await request.json();
     const { name, email, subject, message, turnstileResponse } = formData;
 
+    console.log("Transmission Initiated:", { name, email, subject });
+
     // 1. Basic Validation
     if (!name || !email || !message || !turnstileResponse) {
+      console.error("Validation Failed: Missing required fields.");
       return new Response(JSON.stringify({ error: 'MISSING_FIELDS' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -22,7 +25,7 @@ export async function onRequestPost(context) {
     // 2. Verify Turnstile Token
     const turnstileSecret = env.TURNSTILE_SECRET_KEY;
     if (!turnstileSecret) {
-       console.error('TURNSTILE_SECRET_KEY is missing in environment variables.');
+       console.error('SERVER_CONFIG_ERROR: TURNSTILE_SECRET_KEY is missing.');
        return new Response(JSON.stringify({ error: 'SERVER_CONFIG_ERROR' }), {
          status: 500,
          headers: { 'Content-Type': 'application/json' },
@@ -38,6 +41,7 @@ export async function onRequestPost(context) {
 
     const verifyResult = await verifyResponse.json();
     if (!verifyResult.success) {
+      console.error("Turnstile Verification Failed:", verifyResult['error-codes']);
       return new Response(JSON.stringify({ error: 'CAPTCHA_VERIFICATION_FAILED' }), {
         status: 403,
         headers: { 'Content-Type': 'application/json' },
@@ -49,7 +53,7 @@ export async function onRequestPost(context) {
     const userID = env.DISCORD_USER_ID;
 
     if (!botToken || !userID) {
-      console.error('DISCORD_BOT_TOKEN or DISCORD_USER_ID is missing in environment variables.');
+      console.error('SERVER_CONFIG_ERROR: DISCORD_BOT_TOKEN or DISCORD_USER_ID is missing.');
       return new Response(JSON.stringify({ error: 'SERVER_CONFIG_ERROR' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -57,6 +61,7 @@ export async function onRequestPost(context) {
     }
 
     // Step A: Create or get the DM channel ID
+    console.log("Opening DM channel with User ID:", userID);
     const dmChannelResponse = await fetch('https://discord.com/api/v10/users/@me/channels', {
       method: 'POST',
       headers: {
@@ -68,11 +73,15 @@ export async function onRequestPost(context) {
 
     if (!dmChannelResponse.ok) {
        const err = await dmChannelResponse.text();
-       console.error('Discord DM Channel Error:', err);
-       throw new Error('FAILED_TO_OPEN_DM');
+       console.error('Discord API Error (Opening DM Channel):', err);
+       return new Response(JSON.stringify({ error: 'FAILED_TO_OPEN_DM', details: err }), {
+         status: 500,
+         headers: { 'Content-Type': 'application/json' },
+       });
     }
 
     const { id: channelID } = await dmChannelResponse.json();
+    console.log("DM Channel Opened. Channel ID:", channelID);
 
     // Step B: Send the Embed to the DM Channel
     const discordPayload = {
@@ -102,9 +111,14 @@ export async function onRequestPost(context) {
 
     if (!discordResponse.ok) {
       const err = await discordResponse.text();
-      console.error('Discord Send DM Error:', err);
-      throw new Error(`FAILED_TO_SEND_DM: ${discordResponse.status}`);
+      console.error('Discord API Error (Sending Message):', err);
+      return new Response(JSON.stringify({ error: 'FAILED_TO_SEND_DM', details: err }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
+
+    console.log("Transmission Successfully Delivered to Discord.");
 
     return new Response(JSON.stringify({ success: true, message: 'TRANSMISSION_COMPLETE' }), {
       status: 200,
@@ -112,8 +126,8 @@ export async function onRequestPost(context) {
     });
 
   } catch (error) {
-    console.error('Connect API Error:', error);
-    return new Response(JSON.stringify({ error: 'INTERNAL_SERVER_ERROR' }), {
+    console.error('Internal Server Error:', error);
+    return new Response(JSON.stringify({ error: 'INTERNAL_SERVER_ERROR', message: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

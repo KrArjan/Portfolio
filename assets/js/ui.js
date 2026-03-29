@@ -86,11 +86,17 @@ const UI = (() => {
         btn.classList.toggle('active', btn.dataset.page === page);
       });
 
-      // Re-trigger Turnstile if moving to connect page and not already rendered
+      // Handle Turnstile re-rendering on the connect page in a Single Page App
       if (page === 'connect' && window.turnstile) {
         const turnstileEl = document.getElementById('connect-turnstile');
-        if (turnstileEl && turnstileEl.children.length === 0) {
-          window.turnstile.implicitRender();
+        if (turnstileEl) {
+          // If the Turnstile container is empty, trigger an implicit render.
+          // If it already has content, reset it to ensure it's functional.
+          if (turnstileEl.children.length === 0) {
+            window.turnstile.implicitRender();
+          } else {
+            window.turnstile.reset(turnstileEl);
+          }
         }
       }
     });

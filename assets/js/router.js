@@ -41,8 +41,9 @@ const Router = (() => {
     // Scroll top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Hash update
-    history.pushState({ page }, '', '#' + page);
+    // URL update (no hash)
+    const newPath = page === 'home' ? '/' : '/' + page;
+    history.pushState({ page }, '', newPath);
 
     const prev = currentPage;
     currentPage = page;
@@ -63,9 +64,9 @@ const Router = (() => {
 
   /* ---- Init: Read hash or default to home ---- */
   function init() {
-    const hash = window.location.hash.replace('#', '');
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
     const validPages = ['home','profile','projects','stack','journey','lab','connect','404'];
-    const startPage = validPages.includes(hash) ? hash : (hash ? '404' : 'home');
+    const startPage = validPages.includes(path) ? path : (path ? '404' : 'home');
 
     // Set initial active state
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));

@@ -919,10 +919,10 @@
 
 .footer__copy {
   font-family: var(--font-headline);
-  font-size: 0.5rem;
-  letter-spacing: 0.4em;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #6a7a7b;
+  color: #8a9a9b;
 }
 
 .footer__dots {

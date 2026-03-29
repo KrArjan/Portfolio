@@ -135,37 +135,30 @@ const Renderer = (() => {
     if (!container) return;
 
     container.innerHTML = SITE_DATA.projects.map(p => {
-      // Size configuration mapping
-      const sizeConfig = {
-        'small':  { col: 'col-4', h: '220px', head: 'md' },
-        'medium': { col: 'col-4', h: '260px', head: 'md' },
-        'large':  { col: 'col-8', h: '260px', head: 'lg' },
-        'xl':     { col: 'col-8', h: '340px', head: 'lg' }
-      };
-
-      const { col, h, head } = sizeConfig[p.size] || sizeConfig['medium'];
+      const isLarge = p.size === 'large';
+      const colClass = isLarge ? 'col-8' : 'col-4';
 
       return `
-        <div class="project-card glass-card glow-border-inset ${col} reveal"
+        <div class="project-card glass-card glow-border-inset ${colClass} reveal"
              data-tags="${p.category.join(',')}"
-             style="padding: 24px; min-height: ${h}; display:flex; flex-direction:column;">
+             style="padding: ${isLarge ? '32px' : '24px'}; min-height: ${isLarge ? '320px' : '220px'}; display:flex; flex-direction:column;">
 
           <div style="position:absolute;top:0;right:0;padding:24px;opacity:0.08;pointer-events:none;">
-            ${icon(p.icon, '')}
+            ${icon(p.icon, '')} <!-- decorative bg icon via CSS -->
             <span class="material-symbols-outlined" style="font-size:5rem;color:${p.color}">${p.icon}</span>
           </div>
 
-          <div class="flex gap-sm" style="margin-bottom:16px; flex-wrap:wrap;">
+          <div class="flex gap-sm" style="margin-bottom:20px; flex-wrap:wrap;">
             ${statusBadge(p.status)}
-            ${p.uuid ? `<span style="color:var(--on-surface-variant);font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;align-self:center;">UUID: ${p.uuid}</span>` : ''}
-            ${p.role ? `<span style="color:var(--primary-container);font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;align-self:center;">${p.role}</span>` : ''}
+            ${p.uuid ? `<span style="color:var(--on-surface-variant);font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;align-self:center;">UUID: ${p.uuid}</span>` : ''}
+            ${p.role ? `<span style="color:var(--primary-container);font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;align-self:center;">${p.role}</span>` : ''}
           </div>
 
-          <h3 class="headline-${head}" style="color:var(--primary);margin-bottom:8px;font-family:var(--font-headline);transition:transform 0.2s;">
+          <h3 class="headline-${isLarge ? 'lg' : 'md'}" style="color:var(--primary);margin-bottom:12px;font-family:var(--font-headline);transition:transform 0.25s;">
             ${p.title}
           </h3>
 
-          <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:16px;max-width:520px;">
+          <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:20px;max-width:480px;">
             ${p.description}
           </p>
 
@@ -183,14 +176,7 @@ const Renderer = (() => {
     const container = document.getElementById('featured-grid');
     if (!container) return;
 
-    // Map IDs to full project objects from SITE_DATA.projects
-    const ids = SITE_DATA.featuredWork || [];
-    const data = ids.map(id => SITE_DATA.projects.find(p => p.id === id)).filter(Boolean);
-    
-    // Fallback to first 3 if empty
-    const finalData = data.length > 0 ? data : SITE_DATA.projects.slice(0, 3);
-    
-    const [main, ...rest] = finalData;
+    const [main, ...rest] = SITE_DATA.projects.slice(0, 3);
     const sideItems = rest.slice(0, 2);
 
     container.innerHTML = `
@@ -200,7 +186,7 @@ const Renderer = (() => {
         </div>
         <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--surface-dim) 30%, transparent);"></div>
         <div style="position:relative;z-index:1;">
-          <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--tertiary-fixed);display:block;margin-bottom:12px;">${(main.label || main.category?.[0] || 'FEATURED_PROJECT')}</span>
+          <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--tertiary-fixed);display:block;margin-bottom:12px;">AUTOMATION ENGINE</span>
           <h3 class="headline-lg" style="color:#fff;margin-bottom:8px;font-family:var(--font-headline);">${main.title}</h3>
           <p class="body-sm" style="color:var(--on-surface-variant);max-width:420px;margin-bottom:20px;">${main.description}</p>
           <button class="btn btn-ghost btn-sm" onclick="Router.navTo('projects')">Details</button>
@@ -387,7 +373,6 @@ const Renderer = (() => {
         </div>
       `).join('')}
 
-      ${SITE_DATA.features?.showLabNotes ? `
       <!-- Lab Notes -->
       <div class="col-12 glass glow-border-top reveal" style="padding:32px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
@@ -403,7 +388,6 @@ const Renderer = (() => {
           `).join('')}
         </div>
       </div>
-      ` : ''}
     `;
   }
 
@@ -412,7 +396,7 @@ const Renderer = (() => {
   function renderSocial() {
     const mainGrid = document.getElementById('social-grid');
     const directoryGrid = document.getElementById('social-directory-grid');
-
+    
     // Connect Page Grid
     if (mainGrid) {
       mainGrid.innerHTML = SITE_DATA.social.map(s => `
@@ -426,7 +410,7 @@ const Renderer = (() => {
     // Social Page Secondary Grid
     if (directoryGrid) {
       // Filter out those already featured in the bento grid at the top
-      const featured = ['github', 'discord', 'linkedin', 'instagram'];
+      const featured = ['github', 'discord', 'instagram', 'linkedin'];
       const secondary = SITE_DATA.social.filter(s => !featured.includes(s.id));
 
       directoryGrid.innerHTML = secondary.map(s => `

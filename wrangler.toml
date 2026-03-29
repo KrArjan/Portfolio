@@ -1,10 +1,10 @@
 name = "portfolio"
 compatibility_date = "2024-03-29"
-main = "_worker.js"
-
+#
 [assets]
 directory = "./"
 not_found_handling = "single-page-application"
+exclude = ["node_modules", ".env", ".dev.vars", ".git", ".antigravity*"]
 
 [vars]
 # Public Turnstile Site Key (Centralized)

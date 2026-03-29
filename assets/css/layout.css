@@ -250,10 +250,7 @@
 }
 
 @media (min-width: 1024px) {
-  .connect-grid { 
-    grid-template-columns: 7fr 5fr; 
-    align-items: start;
-  }
+  .connect-grid { grid-template-columns: 7fr 5fr; }
 }
 
 /* 2-col form row */

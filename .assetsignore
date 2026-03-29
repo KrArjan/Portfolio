@@ -1,0 +1,18 @@
+# .assetsignore
+# Files and directories to exclude from the public assets upload.
+# This prevents sensitive or server-side files from being exposed.
+
+_worker.js
+wrangler.toml
+.env
+.dev.vars
+node_modules
+.git
+.antigravity*
+functions/
+README.md
+LICENSE
+package.json
+package-lock.json
+C:\Users\KrArjan\.gemini\antigravity\brain\
+C:\Users\KrArjan\.gemini\antigravity\brain\52babf75-d573-4326-b896-c344a5365974\

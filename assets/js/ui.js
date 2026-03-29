@@ -148,10 +148,10 @@ const UI = (() => {
       if (btn) btn.disabled = true;
     };
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Turnstile Validation
+      // 1. Turnstile Validation
       const turnstileResponse = window.turnstile ? window.turnstile.getResponse() : null;
       if (window.turnstile && !turnstileResponse) {
         showToast('SECURITY_CHECK_REQUIRED');
@@ -161,33 +161,64 @@ const UI = (() => {
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
-      // Simulate sending
+      // 2. Prepare Payload
+      const payload = {
+        name: form.querySelector('input[type="text"]').value,
+        email: form.querySelector('input[type="email"]').value,
+        subject: form.querySelector('select').value,
+        message: form.querySelector('textarea').value,
+        turnstileResponse: turnstileResponse
+      };
+
+      // 3. UI Sending State
       if (btn) {
-        btn.disabled = true; // Stay disabled during transmission
+        btn.disabled = true;
         btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
       }
 
-      setTimeout(() => {
-        form.reset();
-        
-        // Reset Turnstile widget
-        if (window.turnstile) {
-          window.turnstile.reset();
-          // Button stays disabled until Turnstile verifies again
+      try {
+        const response = await fetch('/api/connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          // Success State
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+          
+          if (btn) {
+            btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
+            btn.disabled = true;
+          }
+
+          if (success) {
+            success.classList.remove('hidden');
+            showToast('TRANSMISSION_RECEIVED');
+            setTimeout(() => success.classList.add('hidden'), 5000);
+          }
+        } else {
+          // Failure State
+          throw new Error(result.error || 'UNKNOWN_ERROR');
         }
+      } catch (error) {
+        console.error('Transmission Error:', error);
+        
+        // Detailed error feedback
+        const errorMsg = error.message === 'CAPTCHA_VERIFICATION_FAILED' 
+          ? 'SECURITY_CHECK_FAILED' 
+          : 'TRANSMISSION_ERROR';
+        
+        showToast(errorMsg);
 
         if (btn) {
-          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
-          // Explicitly keep disabled after reset until next verification
-          btn.disabled = true;
+          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Retry Transmission`;
+          btn.disabled = false; // Allow retry on failure
         }
-
-        if (success) {
-          success.classList.remove('hidden');
-          showToast('TRANSMISSION_RECEIVED');
-          setTimeout(() => success.classList.add('hidden'), 5000);
-        }
-      }, 1800);
+      }
     });
   }
 

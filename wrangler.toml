@@ -4,3 +4,7 @@ compatibility_date = "2024-03-29"
 [assets]
 directory = "./"
 not_found_handling = "single-page-application"
+
+[vars]
+# Public Turnstile Site Key (Centralized)
+TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"

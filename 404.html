@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <title>S.I.G.N.A.L-L.O.S.T // Redirecting...</title>
-    <style>
-        body { background: #0a0a0a; color: #00f2ff; font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.75rem; }
-        .spinner { width: 40px; height: 40px; border: 2px solid rgba(0, 242, 255, 0.1); border-top: 2px solid #00f2ff; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 20px; }
-        a { color: #888; text-decoration: none; border-bottom: 1px solid #444; margin-top: 20px; transition: color 0.2s; }
-        a:hover { color: #00f2ff; border-color: #00f2ff; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-</head>
-<body>
-    <div class="spinner"></div>
-    <div style="display:flex; flex-direction:column; align-items:center;">
-        <div>Synchronizing System Shell...</div>
-        <!-- Fallback if JS fails -->
-        <noscript><a href="index.html">Click here to reboot manually</a></noscript>
-    </div>
-</body>
+    <script type="text/javascript">
+      // Captured path mapping for SPA routing
+      // This solves the 'Cannot GET /path' server error on static hosts
+      (function() {
+        var path = window.location.pathname.replace(/^\/|\/$/g, '');
+        var newHash = path ? '#' + path : '';
+        window.location.replace(window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1) + newHash);
+      })();
+    </script>
+  </head>
+  <body style="background:#0a0a0a;"></body>
 </html>

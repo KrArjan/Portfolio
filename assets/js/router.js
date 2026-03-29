@@ -38,12 +38,11 @@ const Router = (() => {
       btn.classList.toggle('active', btn.dataset.page === page);
     });
 
-    // Smooth scroll top
+    // Scroll top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // History API: Clean URLs (e.g., /projects)
-    const path = page === 'home' ? '/' : '/' + page;
-    history.pushState({ page }, '', path);
+    // Hash update
+    history.pushState({ page }, '', '#' + page);
 
     const prev = currentPage;
     currentPage = page;
@@ -62,16 +61,11 @@ const Router = (() => {
     onChangeCallbacks.push(cb);
   }
 
-  /* ---- Init: Read pathname or default to home ---- */
+  /* ---- Init: Read hash or default to home ---- */
   function init() {
-    const validPages = ['home', 'profile', 'projects', 'stack', 'journey', 'lab', 'connect', '404'];
-
-    // 1. Determine starting page from Clean URL pathname
-    // e.g., "/projects" -> "projects", "/" -> "home"
-    let path = window.location.pathname.replace(/^\/|\/$/g, '');
-    if (path === 'index.html') path = ''; 
-    
-    const startPage = validPages.includes(path) ? path : (path ? '404' : 'home');
+    const hash = window.location.hash.replace('#', '');
+    const validPages = ['home','profile','projects','stack','journey','lab','connect','404'];
+    const startPage = validPages.includes(hash) ? hash : (hash ? '404' : 'home');
 
     // Set initial active state
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -88,28 +82,9 @@ const Router = (() => {
 
     currentPage = startPage;
 
-    // Handle browser back/forward (pops from history)
+    // Handle browser back/forward
     window.addEventListener('popstate', (e) => {
-      let path = window.location.pathname.replace(/^\/|\/$/g, '');
-      if (path === 'index.html') path = '';
-      
-      const page = validPages.includes(path) ? path : (path ? '404' : 'home');
-      
-      // Navigate without pushing new state again
-      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-      const target = document.getElementById('page-' + page);
-      if (target) target.classList.add('active');
-      
-      document.querySelectorAll('.nav__link').forEach(link => {
-        link.classList.toggle('active', link.dataset.page === page);
-      });
-      document.querySelectorAll('.bottom-sheet__btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === page);
-      });
-      
-      const prev = currentPage;
-      currentPage = page;
-      onChangeCallbacks.forEach(cb => cb(page, prev));
+      if (e.state && e.state.page) navTo(e.state.page);
     });
   }
 

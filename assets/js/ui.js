@@ -27,6 +27,7 @@ const UI = (() => {
   function initBottomSheet() {
     const fab     = document.getElementById('mobile-fab');
     const overlay = document.getElementById('bottom-sheet-overlay');
+    const sheet   = document.getElementById('mobile-bottom-sheet');
 
     fab?.addEventListener('click', () => {
       fab.classList.contains('open') ? closeBottomSheet() : openBottomSheet();
@@ -36,6 +37,47 @@ const UI = (() => {
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeBottomSheet();
+    });
+
+    // Native Drag-to-Close Logic
+    let startY = 0;
+    let currentY = 0;
+
+    sheet?.addEventListener('touchstart', (e) => {
+      // Only drag if the user taps the top header or drag handle
+      const isHandle = e.target.closest('.bottom-sheet__header') || e.target.closest('.bottom-sheet__handle');
+      if (!isHandle) return;
+      
+      startY = e.touches[0].clientY;
+      sheet.style.transition = 'none'; // Snappy follow
+    }, { passive: true });
+
+    sheet?.addEventListener('touchmove', (e) => {
+      if (!startY) return;
+      currentY = e.touches[0].clientY;
+      const dy = currentY - startY;
+      
+      // Only follow dragged motion downwards
+      if (dy > 0) {
+        sheet.style.transform = `translateY(${dy}px)`;
+      }
+    }, { passive: true });
+
+    sheet?.addEventListener('touchend', () => {
+      if (!startY) return;
+      const dy = currentY - startY;
+      
+      // Reset styles to use the CSS class transitions again
+      sheet.style.transition = '';
+      sheet.style.transform = '';
+      
+      // If pulled down far enough, close the menu completely
+      if (dy > 60) {
+        closeBottomSheet();
+      }
+      
+      startY = 0;
+      currentY = 0;
     });
 
     // Sync active state whenever Router changes page

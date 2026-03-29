@@ -36,10 +36,9 @@
           <div style="width:48px;height:48px;border-radius:8px;background:rgba(0,242,255,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
             <span class="material-symbols-outlined" style="color:var(--primary-container);font-size:1.75rem;">terminal</span>
           </div>
-          <h2 class="display-sm" style="font-family:var(--font-headline);color:var(--primary-container);margin-bottom:16px;">GitHub</h2>
-          <h3 class="headline-md" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:16px;">Source Code & Repositories</h3>
+          <h2 class="display-sm" style="font-family:var(--font-headline);color:var(--primary-container);margin-bottom:16px;">GitHub / Open Source</h2>
           <p class="body-md" style="color:var(--on-surface-variant);max-width:400px;">
-            Access my architectural blueprints, open-source contributions, and experimental algorithm implementations. Updated daily with fresh commits.
+            Explore the code, projects, and systems I’m building and learning through.
           </p>
         </div>
         
@@ -58,70 +57,39 @@
           </div>
           <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:12px;">Discord</h2>
           <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:24px;">
-            Community Hub & Direct Comms. Join the architectural discourse and technical support nodes.
+            Join the main communication space and stay connected with my projects and updates.
           </p>
         </div>
         <div>
-          <div style="display:flex;justify-content:space-between;font-family:var(--font-label);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--tertiary-fixed);margin-bottom:8px;">
-            <span>Status: Online</span>
-            <span>Nodes: 1,204</span>
-          </div>
-          <div style="height:4px;width:100%;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:16px;overflow:hidden;">
-            <div style="height:100%;width:75%;background:var(--secondary-container);"></div>
-          </div>
           <a href="https://discord.gg/nullbyte" target="_blank" rel="noopener" class="btn btn-outline" style="width:100%;justify-content:center;color:var(--secondary);">
             JOIN_COMMUNITY
           </a>
         </div>
       </div>
 
-      <!-- Twitter/X Card -->
-      <div class="col-4 glass-card" style="padding:32px;border:1px solid rgba(255,255,255,0.05);">
+      <!-- Kinetical / Docs Card -->
+      <div class="col-6 glass-card" style="padding:32px;border:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;justify-content:space-between;">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;">
-          <div style="width:40px;height:40px;border-radius:8px;background:rgba(0,242,255,0.1);display:flex;align-items:center;justify-content:center;">
-            <span class="material-symbols-outlined" style="color:var(--primary-container);">rate_review</span>
+          <div style="width:40px;height:40px;border-radius:8px;background:rgba(255,225,115,0.1);display:flex;align-items:center;justify-content:center;">
+            <span class="material-symbols-outlined" style="color:var(--tertiary-fixed);">subject</span>
           </div>
-          <span style="font-family:var(--font-label);font-size:0.625rem;letter-spacing:0.2em;color:var(--on-surface-variant);">@KrArjan</span>
         </div>
-        <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:12px;">Twitter/X</h2>
+        <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:12px;">Kinetical / Docs</h2>
         <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:24px;">
-          Daily Tech Updates. Short-form insights on emerging frameworks, AI models, and UI/UX trends.
+          Technical notes, ideas, project thinking, and workflow documentation.
         </p>
-        <div style="background:rgba(0,0,0,0.3);padding:16px;border-radius:4px;border:1px solid rgba(255,255,255,0.05);font-style:italic;font-size:0.875rem;color:rgba(255,255,255,0.7);">
-          "The shift toward kinetic interfaces is inevitable. Static is the past. #DigitalArchitecture"
-        </div>
-      </div>
-
-      <!-- LinkedIn Card -->
-      <div class="col-4 glass-card" style="padding:32px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,0.05);">
-        <div>
-          <div style="width:40px;height:40px;border-radius:8px;background:rgba(119,1,208,0.1);display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
-            <span class="material-symbols-outlined" style="color:var(--secondary-container);">badge</span>
-          </div>
-          <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:12px;">LinkedIn</h2>
-          <p class="body-sm" style="color:var(--on-surface-variant);">
-            Professional Network. Experience timeline, endorsements, and high-level project management insights.
-          </p>
-        </div>
-        <div style="margin-top:32px;display:flex;align-items:center;gap:12px;">
-          <div style="display:flex;margin-left:8px;">
-            <div style="width:32px;height:32px;border-radius:50%;background:#333;border:2px solid #131313;margin-left:-8px;"></div>
-            <div style="width:32px;height:32px;border-radius:50%;background:#444;border:2px solid #131313;margin-left:-8px;"></div>
-            <div style="width:32px;height:32px;border-radius:50%;background:#555;border:2px solid #131313;margin-left:-8px;"></div>
-          </div>
-          <span style="font-size:0.75rem;color:var(--on-surface-variant);">500+ Connections</span>
-        </div>
+        <button class="btn btn-secondary" onclick="Router.navTo('lab')" style="width:max-content;">ACCESS_DOCS</button>
       </div>
 
       <!-- Instagram Card -->
-      <div class="col-4 glass-card glow-border-bottom" style="position:relative;min-height:300px;overflow:hidden;border:1px solid rgba(0,242,255,0.1);">
+      <div class="col-6 glass-card glow-border-bottom" style="position:relative;min-height:300px;overflow:hidden;border:1px solid rgba(0,242,255,0.1);">
         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHhl64iBghG3oUgfHpgmn2NRSZzuUe235lCdWz1Ijk5TFGHO3gzOe0B_fOt6E89l8mPHT5jumggOPJ8H1bhuk2gi0KGS0Ph_1KAdLDEH5g4a53pPEBbFDTa0qGnZhxUQeqQyvde-RkcFToNvQeNf1HJWmbBgcjGtxWA58TSNPfmpT4WzneY8TJ-JdU0pZAvD3QjuC6pJbBYzKuvYtjMdxOFAF2FInWk42WhyIbpYz7jtgAdBEliWJfgG0U2WWuh-xK2NHF_hOBXrdN" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.4;transition:transform var(--dur-slow);" alt="Tech aesthetic" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
         <div style="position:absolute;inset:0;background:linear-gradient(to top, var(--surface) 10%, transparent);padding:32px;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:none;">
           <div style="width:40px;height:40px;border-radius:8px;background:rgba(0,242,255,0.2);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
             <span class="material-symbols-outlined" style="color:var(--primary-container);">camera</span>
           </div>
           <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:4px;">Instagram</h2>
-          <p style="font-family:var(--font-label);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--on-surface-variant);">Behind the Scenes & Visuals</p>
+          <p style="font-family:var(--font-label);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--on-surface-variant);">A more casual side of things — visuals, moments, and life outside the terminal.</p>
         </div>
       </div>
 

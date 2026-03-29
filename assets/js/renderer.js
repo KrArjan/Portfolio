@@ -23,12 +23,12 @@ const Renderer = (() => {
   function statusBadge(status) {
     const map = {
       'ONGOING_PROCESS': 'amber',
-      'ONGOING':         'amber',
-      'DEPLOYED':        'cyan',
-      'IN_PROGRESS':     'purple',
-      'RESEARCH':        'purple',
-      'IDEATION':        'neutral',
-      'BUILDING':        'cyan',
+      'ONGOING': 'amber',
+      'DEPLOYED': 'cyan',
+      'IN_PROGRESS': 'purple',
+      'RESEARCH': 'purple',
+      'IDEATION': 'neutral',
+      'BUILDING': 'cyan',
     };
     return badge(status, map[status] || 'neutral');
   }
@@ -83,7 +83,7 @@ const Renderer = (() => {
 
   function renderFooter() {
     const { navLinks, social } = SITE_DATA;
-    
+
     // 1. Render Directives (Nav links)
     const navHtml = navLinks.map(l =>
       `<a href="#" class="footer__link" 
@@ -92,7 +92,7 @@ const Renderer = (() => {
          <span class="material-symbols-outlined" style="font-size:1.1rem;">${l.icon}</span> ${l.label}
        </a>`
     ).join('');
-    
+
     const navEl = document.getElementById('footer-nav-links');
     if (navEl) navEl.innerHTML = navHtml;
 
@@ -103,7 +103,7 @@ const Renderer = (() => {
          <span class="material-symbols-outlined" style="font-size:1.1rem;">${l.icon}</span> ${l.label}
        </a>`
     ).join('');
-    
+
     const socialEl = document.getElementById('footer-social-links');
     if (socialEl) socialEl.innerHTML = socialHtml;
   }
@@ -194,7 +194,7 @@ const Renderer = (() => {
               <span class="material-symbols-outlined" style="font-size:4rem;color:${p.color}">${p.icon}</span>
             </div>
             <h4 class="headline-sm" style="color:var(--primary);margin-bottom:6px;font-family:var(--font-headline);">${p.title}</h4>
-            <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:12px;">${p.description.slice(0,80)}...</p>
+            <p class="body-sm" style="color:var(--on-surface-variant);margin-bottom:12px;">${p.description.slice(0, 80)}...</p>
             <span style="font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--primary-container);">${p.tags.join(' // ')}</span>
           </div>
         `).join('')}
@@ -211,7 +211,9 @@ const Renderer = (() => {
     const langEl = document.getElementById('stack-languages');
     if (langEl) {
       langEl.innerHTML = s.languages.map(l =>
-        `<span class="skill-chip">${l}</span>`
+        `<span class="skill-chip" style="display:inline-flex;align-items:center;gap:6px;">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--secondary);">${l.icon}</span> ${l.name}
+        </span>`
       ).join('');
     }
 
@@ -231,7 +233,9 @@ const Renderer = (() => {
     if (botEl) {
       botEl.innerHTML = s.bots.map(b => `
         <li style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--primary-container);flex-shrink:0;margin-top:6px;"></span>
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,242,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--primary-container);">${b.icon}</span>
+          </div>
           <div>
             <p style="font-family:var(--font-headline);font-size:0.8rem;font-weight:600;color:var(--on-surface);margin-bottom:2px;">${b.name}</p>
             <p class="body-sm" style="color:var(--on-surface-variant);">${b.detail}</p>
@@ -244,7 +248,9 @@ const Renderer = (() => {
     const toolEl = document.getElementById('stack-devtools');
     if (toolEl) {
       toolEl.innerHTML = s.devTools.map(t =>
-        `<span style="padding:8px;background:rgba(53,53,52,0.4);border:1px solid var(--outline-variant);border-radius:var(--radius-sm);font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;">${t}</span>`
+        `<span style="padding:8px;background:rgba(53,53,52,0.4);border:1px solid var(--outline-variant);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;">
+          <span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--tertiary-fixed);">${t.icon}</span> ${t.name}
+        </span>`
       ).join('');
     }
 
@@ -252,7 +258,9 @@ const Renderer = (() => {
     const infraEl = document.getElementById('stack-infra');
     if (infraEl) {
       infraEl.innerHTML = s.infra.map(t =>
-        `<span style="display:inline-block;padding:6px 12px;background:rgba(0,242,255,0.08);color:var(--primary-container);border:1px solid rgba(0,242,255,0.2);border-radius:var(--radius-sm);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;margin:4px;">${t}</span>`
+        `<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(0,242,255,0.08);color:var(--primary-container);border:1px solid rgba(0,242,255,0.2);border-radius:var(--radius-sm);font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;margin:4px;">
+          <span class="material-symbols-outlined" style="font-size:1rem;">${t.icon}</span> ${t.name}
+        </span>`
       ).join('');
     }
 
@@ -277,26 +285,27 @@ const Renderer = (() => {
 
     container.innerHTML = SITE_DATA.journey.map((entry, i) => {
       const isRight = i % 2 !== 0;
+      const isPresent = entry.year.toLowerCase().includes('present');
+
       return `
         <div class="timeline__entry reveal" style="margin-bottom:96px;position:relative;display:flex;flex-direction:column;align-items:flex-start;">
 
           <!-- Node -->
-          <div class="timeline__node" style="border:2px solid ${entry.borderColor};box-shadow:0 0 15px ${entry.nodeGlow};${entry.isPulsing ? 'animation:pulse 2s ease-in-out infinite;' : ''}">
-            ${icon(entry.icon, '')}
-            <span class="material-symbols-outlined" style="color:${entry.borderColor};font-size:1.25rem;">${entry.icon}</span>
+          <div class="timeline__node" style="border:3px solid ${entry.borderColor};box-shadow:0 0 20px ${entry.nodeGlow};${entry.isPulsing ? 'animation:pulse 2s ease-in-out infinite;' : ''}">
+            <span class="material-symbols-outlined" style="color:${entry.borderColor};font-size:1.4rem;font-variation-settings:'wght' 700;">${entry.icon}</span>
           </div>
 
           <!-- Card -->
-          <div class="timeline__card glass-card" style="background:rgba(28,27,27,0.65);border-left:1px solid ${entry.borderColor};width:calc(100% - 72px);margin-left:72px;padding:32px;border-radius:var(--radius-sm);">
+          <div class="timeline__card glass-card" style="background:rgba(28,27,27,0.7);border-left:2px solid ${entry.borderColor};width:calc(100% - 72px);margin-left:72px;padding:32px;border-radius:var(--radius-sm); ${isPresent ? 'border-width:3px; background:rgba(255,255,255,0.03);' : ''}">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
-              <span style="font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:${entry.borderColor};">${entry.era}</span>
-              <span style="font-family:var(--font-headline);font-size:0.6rem;font-style:italic;color:var(--outline-variant);">${entry.year}</span>
+              <span style="font-family:var(--font-headline);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:${entry.borderColor};font-weight:700;">${entry.era}</span>
+              <span style="font-family:var(--font-headline);font-size:0.85rem; font-weight:900; color:var(--on-surface); opacity:0.9;">${entry.year}</span>
             </div>
-            <h2 class="headline-md" style="font-family:var(--font-headline);margin-bottom:16px;color:var(--on-surface);">${entry.title}</h2>
-            <p class="body-sm" style="color:var(--on-surface-variant);line-height:1.7;margin-bottom:20px;">${entry.description}</p>
+            <h2 class="headline-md" style="font-family:var(--font-headline);margin-bottom:16px;font-weight:900; font-size:1.5rem; color:white;">${entry.title}</h2>
+            <p class="body-sm" style="color:var(--on-surface-variant);line-height:1.7;margin-bottom:20px; font-weight:500; color:var(--on-surface);">${entry.description}</p>
             <div style="display:flex;flex-wrap:wrap;gap:8px;">
               ${entry.tags.map(t => `
-                <span style="padding:4px 10px;background:var(--surface-highest);font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--primary-fixed);border-radius:var(--radius-sm);">${t}</span>
+                <span style="padding:4px 10px;background:var(--surface-highest);font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--primary-fixed);border-radius:var(--radius-sm);font-weight:600;">${t}</span>
               `).join('')}
             </div>
           </div>
@@ -313,11 +322,11 @@ const Renderer = (() => {
 
     const [main, ...rest] = SITE_DATA.lab;
     const statusColors = {
-      'BUILDING':    'var(--primary-container)',
-      'DEPLOYED':    'var(--primary-container)',
+      'BUILDING': 'var(--primary-container)',
+      'DEPLOYED': 'var(--primary-container)',
       'IN_PROGRESS': 'var(--tertiary-fixed)',
-      'RESEARCH':    'var(--secondary)',
-      'IDEATION':    'var(--on-surface-variant)',
+      'RESEARCH': 'var(--secondary)',
+      'IDEATION': 'var(--on-surface-variant)',
     };
 
     container.innerHTML = `

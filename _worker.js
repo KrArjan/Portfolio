@@ -1,12 +1,28 @@
 /**
- * POST /api/connect
- * Cloudflare Pages Function to handle contact form submissions.
- * Verifies Turnstile token and sends a notification to a Discord User's DMs via a Bot.
+ * Standard Cloudflare Worker (_worker.js)
+ * Intercepts /api/connect POST requests and serves static assets for all other routes.
  */
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
 
+    // 1. Route: Handle Contact Form Submission
+    if (url.pathname === '/api/connect' && request.method === 'POST') {
+      return await handleConnect(request, env);
+    }
+
+    // 2. Default: Serve Static Assets from Cloudflare Pages
+    // This allows normal site navigation (index.html, assets, etc.) to work as usual.
+    return env.ASSETS.fetch(request);
+  }
+};
+
+/**
+ * Ported logic from functions/api/connect.js
+ * Verifies Turnstile and sends a Discord DM via a Bot.
+ */
+async function handleConnect(request, env) {
   try {
     const formData = await request.json();
     const { name, email, subject, message, turnstileResponse } = formData;
@@ -25,11 +41,11 @@ export async function onRequestPost(context) {
     // 2. Verify Turnstile Token
     const turnstileSecret = env.TURNSTILE_SECRET_KEY;
     if (!turnstileSecret) {
-       console.error('SERVER_CONFIG_ERROR: TURNSTILE_SECRET_KEY is missing.');
-       return new Response(JSON.stringify({ error: 'SERVER_CONFIG_ERROR' }), {
-         status: 500,
-         headers: { 'Content-Type': 'application/json' },
-       });
+      console.error('SERVER_CONFIG_ERROR: TURNSTILE_SECRET_KEY is missing.');
+      return new Response(JSON.stringify({ error: 'SERVER_CONFIG_ERROR' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const verifyURL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
@@ -72,12 +88,12 @@ export async function onRequestPost(context) {
     });
 
     if (!dmChannelResponse.ok) {
-       const err = await dmChannelResponse.text();
-       console.error('Discord API Error (Opening DM Channel):', err);
-       return new Response(JSON.stringify({ error: 'FAILED_TO_OPEN_DM', details: err }), {
-         status: 500,
-         headers: { 'Content-Type': 'application/json' },
-       });
+      const err = await dmChannelResponse.text();
+      console.error('Discord API Error (Opening DM Channel):', err);
+      return new Response(JSON.stringify({ error: 'FAILED_TO_OPEN_DM', details: err }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const { id: channelID } = await dmChannelResponse.json();

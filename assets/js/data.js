@@ -332,7 +332,6 @@ const SITE_DATA = {
     { id: 'reddit', label: 'Reddit', icon: 'forum', href: '#' },
     { id: 'steam', label: 'Steam', icon: 'sports_esports', href: '#' },
     { id: 'spotify', label: 'Spotify', icon: 'music_note', href: '#' },
-    { id: 'xbox', label: 'Xbox', icon: 'videogame_asset', href: '#' },
   ],
 
   /* ===================== BOOT LOG LINES ===================== */

@@ -9,10 +9,5 @@ wrangler.toml
 node_modules
 .git
 .antigravity*
-functions/
 README.md
 LICENSE
-package.json
-package-lock.json
-C:\Users\KrArjan\.gemini\antigravity\brain\
-C:\Users\KrArjan\.gemini\antigravity\brain\52babf75-d573-4326-b896-c344a5365974\

@@ -25,9 +25,9 @@ const UI = (() => {
   }
 
   function initBottomSheet() {
-    const fab     = document.getElementById('mobile-fab');
+    const fab = document.getElementById('mobile-fab');
     const overlay = document.getElementById('bottom-sheet-overlay');
-    const sheet   = document.getElementById('mobile-bottom-sheet');
+    const sheet = document.getElementById('mobile-bottom-sheet');
 
     fab?.addEventListener('click', () => {
       fab.classList.contains('open') ? closeBottomSheet() : openBottomSheet();
@@ -47,7 +47,7 @@ const UI = (() => {
       // Only drag if the user taps the top header or drag handle
       const isHandle = e.target.closest('.bottom-sheet__header') || e.target.closest('.bottom-sheet__handle');
       if (!isHandle) return;
-      
+
       startY = e.touches[0].clientY;
       sheet.style.transition = 'none'; // Snappy follow
     }, { passive: true });
@@ -56,7 +56,7 @@ const UI = (() => {
       if (!startY) return;
       currentY = e.touches[0].clientY;
       const dy = currentY - startY;
-      
+
       // Only follow dragged motion downwards
       if (dy > 0) {
         sheet.style.transform = `translateY(${dy}px)`;
@@ -66,16 +66,16 @@ const UI = (() => {
     sheet?.addEventListener('touchend', () => {
       if (!startY) return;
       const dy = currentY - startY;
-      
+
       // Reset styles to use the CSS class transitions again
       sheet.style.transition = '';
       sheet.style.transform = '';
-      
+
       // If pulled down far enough, close the menu completely
       if (dy > 60) {
         closeBottomSheet();
       }
-      
+
       startY = 0;
       currentY = 0;
     });
@@ -91,18 +91,53 @@ const UI = (() => {
   }
 
   function handleTurnstile(page) {
-    if (page === 'connect' && window.turnstile) {
+    if (page !== 'connect') return;
+
+    const render = () => {
+      if (!window.turnstile) return;
+      
       const turnstileEl = document.getElementById('connect-turnstile');
-      if (turnstileEl) {
-        if (turnstileEl.children.length === 0) {
-          window.turnstile.implicitRender();
-        } else {
-          window.turnstile.reset(turnstileEl);
+      if (!turnstileEl) return;
+
+      // Check if already rendered (has children)
+      if (turnstileEl.children.length === 0) {
+        try {
+          const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
+          window.turnstile.render('#connect-turnstile', {
+            sitekey: sitekey,
+            theme: 'dark',
+            callback: function(token) {
+              if (window.onSuccess) window.onSuccess(token);
+            },
+            'expired-callback': function() {
+              if (window.onExpired) window.onExpired();
+            },
+            'error-callback': function() {
+              if (window.onError) window.onError();
+            }
+          });
+        } catch (e) {
+          console.error("Turnstile render error:", e);
         }
+      } else {
+        window.turnstile.reset(turnstileEl);
       }
+    };
+
+    // If turnstile isn't ready, wait for it
+    if (!window.turnstile) {
+      let retries = 0;
+      const interval = setInterval(() => {
+        if (window.turnstile) {
+          clearInterval(interval);
+          render();
+        }
+        if (++retries > 10) clearInterval(interval);
+      }, 500);
+    } else {
+      render();
     }
   }
-
 
   /* ===================== PROJECT FILTERS ===================== */
   function initFilters() {
@@ -128,23 +163,23 @@ const UI = (() => {
           const tags = (card.dataset.tags || '').split(',');
           const visible = tags.includes(filter);
           card.style.display = visible ? '' : 'none';
-          card.style.opacity  = visible ? '1' : '0';
+          card.style.opacity = visible ? '1' : '0';
         }
       });
     });
   }
 
-  /* ===================== CONTACT FORM (UI ONLY) ===================== */
+  /* ===================== CONTACT FORM ===================== */
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
     // Define Turnstile callbacks globally for the widget
-    window.onSuccess = function() {
+    window.onSuccess = function () {
       const btn = document.getElementById('connect-submit');
       if (btn) btn.disabled = false;
     };
-    window.onExpired = window.onError = function() {
+    window.onExpired = window.onError = function () {
       const btn = document.getElementById('connect-submit');
       if (btn) btn.disabled = true;
     };
@@ -162,7 +197,6 @@ const UI = (() => {
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
-<<<<<<< Updated upstream
       // Simulate sending
       if (btn) {
         btn.disabled = true; // Stay disabled during transmission
@@ -171,7 +205,7 @@ const UI = (() => {
 
       setTimeout(() => {
         form.reset();
-        
+
         // Reset Turnstile widget
         if (window.turnstile) {
           window.turnstile.reset();
@@ -181,21 +215,6 @@ const UI = (() => {
         if (btn) {
           btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
           // Explicitly keep disabled after reset until next verification
-=======
-      // 2. UI Sending State
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = `<span class="spinner"></span>&nbsp;ESTABLISHING_LINK...`;
-      }
-
-      // 3. Simulated Transmission (UI Only)
-      setTimeout(() => {
-        form.reset();
-        if (window.turnstile) window.turnstile.reset();
-        
-        if (btn) {
-          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
->>>>>>> Stashed changes
           btn.disabled = true;
         }
 
@@ -204,11 +223,7 @@ const UI = (() => {
           showToast('TRANSMISSION_RECEIVED');
           setTimeout(() => success.classList.add('hidden'), 5000);
         }
-<<<<<<< Updated upstream
       }, 1800);
-=======
-      }, 1500);
->>>>>>> Stashed changes
     });
   }
 
@@ -280,8 +295,8 @@ const UI = (() => {
     document.querySelectorAll('.tilt-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width  - 0.5;
-        const y = (e.clientY - rect.top)  / rect.height - 0.5;
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
         card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateZ(8px)`;
       });
       card.addEventListener('mouseleave', () => {

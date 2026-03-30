@@ -103,6 +103,7 @@ const UI = (() => {
     }
   }
 
+
   /* ===================== PROJECT FILTERS ===================== */
   function initFilters() {
     const filterGroup = document.querySelector('.filter-group');
@@ -133,7 +134,7 @@ const UI = (() => {
     });
   }
 
-  /* ===================== CONTACT FORM ===================== */
+  /* ===================== CONTACT FORM (UI ONLY) ===================== */
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
@@ -161,6 +162,7 @@ const UI = (() => {
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
+<<<<<<< Updated upstream
       // Simulate sending
       if (btn) {
         btn.disabled = true; // Stay disabled during transmission
@@ -179,6 +181,21 @@ const UI = (() => {
         if (btn) {
           btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
           // Explicitly keep disabled after reset until next verification
+=======
+      // 2. UI Sending State
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner"></span>&nbsp;ESTABLISHING_LINK...`;
+      }
+
+      // 3. Simulated Transmission (UI Only)
+      setTimeout(() => {
+        form.reset();
+        if (window.turnstile) window.turnstile.reset();
+        
+        if (btn) {
+          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
+>>>>>>> Stashed changes
           btn.disabled = true;
         }
 
@@ -187,7 +204,11 @@ const UI = (() => {
           showToast('TRANSMISSION_RECEIVED');
           setTimeout(() => success.classList.add('hidden'), 5000);
         }
+<<<<<<< Updated upstream
       }, 1800);
+=======
+      }, 1500);
+>>>>>>> Stashed changes
     });
   }
 

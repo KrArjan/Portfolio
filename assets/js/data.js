@@ -25,6 +25,11 @@ const SITE_DATA = {
     buildSince: '2021',
   },
 
+  /* ===================== FEATURES ===================== */
+  features: {
+    showLabNotes: false,
+  },
+
   /* ===================== STATS ===================== */
   stats: [
     { value: '2021', label: 'Started Building', color: 'var(--primary-container)' },

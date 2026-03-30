@@ -373,6 +373,7 @@ const Renderer = (() => {
         </div>
       `).join('')}
 
+      ${SITE_DATA.features?.showLabNotes ? `
       <!-- Lab Notes -->
       <div class="col-12 glass glow-border-top reveal" style="padding:32px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
@@ -388,6 +389,7 @@ const Renderer = (() => {
           `).join('')}
         </div>
       </div>
+      ` : ''}
     `;
   }
 

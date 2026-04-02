@@ -184,7 +184,7 @@ const UI = (() => {
       if (btn) btn.disabled = true;
     };
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       // Turnstile Validation
@@ -195,35 +195,59 @@ const UI = (() => {
       }
 
       const btn = form.querySelector('[type="submit"]');
-      const success = document.getElementById('form-success');
+      const successMsg = document.getElementById('form-success');
+      
+      // Collect Data
+      const formData = {
+        name: form.querySelector('input[placeholder="John Doe"]').value,
+        email: form.querySelector('input[placeholder="nexus@example.com"]').value,
+        subject: form.querySelector('select').value,
+        message: form.querySelector('textarea').value,
+        turnstileResponse: turnstileResponse
+      };
 
-      // Simulate sending
+      // UI State: Transmitting
       if (btn) {
-        btn.disabled = true; // Stay disabled during transmission
-        btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner" style="width:16px;height:16px;border:2px solid;border-radius:50%;border-top-color:transparent;display:inline-block;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span> TRANSMITTING...`;
       }
 
-      setTimeout(() => {
-        form.reset();
+      try {
+        const response = await fetch('/api/connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
 
-        // Reset Turnstile widget
-        if (window.turnstile) {
-          window.turnstile.reset();
-          // Button stays disabled until Turnstile verifies again
+        const result = await response.json();
+
+        if (response.ok) {
+          form.reset();
+          if (window.turnstile) window.turnstile.reset();
+          
+          if (successMsg) {
+            successMsg.classList.remove('hidden');
+            showToast('TRANSMISSION_RECEIVED');
+            setTimeout(() => successMsg.classList.add('hidden'), 5000);
+          }
+        } else {
+          showToast(result.error || 'TRANSMISSION_FAILED');
+          if (btn) btn.disabled = false;
         }
 
+      } catch (err) {
+        console.error("Form error:", err);
+        showToast('NEXUS_OFFLINE // TRY_AGAIN');
+        if (btn) btn.disabled = false;
+      } finally {
         if (btn) {
           btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
-          // Explicitly keep disabled after reset until next verification
-          btn.disabled = true;
+          // Keep disabled if success, let Turnstile reset it if failed/expired
+          if (window.turnstile && !window.turnstile.getResponse()) {
+            btn.disabled = true;
+          }
         }
-
-        if (success) {
-          success.classList.remove('hidden');
-          showToast('TRANSMISSION_RECEIVED');
-          setTimeout(() => success.classList.add('hidden'), 5000);
-        }
-      }, 1800);
+      }
     });
   }
 

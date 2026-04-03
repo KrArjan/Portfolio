@@ -39,23 +39,6 @@
     pointer-events: none;
   }
 
-  /* Scrolling terminal text behind everything */
-  #boot-screen .boot-terminal-bg {
-    position: absolute;
-    inset: 0;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    font-family: monospace;
-    font-size: 9px;
-    color: rgba(0, 242, 255, 0.04);
-    overflow: hidden;
-    user-select: none;
-    pointer-events: none;
-    line-height: 1.9;
-    letter-spacing: 0.05em;
-  }
-
   /* Scanline sweep */
   #boot-screen .boot-scanline {
     position: absolute;
@@ -109,29 +92,28 @@
     font-variant: small-caps;
   }
 
-  /* ── 3D Holographic Cube ─────────────────────────────────────── */
-
+  /* ── 3D Blueprint Rubik's Cube ────────────────────────────────── */
+  
   #boot-screen .cube-scene {
     position: relative;
     width: 140px;
     height: 140px;
-    perspective: 600px;
+    perspective: 800px;
   }
 
   @media (min-width: 768px) {
     #boot-screen .cube-scene {
-      width: 180px;
-      height: 180px;
+      width: 160px;
+      height: 160px;
     }
   }
 
-  /* Ambient bloom behind the cube */
   #boot-screen .cube-bloom {
     position: absolute;
-    inset: -40px;
+    inset: -30px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 242, 255, 0.22) 0%, transparent 70%);
-    filter: blur(28px);
+    background: radial-gradient(circle, rgba(0, 242, 255, 0.18) 0%, transparent 70%);
+    filter: blur(24px);
     pointer-events: none;
   }
 
@@ -140,171 +122,95 @@
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    animation: cubeRotate 10s ease-in-out infinite;
+    animation: rubiksScramble 30s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   }
 
-  @keyframes cubeRotate {
-    0% {
-      transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
-    }
-
-    25% {
-      transform: rotateX(30deg) rotateY(90deg) rotateZ(5deg);
-    }
-
-    50% {
-      transform: rotateX(20deg) rotateY(180deg) rotateZ(0deg);
-    }
-
-    75% {
-      transform: rotateX(10deg) rotateY(270deg) rotateZ(-5deg);
-    }
-
-    100% {
-      transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg);
-    }
+  /* Complex mechanical-step Rubik's moves (Up, Right, Bottom-Right) */
+  @keyframes rubiksScramble {
+    0%    { transform: rotateX(-25deg) rotateY(45deg)  rotateZ(0deg); }
+    5%    { transform: rotateX(-25deg) rotateY(135deg) rotateZ(0deg); }  /* Right */
+    10%   { transform: rotateX(65deg)  rotateY(135deg) rotateZ(0deg); }  /* Up */
+    15%   { transform: rotateX(65deg)  rotateY(135deg) rotateZ(90deg); } /* Bottom-Right / Z flip */
+    20%   { transform: rotateX(65deg)  rotateY(225deg) rotateZ(90deg); } /* Move back */
+    25%   { transform: rotateX(-25deg) rotateY(225deg) rotateZ(0deg); }  /* Down */
+    30%   { transform: rotateX(-25deg) rotateY(315deg) rotateZ(0deg); }  /* Right Spin */
+    35%   { transform: rotateX(155deg) rotateY(315deg) rotateZ(45deg); } /* Random Flip */
+    40%   { transform: rotateX(155deg) rotateY(45deg)  rotateZ(45deg); } /* Recovery */
+    45%   { transform: rotateX(-25deg) rotateY(45deg)  rotateZ(0deg); }  /* Home */
+    50%   { transform: rotateX(-115deg) rotateY(45deg) rotateZ(0deg); }  /* Bottom Move */
+    55%   { transform: rotateX(-115deg) rotateY(-45deg) rotateZ(0deg); } /* Left Turn */
+    60%   { transform: rotateX(-25deg) rotateY(-45deg) rotateZ(90deg); } /* Twist */
+    65%   { transform: rotateX(65deg)  rotateY(-45deg) rotateZ(90deg); } /* Up Reverse */
+    70%   { transform: rotateX(65deg)  rotateY(45deg) rotateZ(0deg); }   /* Home Sync */
+    75%   { transform: rotateX(-25deg) rotateY(405deg) rotateZ(180deg); } /* Triple Spin */
+    80%   { transform: rotateX(65deg)  rotateY(405deg) rotateZ(180deg); } /* Up Move */
+    85%   { transform: rotateX(65deg)  rotateY(135deg) rotateZ(0deg); }   /* Scramble State */
+    90%   { transform: rotateX(-25deg) rotateY(135deg) rotateZ(0deg); }  /* Drop */
+    95%   { transform: rotateX(-25deg) rotateY(45deg) rotateZ(0deg); }   /* Final Reset */
+    100%  { transform: rotateX(-25deg) rotateY(45deg) rotateZ(0deg); }   /* Loop */
   }
 
-  /* All 6 faces */
   #boot-screen .cube__face {
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 1px dashed rgba(0, 242, 255, 0.55);
-    box-shadow:
-      0 0 12px rgba(0, 242, 255, 0.18) inset,
-      0 0 6px rgba(0, 242, 255, 0.28);
-    background: rgba(0, 242, 255, 0.025);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: rgba(0, 242, 255, 0.015);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    box-sizing: border-box;
+    backface-visibility: visible;
   }
 
-  /* Front */
-  #boot-screen .cube__face--front {
-    transform: translateZ(calc(var(--cube-half)));
+  /* 3x3 Blueprint Cells */
+  #boot-screen .cube__cell {
+    border: 1px dashed rgba(0, 242, 255, 0.25);
+    position: relative;
+    box-sizing: border-box;
+    transition: background 0.3s ease;
   }
 
-  /* Back */
-  #boot-screen .cube__face--back {
-    transform: rotateY(180deg) translateZ(calc(var(--cube-half)));
+  /* Occasional glitch highlight in cells */
+  #boot-screen .cube__cell::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba(0, 242, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
 
-  /* Left */
-  #boot-screen .cube__face--left {
-    transform: rotateY(-90deg) translateZ(calc(var(--cube-half)));
+  /* Random cell flickering animation */
+  #boot-screen .cube__cell:nth-child(3n)::after {
+    animation: cellFlicker 6s infinite;
+  }
+  #boot-screen .cube__cell:nth-child(4n)::after {
+    animation: cellFlicker 8s 2s infinite;
   }
 
-  /* Right */
-  #boot-screen .cube__face--right {
-    transform: rotateY(90deg) translateZ(calc(var(--cube-half)));
+  @keyframes cellFlicker {
+    0%, 95%, 100% { opacity: 0; }
+    97% { opacity: 0.6; }
+    98% { opacity: 0.4; }
+    99% { opacity: 0.8; }
   }
 
-  /* Top */
-  #boot-screen .cube__face--top {
-    transform: rotateX(90deg) translateZ(calc(var(--cube-half)));
-  }
+  /* Face positions (half of size, e.g. 70px/80px) */
+  #boot-screen .cube__face--front  { transform: rotateY(  0deg) translateZ(var(--cube-half)); }
+  #boot-screen .cube__face--back   { transform: rotateY(180deg) translateZ(var(--cube-half)); }
+  #boot-screen .cube__face--left   { transform: rotateY(-90deg) translateZ(var(--cube-half)); }
+  #boot-screen .cube__face--right  { transform: rotateY( 90deg) translateZ(var(--cube-half)); }
+  #boot-screen .cube__face--top    { transform: rotateX( 90deg) translateZ(var(--cube-half)); }
+  #boot-screen .cube__face--bottom { transform: rotateX(-90deg) translateZ(var(--cube-half)); }
 
-  /* Bottom */
-  #boot-screen .cube__face--bottom {
-    transform: rotateX(-90deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* CSS custom property for half-size (changes per breakpoint) */
   #boot-screen .cube-scene {
     --cube-half: 70px;
   }
 
   @media (min-width: 768px) {
     #boot-screen .cube-scene {
-      --cube-half: 90px;
+      --cube-half: 80px;
     }
-  }
-
-  /* Corner accent dots on frontal face */
-  #boot-screen .cube__face--front .cube-corner {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 242, 255, 0.9);
-    box-shadow: 0 0 8px rgba(0, 242, 255, 1), 0 0 16px rgba(0, 242, 255, 0.6);
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(1) {
-    top: 8px;
-    left: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(2) {
-    top: 8px;
-    right: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(3) {
-    bottom: 8px;
-    left: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(4) {
-    bottom: 8px;
-    right: 8px;
-  }
-
-  /* Inner glowing square on front face */
-  #boot-screen .cube__face--front .cube-inner {
-    width: 40%;
-    height: 40%;
-    border: 1px solid rgba(0, 242, 255, 0.8);
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5) inset, 0 0 10px rgba(0, 242, 255, 0.5);
-    animation: cubeInnerPulse 2.5s ease-in-out infinite;
-  }
-
-  @keyframes cubeInnerPulse {
-
-    0%,
-    100% {
-      opacity: 0.7;
-      box-shadow: 0 0 8px rgba(0, 242, 255, 0.4) inset, 0 0 8px rgba(0, 242, 255, 0.4);
-    }
-
-    50% {
-      opacity: 1;
-      box-shadow: 0 0 18px rgba(0, 242, 255, 0.9) inset, 0 0 18px rgba(0, 242, 255, 0.9);
-    }
-  }
-
-  /* Side projecting wing lines (the flat diamond-like extensions in the reference) */
-  #boot-screen .cube-wings {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-    pointer-events: none;
-    animation: cubeRotate 10s ease-in-out infinite;
-  }
-
-  #boot-screen .cube-wing {
-    position: absolute;
-    background: transparent;
-    border: 1px dashed rgba(0, 242, 255, 0.18);
-  }
-
-  #boot-screen .cube-wing--h {
-    top: 50%;
-    left: -30px;
-    right: -30px;
-    height: 1px;
-    border-width: 0 0 1px 0;
-    transform: translateY(-50%);
-  }
-
-  #boot-screen .cube-wing--v {
-    left: 50%;
-    top: -30px;
-    bottom: -30px;
-    width: 1px;
-    border-width: 0 1px 0 0;
-    transform: translateX(-50%);
   }
 
   /* Status labels */
@@ -575,30 +481,6 @@
   <div class="boot-noise"></div>
   <div class="boot-scanline"></div>
 
-  <!-- Scrolling terminal ghost text -->
-  <div class="boot-terminal-bg" aria-hidden="true">
-    <p>SYSTEM_BOOT_SEQUENCE: INIT_START</p>
-    <p>LOAD_DRIVER: KERNEL_MODULE_G7X</p>
-    <p>FETCHING_REPOSITORY: PORTFOLIO_V2.0.4</p>
-    <p>ESTABLISHING_SECURE_HANDSHAKE...</p>
-    <p>BYPASSING_FIREWALL_LAYERS: [####################] 100%</p>
-    <p>REPLICATING_UI_NODES: SUCCESS</p>
-    <p>SYNCING_ASSETS_CACHE: OK</p>
-    <p>VALIDATING_ENCRYPTION_KEY_0x74f5ff...</p>
-    <p>LOADING_COMPONENTS: TopAppBar, NavigationDrawer, Footer</p>
-    <p>RENDER_ENGINE: TECHNICAL_BUILDER_STABLE</p>
-    <p>LATENCY_CHECK: 14ms</p>
-    <p>STATUS: OPTIMAL</p>
-    <p>SYSTEM_BOOT_SEQUENCE: INIT_START</p>
-    <p>LOAD_DRIVER: KERNEL_MODULE_G7X</p>
-    <p>FETCHING_REPOSITORY: PORTFOLIO_V2.0.4</p>
-    <p>ESTABLISHING_SECURE_HANDSHAKE...</p>
-    <p>BYPASSING_FIREWALL_LAYERS: [####################] 100%</p>
-    <p>REPLICATING_UI_NODES: SUCCESS</p>
-    <p>SYNCING_ASSETS_CACHE: OK</p>
-    <p>VALIDATING_ENCRYPTION_KEY_0x74f5ff...</p>
-  </div>
-
   <!-- ── Layer 1: top status bar ────────────────────────────────── -->
   <div class="boot-topbar" aria-hidden="true">
     <span class="material-symbols-outlined" style="font-size:0.875rem;color:var(--primary-container);">terminal</span>
@@ -615,26 +497,38 @@
     <div class="cube-scene">
       <div class="cube-bloom"></div>
 
-      <!-- Outer rotating cube -->
+      <!-- Outer rotating cube (Rubik's Blueprint Style) -->
       <div class="cube">
         <div class="cube__face cube__face--front">
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <div class="cube-inner"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
         </div>
-        <div class="cube__face cube__face--back"></div>
-        <div class="cube__face cube__face--left"></div>
-        <div class="cube__face cube__face--right"></div>
-        <div class="cube__face cube__face--top"></div>
-        <div class="cube__face cube__face--bottom"></div>
-      </div>
-
-      <!-- Extension wing lines (flat projected arms) -->
-      <div class="cube-wings">
-        <div class="cube-wing cube-wing--h"></div>
-        <div class="cube-wing cube-wing--v"></div>
+        <div class="cube__face cube__face--back">
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+        </div>
+        <div class="cube__face cube__face--left">
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+        </div>
+        <div class="cube__face cube__face--right">
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+        </div>
+        <div class="cube__face cube__face--top">
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+        </div>
+        <div class="cube__face cube__face--bottom">
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+          <div class="cube__cell"></div><div class="cube__cell"></div><div class="cube__cell"></div>
+        </div>
       </div>
     </div>
 

@@ -225,11 +225,6 @@ const UI = (() => {
 
         if (response.ok) {
           form.reset();
-          
-          // Reset Turnstile widget
-          if (window.turnstile) {
-            window.turnstile.reset();
-          }
 
           if (success) {
             success.classList.remove('hidden');
@@ -245,9 +240,13 @@ const UI = (() => {
         console.error("Network Error:", error);
         showToast('CONNECTION_STABILITY_ERROR');
       } finally {
+        // Always reset Turnstile after every transmission (tokens are single-use)
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
         if (btn) {
           btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
-          // Stays disabled until next verification or manual entry if needed
+          // Button stays disabled until Turnstile is solved again
           btn.disabled = true;
         }
       }

@@ -281,13 +281,41 @@
 .rounded-xl { border-radius: var(--radius-xl); }
 .rounded-full { border-radius: var(--radius-pill); }
 
-/* ===================== VISIBILITY UTILITIES ===================== */
-.hide-mobile { display: none; }
-@media (min-width: 1024px) {
-  .hide-mobile { display: block; }
+/* ===================== FLOATING HERO TAGS ===================== */
+
+.tag-float {
+  position: absolute;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-headline);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  z-index: 2;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
 }
 
-.hide-desktop { display: block; }
+.tag-float-1 { top: -10px; right: -10px; color: var(--primary-container); }
+.tag-float-2 { top: 30%; left: -70px; color: var(--secondary); }
+.tag-float-3 { bottom: 10px; right: -50px; color: var(--tertiary-fixed); }
+.tag-float-4 { bottom: -16px; left: 0px; color: var(--primary); }
+
+@media (max-width: 767px) {
+  .tag-float {
+    font-size: 0.5rem;
+    padding: 6px 10px;
+  }
+  .tag-float-1 { top: -14px; right: -4px; }
+  .tag-float-2 { top: 15%; left: -32px; }
+  .tag-float-3 { bottom: 6px; right: -24px; }
+  .tag-float-4 { bottom: -18px; left: -10px; }
+}
+
+/* Force specific classes if they were using hide-mobile globally */
+@media (max-width: 767px) {
+  .hide-mobile:not(.tag-float) { display: none; }
+}
+
 @media (min-width: 1024px) {
-  .hide-desktop { display: none; }
+  .hide-mobile { display: block; }
 }

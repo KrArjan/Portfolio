@@ -71,21 +71,40 @@
   }
 
   // ────────────────────────────────────────────────────────────────
-  // Progress Management
+  // Progress Management (Smooth Interpolation)
   // ────────────────────────────────────────────────────────────────
   const totalAssets = (chromeParts.length - 1) + pageParts.length + afterMainParts.length + appScripts.length;
   let assetsLoaded = 0;
+  let targetProgress = 0;
+  let currentProgress = 0;
 
-  function updateProgress() {
-    const bar = document.getElementById('boot-bar');
+  function startProgressLoop() {
+    const bar   = document.getElementById('boot-bar');
     const label = document.getElementById('boot-pct-label');
     if (!bar && !label) return;
 
-    const progress = Math.min((assetsLoaded / totalAssets) * 100, 100);
-    const rounded  = Math.ceil(progress);
+    function animate() {
+      // Smoothly move currentProgress toward targetProgress (lerp)
+      const diff = targetProgress - currentProgress;
+      if (diff > 0.1) {
+        currentProgress += diff * 0.08; // Easing speed
+      } else {
+        currentProgress = targetProgress;
+      }
 
-    if (bar) bar.style.width = `${rounded}%`;
-    if (label) label.textContent = `${rounded}%`;
+      const rounded = Math.ceil(currentProgress);
+      if (bar) bar.style.width = `${rounded}%`;
+      if (label) label.textContent = `${rounded}%`;
+
+      if (currentProgress < 100) {
+        requestAnimationFrame(animate);
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function updateTarget() {
+    targetProgress = Math.min((assetsLoaded / totalAssets) * 100, 100);
   }
 
   // Small delay for cinematic smoothness
@@ -100,6 +119,9 @@
   try {
     const bootHtml = await fetchHtml(chromeParts[0]);
     placeholder.before(parseFragment(bootHtml));
+    
+    // Start the smooth animation loop as soon as boot is in the DOM
+    startProgressLoop();
   } catch (err) {
     console.error('[loader] boot screen failed:', err);
   }
@@ -113,8 +135,8 @@
       console.error('[loader] chrome partial failed:', chromeParts[i], err);
     } finally {
       assetsLoaded++;
-      updateProgress();
-      await sleep(50);
+      updateTarget();
+      await sleep(60); // slightly longer sleep to let interpolation breathe
     }
   }
 
@@ -134,8 +156,8 @@
       console.error('[loader] page partial failed:', url, err);
     } finally {
       assetsLoaded++;
-      updateProgress();
-      await sleep(50);
+      updateTarget();
+      await sleep(60);
     }
   }
 
@@ -153,8 +175,8 @@
       console.error('[loader] after-main partial failed:', url, err);
     } finally {
       assetsLoaded++;
-      updateProgress();
-      await sleep(50);
+      updateTarget();
+      await sleep(60);
     }
   }
 
@@ -168,8 +190,8 @@
       console.error('[loader] script failed:', src, err);
     } finally {
       assetsLoaded++;
-      updateProgress();
-      await sleep(50);
+      updateTarget();
+      await sleep(60);
     }
   }
 

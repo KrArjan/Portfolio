@@ -11,7 +11,7 @@
   /* 1. Render all dynamic content from data */
   Renderer.init();
 
-  /* 2. Start boot screen animation; on complete — init routing & UI */
+  /* 2. Initialize boot sequence; once dismissed — init routing & UI */
   Boot.init(() => {
     Router.init();
     UI.init();
@@ -19,5 +19,8 @@
     /* Expose navTo globally for inline onclick attributes */
     window.navTo = (page) => Router.navTo(page);
   });
+
+  /* 3. Manual Dismiss: signal that all assets are loaded and systems ready */
+  Boot.dismiss();
 
 })();

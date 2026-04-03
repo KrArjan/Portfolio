@@ -104,4 +104,9 @@
       await loadScript(src);
     } catch (err) { console.error('[loader] script failed:', src, err); }
   }
+
+  // FINAL SAFETY UPDATE
+  if (window.Boot && typeof window.Boot.update === 'function') {
+    window.Boot.update(100);
+  }
 })();

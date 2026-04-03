@@ -11,17 +11,18 @@ const Boot = (() => {
   let currentPct = 0;
   let isDismissing = false;
 
-  const bar   = document.getElementById('boot-bar');
-  const label = document.getElementById('boot-pct-label');
-
   /* ---- Handlers for progress updates ---- */
   function update(targetPct) {
     if (isDismissing) return;
     
-    // Smoothly animate towards target
-    // Note: Since loader.js updates the DOM directly for speed,
-    // we use this update() primarily for logic and additional effects.
+    // Ensure we move forward
     currentPct = Math.max(currentPct, targetPct);
+
+    // Update DOM (in case loader.js failed to do it)
+    const bar   = document.getElementById('boot-bar');
+    const label = document.getElementById('boot-pct-label');
+    if (bar) bar.style.width = currentPct + '%';
+    if (label) label.textContent = currentPct + '%';
 
     if (currentPct >= 100) {
       currentPct = 100;
@@ -33,12 +34,14 @@ const Boot = (() => {
     if (isDismissing) return;
     isDismissing = true;
     
-    // Ensure bar is 100%
+    // Ensure bar is 100% in DOM
+    const bar   = document.getElementById('boot-bar');
+    const label = document.getElementById('boot-pct-label');
     if (bar) bar.style.width = '100%';
     if (label) label.textContent = '100%';
 
     // Short cinematic pause at 100%
-    setTimeout(dismiss, 400);
+    setTimeout(dismiss, 500);
   }
 
   /* ---- Pulse the ring glow on hover ---- */
@@ -94,6 +97,7 @@ const Boot = (() => {
     }
   }
 
-  return { init, update };
+  // Explicitly expose to window
+  window.Boot = { init, update };
 
 })();

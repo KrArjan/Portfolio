@@ -30,16 +30,20 @@ export default {
 
       // 3. SPA Routing Fallback
       // If the path doesn't look like a file (no extension), serve index.html
-      const hasExtension = url.pathname.includes('.');
+      // We check for a dot followed by at least 2-4 extension characters
+      const hasExtension = /\.[a-z0-9]{2,4}$/i.test(url.pathname);
+      
       if (!hasExtension && url.pathname !== "/") {
-        const homeUrl = new URL("/", request.url);
-        return env.ASSETS ? env.ASSETS.fetch(homeUrl) : new Response("ASSETS_BINDING_MISSING", { status: 500 });
+        if (!env.ASSETS) {
+          return new Response("ERROR_SPA_ROUTING: env.ASSETS_BINDING_NOT_CONFIGURED. Check wrangler.toml for [assets] binding = 'ASSETS'.", { status: 500 });
+        }
+        // Force fallback to the root index.html
+        return env.ASSETS.fetch(new Request(url.origin, request));
       }
 
       // 4. Default: Serve static assets
       if (!env.ASSETS) {
-        console.error("Critical: env.ASSETS is not defined in this environment.");
-        return new Response("CLOUD_CONFIGURATION_ERROR: ASSETS_NOT_FOUND", { status: 500 });
+        return new Response("ERROR_STATIC_ASSET: env.ASSETS_BINDING_MISSING.", { status: 500 });
       }
       
       return env.ASSETS.fetch(request);

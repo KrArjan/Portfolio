@@ -1,47 +1,40 @@
 /* ============================================================
    boot.js — Boot Screen Animation & Sequence
-   Updated for real-time progress-based loading.
+   Updated for the cinematic terminal boot design.
    ============================================================ */
 
 'use strict';
 
 const Boot = (() => {
 
+  const DURATION = 3200; // total boot time ms
+
   let onCompleteCallback = null;
-  let currentPct = 0;
-  let isDismissing = false;
 
-  /* ---- Handlers for progress updates ---- */
-  function update(targetPct) {
-    if (isDismissing) return;
-    
-    // Ensure we move forward
-    currentPct = Math.max(currentPct, targetPct);
-
-    // Update DOM (in case loader.js failed to do it)
+  /* ---- Animate the progress bar + percentage label ---- */
+  function animateProgress() {
     const bar   = document.getElementById('boot-bar');
     const label = document.getElementById('boot-pct-label');
-    if (bar) bar.style.width = currentPct + '%';
-    if (label) label.textContent = currentPct + '%';
+    if (!bar) return;
 
-    if (currentPct >= 100) {
-      currentPct = 100;
-      finish();
+    let start = null;
+
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      const elapsed  = timestamp - start;
+      const progress = Math.min(elapsed / DURATION, 1);
+      const eased    = easeInOutCubic(progress);
+      const value    = Math.round(eased * 100);
+
+      bar.style.width = value + '%';
+      if (label) label.textContent = value + '%';
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
     }
-  }
 
-  function finish() {
-    if (isDismissing) return;
-    isDismissing = true;
-    
-    // Ensure bar is 100% in DOM
-    const bar   = document.getElementById('boot-bar');
-    const label = document.getElementById('boot-pct-label');
-    if (bar) bar.style.width = '100%';
-    if (label) label.textContent = '100%';
-
-    // Short cinematic pause at 100%
-    setTimeout(dismiss, 500);
+    requestAnimationFrame(step);
   }
 
   /* ---- Pulse the ring glow on hover ---- */
@@ -84,20 +77,21 @@ const Boot = (() => {
     }
   }
 
+  /* ---- Cubic ease ---- */
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
   /* ---- Public init ---- */
   function init(onComplete) {
     onCompleteCallback = onComplete;
 
-    // 1. Hook up the glow
+    animateProgress();
     initRingGlow();
 
-    // 2. Check for pre-existing progress from loader.js (catch up)
-    if (window.BOOT_PROGRESS !== undefined) {
-      update(window.BOOT_PROGRESS);
-    }
+    setTimeout(dismiss, DURATION + 200);
   }
 
-  // Explicitly expose to window
-  window.Boot = { init, update };
+  return { init };
 
 })();

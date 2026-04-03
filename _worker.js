@@ -110,7 +110,12 @@ async function handleContactForm(request, env) {
 
     // DM Transmission (if configured)
     if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
-      transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, env.DISCORD_USER_ID, discordPayload));
+      const userIds = env.DISCORD_USER_ID.split(',').map(id => id.trim());
+      userIds.forEach(userId => {
+        if (userId) {
+          transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
+        }
+      });
     }
 
     const results = await Promise.allSettled(transmissions);

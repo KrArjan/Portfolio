@@ -157,7 +157,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(60);
+      await sleep(20);
     }
   }
 
@@ -176,7 +176,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(60);
+      await sleep(20);
     }
   }
 

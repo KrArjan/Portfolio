@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,11 +161,17 @@
 
     /* Responsive */
     @media (max-width: 480px) {
-      .content { padding: 30px 20px; }
-      .header { padding: 40px 20px; }
+      .content {
+        padding: 30px 20px;
+      }
+
+      .header {
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrapper">
     <div class="container">
@@ -176,7 +183,7 @@
         <h1>TRANSMISSION_CONNECTED</h1>
         <div class="status-badge">SECURE_CHANNEL_ACTIVE</div>
       </div>
-      
+
       <!-- CONTENT SECTION -->
       <div class="content">
         <!-- NAME FIELD -->
@@ -184,26 +191,26 @@
           <div class="label">IDENTITY_NAME</div>
           <div class="value">{{from_name}}</div>
         </div>
-        
+
         <!-- EMAIL FIELD -->
         <div class="field">
           <div class="label">RETURN_SIGNAL_EMAIL</div>
           <div class="value">{{from_email}}</div>
         </div>
-        
+
         <!-- SUBJECT FIELD -->
         <div class="field">
           <div class="label">PROTOCOL_OBJECTIVE</div>
           <div class="value">{{subject}}</div>
         </div>
-        
+
         <!-- MESSAGE FIELD -->
         <div class="field">
           <div class="label">MESSAGE_PAYLOAD</div>
           <div class="value message-box" style="white-space: pre-wrap;">{{message}}</div>
         </div>
       </div>
-      
+
       <!-- FOOTER SECTION -->
       <div class="footer">
         <div class="footer-text">
@@ -219,4 +226,5 @@
     </div>
   </div>
 </body>
+
 </html>

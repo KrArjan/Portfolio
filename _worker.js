@@ -102,9 +102,10 @@ async function handleContactForm(request, env) {
     }
 
     const verifyFormData = new FormData();
+    const clientIP = getClientIP(request);
     verifyFormData.append('secret', env.TURNSTILE_SECRET_KEY);
     verifyFormData.append('response', token);
-    verifyFormData.append('remoteip', request.headers.get('CF-Connecting-IP'));
+    verifyFormData.append('remoteip', clientIP);
 
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
@@ -135,7 +136,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `Nexus Terminal | IP: ${request.headers.get('CF-Connecting-IP') || 'UNKNOWN'}`
+          text: `Nexus Terminal | IP: ${getClientIP(request)}`
         }
       }]
     };
@@ -292,4 +293,13 @@ async function sendEmailJS(env, templateParams) {
     console.error("sendEmailJS Exception:", err);
     return { ok: false, error: err.message };
   }
+}
+
+/**
+ * Retrieves the client's IP address.
+ * Prioritizes 'Cf-Pseudo-IPv4' (if enabled in Cloudflare dashboard)
+ * falls back to 'CF-Connecting-IP'.
+ */
+function getClientIP(request) {
+  return request.headers.get('Cf-Pseudo-IPv4') || request.headers.get('CF-Connecting-IP') || 'UNKNOWN';
 }

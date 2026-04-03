@@ -101,12 +101,22 @@ async function handleContactForm(request, env) {
     // 3. Parallel Transmission (Webhook & DM)
     const transmissions = [];
 
-    // Webhook Transmission
-    transmissions.push(fetch(env.DISCORD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(discordPayload)
-    }));
+    // Webhook Transmissions (if configured)
+    if (env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
+      const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => {
+        // Remove everything after '#' if it exists
+        const cleanUrl = part.split('#')[0].trim();
+        return cleanUrl;
+      }).filter(url => url.length > 0);
+
+      webhookUrls.forEach(url => {
+        transmissions.push(fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(discordPayload)
+        }));
+      });
+    }
 
     // DM Transmission (if configured)
     if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {

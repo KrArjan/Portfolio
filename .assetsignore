@@ -1,0 +1,12 @@
+node_modules/
+.env
+.dev.vars
+.git/
+.antigravity*
+_worker.js
+wrangler.toml
+README.md
+LICENSE
+package.json
+package-lock.json
+functions/

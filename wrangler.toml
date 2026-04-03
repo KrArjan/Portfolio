@@ -18,9 +18,6 @@ TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"
 
 # Sensitive keys — set the real values as Secrets in the dashboard
 # These empty defaults prevent them from being wiped on new builds
-TURNSTILE_SECRET_KEY  = ""
-DISCORD_WEBHOOK_URL   = ""
-DISCORD_BOT_TOKEN     = ""
 DISCORD_USER_ID       = ""
 EMAILJS_SERVICE_ID    = ""
 EMAILJS_TEMPLATE_ID   = ""

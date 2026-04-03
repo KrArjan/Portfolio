@@ -49,7 +49,7 @@ async function handleContactForm(request, env) {
       });
     }
 
-    const { name, email, subject, message, token } = await request.json();
+    const { name, email, subject, message, token, theme } = await request.json();
 
     // 1. Verify Turnstile Token
     if (!token) {
@@ -78,13 +78,14 @@ async function handleContactForm(request, env) {
     }
 
     // 2. Prepare Discord Payload
+    const branding = theme || {};
     const discordPayload = {
-      username: "Nexus Transmission Hub",
-      avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
+      username: branding.username || "Nexus Transmission Hub",
+      avatar_url: branding.avatarUrl || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
       embeds: [{
         title: `📡 NEW TRANSMISSION_RECEIVED // ${subject.toUpperCase()}`,
         description: `Source: Portfolio Contact System`,
-        color: 0x00D0FF,
+        color: branding.embedColor || 0x00D0FF,
         fields: [
           { name: "IDENTIFIER", value: `\`${name}\``, inline: true },
           { name: "SECURE_EMAIL", value: `\`${email}\``, inline: true },
@@ -93,7 +94,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `Nexus Terminal | IP: ${request.headers.get('CF-Connecting-IP') || 'UNKNOWN'}`
+          text: `${branding.footerText || 'Nexus Terminal'} | IP: ${request.headers.get('CF-Connecting-IP') || 'UNKNOWN'}`
         }
       }]
     };

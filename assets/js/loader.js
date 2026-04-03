@@ -87,7 +87,7 @@
       // Smoothly move currentProgress toward targetProgress (lerp)
       const diff = targetProgress - currentProgress;
       if (diff > 0.1) {
-        currentProgress += diff * 0.08; // Easing speed
+        currentProgress += diff * 0.25; // Easing speed
       } else {
         currentProgress = targetProgress;
       }
@@ -136,7 +136,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(60); // slightly longer sleep to let interpolation breathe
+      await sleep(0);
     }
   }
 
@@ -157,7 +157,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(20);
+      await sleep(0);
     }
   }
 
@@ -176,7 +176,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(20);
+      await sleep(0);
     }
   }
 
@@ -191,7 +191,7 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(60);
+      await sleep(0);
     }
   }
 

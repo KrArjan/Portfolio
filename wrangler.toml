@@ -18,11 +18,11 @@ TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"
 
 # Sensitive keys — set the real values as Secrets in the dashboard
 # These empty defaults prevent them from being wiped on new builds
-DISCORD_USER_ID       = ""
-EMAILJS_SERVICE_ID    = ""
-EMAILJS_TEMPLATE_ID   = ""
-EMAILJS_PUBLIC_KEY    = ""
-EMAILJS_PRIVATE_KEY   = ""
+DISCORD_USER_ID
+EMAILJS_SERVICE_ID
+EMAILJS_TEMPLATE_ID
+EMAILJS_PUBLIC_KEY
+EMAILJS_PRIVATE_KEY
 
 [observability]
 enabled = false

@@ -87,7 +87,6 @@ ul, ol {
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -0.03em;
-  margin-bottom: 2rem;
 }
 
 .display-lg {
@@ -96,7 +95,6 @@ ul, ol {
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.025em;
-  margin-bottom: 1.5rem;
 }
 
 .display-md {
@@ -105,7 +103,6 @@ ul, ol {
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
 }
 
 .headline-lg {
@@ -113,7 +110,6 @@ ul, ol {
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.015em;
-  margin-bottom: 1.25rem;
 }
 
 .headline-md {
@@ -121,32 +117,27 @@ ul, ol {
   font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin-bottom: 1rem;
 }
 
 .headline-sm {
   font-family: var(--font-headline);
   font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
 }
 
 .body-lg {
   font-size: 1.125rem;
   line-height: 1.7;
-  margin-bottom: 1.5rem;
 }
 
 .body-md {
   font-size: 0.9375rem;
   line-height: 1.65;
-  margin-bottom: 1.25rem;
 }
 
 .body-sm {
   font-size: 0.8125rem;
   line-height: 1.6;
-  margin-bottom: 1rem;
 }
 
 .label-lg {
@@ -155,7 +146,6 @@ ul, ol {
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
 }
 
 .label-md {
@@ -164,7 +154,6 @@ ul, ol {
   font-weight: 500;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-bottom: 0.6rem;
 }
 
 .label-sm {
@@ -173,7 +162,6 @@ ul, ol {
   font-weight: 500;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
 }
 
 /* === Color Utilities === */

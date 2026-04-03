@@ -9,8 +9,8 @@
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 28px;
+  padding-right: 28px;
 }
 
 @media (min-width: 640px)  { .container { padding-left: 32px; padding-right: 32px; } }
@@ -19,13 +19,13 @@
 .container-narrow {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 28px;
 }
 
 .container-wide {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 28px;
 }
 
 /* ===================== PAGE WRAPPER ===================== */
@@ -59,10 +59,16 @@
 }
 
 /* Section spacing */
-.section       { padding: 100px 0; }
-.section-lg    { padding: 140px 0; }
-.section-xl    { padding: 180px 0; }
-.section-tight { padding: 60px 0; }
+.section       { padding: 80px 0; }
+.section-lg    { padding: 112px 0; }
+.section-xl    { padding: 144px 0; }
+.section-tight { padding: 48px 0; }
+
+@media (max-width: 767px) {
+  .section       { padding: 48px 0; }
+  .section-lg    { padding: 64px 0; }
+  .section-xl    { padding: 80px 0; }
+}
 
 /* ===================== GRID SYSTEM ===================== */
 

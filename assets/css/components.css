@@ -18,6 +18,14 @@
   border: var(--border-glass);
 }
 
+.glass-panel {
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  .glass-panel { padding: 48px; }
+}
+
 .glass-dark {
   background: rgba(14, 14, 14, 0.85);
   backdrop-filter: blur(30px);

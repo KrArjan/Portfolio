@@ -148,7 +148,7 @@ const Renderer = (() => {
       return `
         <div class="project-card glass-card glow-border-inset ${col} reveal"
              data-tags="${p.category.join(',')}"
-             style="padding: 24px; min-height: ${h}; display:flex; flex-direction:column;">
+             style="min-height: ${h}; display:flex; flex-direction:column;">
 
           <div style="position:absolute;top:0;right:0;padding:24px;opacity:0.08;pointer-events:none;">
             ${icon(p.icon, '')}

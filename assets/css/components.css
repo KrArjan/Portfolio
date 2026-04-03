@@ -26,6 +26,40 @@
   .glass-panel { padding: 48px; }
 }
 
+/* ===================== PROJECT CARDS ===================== */
+.project-card {
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  transition: transform var(--dur-base) var(--ease-spring),
+              border-color var(--dur-base) var(--ease-smooth),
+              box-shadow var(--dur-base) var(--ease-smooth);
+}
+
+@media (min-width: 768px) {
+  .project-card { padding: 24px; }
+}
+
+.project-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(0, 242, 255, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.project-card__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+@media (max-width: 767px) {
+  .project-card h3 {
+    font-size: 1.15rem !important;
+  }
+}
+
 .glass-dark {
   background: rgba(14, 14, 14, 0.85);
   backdrop-filter: blur(30px);

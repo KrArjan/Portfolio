@@ -113,7 +113,8 @@
 .col-12 { grid-column: span 12; }
 
 @media (max-width: 767px) {
-  [class^="col-"] { grid-column: span 12; }
+  .grid-2, .grid-3, .grid-4, .grid-12 { grid-template-columns: 1fr; }
+  [class*="col-"] { grid-column: span 12 !important; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .col-3, .col-4 { grid-column: span 6; }

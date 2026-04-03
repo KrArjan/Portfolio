@@ -64,7 +64,7 @@
     return new Promise((resolve, reject) => {
       const s = document.createElement('script');
       s.src = src;
-      s.onload  = resolve;
+      s.onload = resolve;
       s.onerror = () => reject(new Error(`Failed to load: ${src}`));
       document.body.appendChild(s);
     });
@@ -79,7 +79,7 @@
   let currentProgress = 0;
 
   function startProgressLoop() {
-    const bar   = document.getElementById('boot-bar');
+    const bar = document.getElementById('boot-bar');
     const label = document.getElementById('boot-pct-label');
     if (!bar && !label) return;
 
@@ -119,7 +119,7 @@
   try {
     const bootHtml = await fetchHtml(chromeParts[0]);
     placeholder.before(parseFragment(bootHtml));
-    
+
     // Start the smooth animation loop as soon as boot is in the DOM
     startProgressLoop();
   } catch (err) {
@@ -144,7 +144,7 @@
   // Step 2 — Build <main> and inject page sections
   // ────────────────────────────────────────────────────────────────
   const main = document.createElement('main');
-  main.id        = 'main-content';
+  main.id = 'main-content';
   main.className = 'main-content';
   main.style.display = 'none';
 

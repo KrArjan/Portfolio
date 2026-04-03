@@ -7,16 +7,54 @@
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
+    try {
+      const url = new URL(request.url);
 
-    // API: Contact Form Submission
-    if (url.pathname === "/api/contact" && request.method === "POST") {
-      return handleContactForm(request, env);
+      // 1. Handle CORS Pre-flight (OPTIONS)
+      if (request.method === "OPTIONS") {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '86400',
+          }
+        });
+      }
+
+      // 2. API: Contact Form Submission
+      if (url.pathname === "/api/contact" && request.method === "POST") {
+        return handleContactForm(request, env);
+      }
+
+      // 3. SPA Routing Fallback
+      // If the path doesn't look like a file (no extension), serve index.html
+      const hasExtension = url.pathname.includes('.');
+      if (!hasExtension && url.pathname !== "/") {
+        const homeUrl = new URL("/", request.url);
+        return env.ASSETS ? env.ASSETS.fetch(homeUrl) : new Response("ASSETS_BINDING_MISSING", { status: 500 });
+      }
+
+      // 4. Default: Serve static assets
+      if (!env.ASSETS) {
+        console.error("Critical: env.ASSETS is not defined in this environment.");
+        return new Response("CLOUD_CONFIGURATION_ERROR: ASSETS_NOT_FOUND", { status: 500 });
+      }
+      
+      return env.ASSETS.fetch(request);
+
+    } catch (err) {
+      console.error("Worker Global Exception:", err);
+      return new Response(JSON.stringify({ 
+        error: 'WORKER_RUNTIME_EXCEPTION', 
+        message: err.message,
+        stack: err.stack 
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
-
-    // Fallback: Serve static assets
-    // The [assets] directory specified in wrangler.toml is automatically handled by env.ASSETS
-    return env.ASSETS.fetch(request);
   }
 };
 

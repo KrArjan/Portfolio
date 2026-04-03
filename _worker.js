@@ -27,7 +27,7 @@ export default {
 async function handleContactForm(request, env) {
   try {
     // 0. Configuration Validation
-    if (!env.TURNSTILE_SECRET_KEY || env.TURNSTILE_SECRET_KEY.includes('PASTE_YOUR')) {
+    if (!env.TURNSTILE_SECRET_KEY || env.TURNSTILE_SECRET_KEY === '' || env.TURNSTILE_SECRET_KEY.includes('PASTE_YOUR')) {
       console.error("Missing TURNSTILE_SECRET_KEY");
       return new Response(JSON.stringify({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
@@ -38,7 +38,7 @@ async function handleContactForm(request, env) {
       });
     }
 
-    if (!env.DISCORD_WEBHOOK_URL || env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
+    if (!env.DISCORD_WEBHOOK_URL || env.DISCORD_WEBHOOK_URL === '' || env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
       console.error("Missing DISCORD_WEBHOOK_URL");
       return new Response(JSON.stringify({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
@@ -119,7 +119,7 @@ async function handleContactForm(request, env) {
     }
 
     // DM Transmission (if configured)
-    if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+    if (env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
       const userIds = env.DISCORD_USER_ID.split(',').map(part => {
         // Remove everything after '#' if it exists
         const cleanId = part.split('#')[0].trim();

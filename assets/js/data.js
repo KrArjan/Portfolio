@@ -30,44 +30,6 @@ const SITE_DATA = {
     showLabNotes: false,
   },
 
-  /* ===================== SETTINGS & CONFIG ===================== */
-  settings: {
-    // 1. Turnstile (Security)
-    turnstile: {
-      siteKey: '0x4AAAAAACxrRyQCBE-RD7A1',
-      theme: 'dark',
-      size: 'normal',
-    },
-
-    // 2. Transmission (Bot / Discord)
-    transmission: {
-      username: 'KrArjan Portfolio Trasmissions',
-      avatarUrl: 'https://github.com/KrArjan/Portfolio/blob/main/assets/images/pfp.png',
-      embedColor: 0x00D0FF,
-      footerText: 'KrArjan Portfolio'
-    },
-
-    // 3. API & Endpoints
-    api: {
-      contactEndpoint: '/api/contact',
-    },
-
-    // 4. UI Labels & Messages
-    labels: {
-      // Connect Page
-      connectTitle: "Let's Build Something Great.",
-      connectTag: 'ESTABLISH_CONNECTION',
-      connectDesc: 'Open to coding projects, technical builds, creative ideas, and opportunities to learn while building real things.',
-
-      // Form
-      submitBtn: 'Initiate Transmission',
-      submitBtnLoading: 'TRANSMITTING...',
-      successMsg: 'TRANSMISSION_RECEIVED // WILL_RESPOND_SOON',
-      errorMsg: 'TRANSMISSION_FAILED // RETRY_PROTOCOL',
-      securityCheckMsg: 'SECURITY_CHECK_REQUIRED',
-    }
-  },
-
   /* ===================== STATS ===================== */
   stats: [
     { value: '2021', label: 'Started Building', color: 'var(--primary-container)' },

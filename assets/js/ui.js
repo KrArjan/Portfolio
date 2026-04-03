@@ -102,11 +102,10 @@ const UI = (() => {
       // Check if already rendered (has children)
       if (turnstileEl.children.length === 0) {
         try {
-          const st = SITE_DATA.settings.turnstile;
+          const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
           window.turnstile.render('#connect-turnstile', {
-            sitekey: st.siteKey,
-            theme: st.theme,
-            size: st.size,
+            sitekey: sitekey,
+            theme: 'dark',
             callback: function(token) {
               if (window.onSuccess) window.onSuccess(token);
             },
@@ -195,7 +194,6 @@ const UI = (() => {
         return;
       }
 
-      const labels = SITE_DATA.settings.labels;
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
@@ -205,19 +203,17 @@ const UI = (() => {
         email: form.querySelector('input[type="email"]').value,
         subject: form.querySelector('.field__input--select').value,
         message: form.querySelector('textarea').value,
-        token: turnstileResponse,
-        // Include branding settings from data.js
-        theme: SITE_DATA.settings.transmission
+        token: turnstileResponse
       };
 
       // Visual Feedback: Transmitting
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = `<span class="spinner"></span>&nbsp;${labels.submitBtnLoading}`;
+        btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
       }
 
       try {
-        const response = await fetch(SITE_DATA.settings.api.contactEndpoint, {
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -236,14 +232,13 @@ const UI = (() => {
           }
 
           if (success) {
-            success.textContent = labels.successMsg;
             success.classList.remove('hidden');
             showToast('TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
           console.error("Transmission Error:", result.error);
-          showToast(result.error || labels.errorMsg);
+          showToast(result.error || 'TRANSMISSION_FAILED');
         }
 
       } catch (error) {
@@ -251,7 +246,7 @@ const UI = (() => {
         showToast('CONNECTION_STABILITY_ERROR');
       } finally {
         if (btn) {
-          btn.innerHTML = `<span class="material-symbols-outlined">send</span> ${labels.submitBtn}`;
+          btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
           // Stays disabled until next verification or manual entry if needed
           btn.disabled = true;
         }
@@ -386,41 +381,11 @@ const UI = (() => {
       setTimeout(() => {
         initScrollReveal();
         animateProgressBars();
-        if (page === 'connect') {
-          syncConnectLabels();
-          initContactForm();
-        }
       }, 100);
     });
 
     // Handle Turnstile on initial load (if direct entry to connect page)
-    setTimeout(() => {
-      if (Router.getCurrent() === 'connect') syncConnectLabels();
-      handleTurnstile(Router.getCurrent());
-    }, 500);
-  }
-
-  function syncConnectLabels() {
-    const labels = SITE_DATA.settings.labels;
-    const page = document.getElementById('page-connect');
-    if (!page) return;
-
-    const tag = page.querySelector('.label-lg');
-    const title = page.querySelector('.display-xl');
-    const desc = page.querySelector('.body-lg');
-    const btn = document.getElementById('connect-submit');
-    const success = document.getElementById('form-success');
-
-    if (tag) tag.textContent = labels.connectTag;
-    if (title) title.innerHTML = labels.connectTitle.replace('<br>', '<br>').replace('Great.', '<span class="gradient-text">Great.</span>');
-    if (desc) desc.textContent = labels.connectDesc;
-    if (btn) {
-      const icon = btn.querySelector('.material-symbols-outlined');
-      btn.innerHTML = '';
-      if (icon) btn.appendChild(icon);
-      btn.innerHTML += ` ${labels.submitBtn}`;
-    }
-    if (success) success.textContent = labels.successMsg;
+    setTimeout(() => handleTurnstile(Router.getCurrent()), 500);
   }
 
   return { init, openBottomSheet, closeBottomSheet, showToast, animateCounters };

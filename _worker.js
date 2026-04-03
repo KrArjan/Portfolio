@@ -110,16 +110,23 @@ async function handleContactForm(request, env) {
 
     // DM Transmission (if configured)
     if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
-      const userIds = env.DISCORD_USER_ID.split(',').map(id => id.trim());
+      // Split by comma and ensures each ID is clean of comments/whitespace
+      const userIds = env.DISCORD_USER_ID.split(',').map(part => {
+        // Remove everything after '#' if it exists
+        const cleanId = part.split('#')[0].trim();
+        return cleanId;
+      }).filter(id => id.length > 0);
+
       userIds.forEach(userId => {
-        if (userId) {
-          transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
-        }
+        transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
       });
     }
 
     const results = await Promise.allSettled(transmissions);
-    const failed = results.filter(r => r.status === 'rejected' || (r.value && !r.value.ok));
+    const failed = results.filter(r => {
+      // Check for rejected promises or internal {ok: false} returns
+      return r.status === 'rejected' || (r.value && r.value.ok === false);
+    });
 
     if (failed.length === transmissions.length) {
       console.error("All transmissions failed:", results);
@@ -130,7 +137,8 @@ async function handleContactForm(request, env) {
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
-      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE'
+      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
+      details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }

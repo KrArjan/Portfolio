@@ -19,14 +19,6 @@ not_found_handling = "single-page-application"
 # This ensures they persist across every build and stay private.
 [vars]
 TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"
-TURNSTILE_SECRET_KEY = ""
-DISCORD_WEBHOOK_URL  = ""
-DISCORD_BOT_TOKEN    = ""
-DISCORD_USER_ID      = ""
-EMAILJS_SERVICE_ID   = ""
-EMAILJS_TEMPLATE_ID  = ""
-EMAILJS_PUBLIC_KEY   = ""
-EMAILJS_PRIVATE_KEY  = ""
 
 [observability]
 enabled = false

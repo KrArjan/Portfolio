@@ -21,6 +21,9 @@
   });
 
   /* 3. Manual Dismiss: signal that all assets are loaded and systems ready */
-  Boot.dismiss();
+  // We add a short 400ms pause at 100% as requested by the user.
+  setTimeout(() => {
+    Boot.dismiss();
+  }, 400);
 
 })();

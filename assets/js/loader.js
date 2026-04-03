@@ -110,75 +110,57 @@
   // Small delay for cinematic smoothness
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+  // Helper to fetch and track progress
+  async function fetchWithProgress(url) {
+    try {
+      const html = await fetchHtml(url);
+      assetsLoaded++;
+      updateTarget();
+      return html;
+    } catch (err) {
+      console.error('[loader] failed:', url, err);
+      assetsLoaded++; // keep progress moving even on fail
+      updateTarget();
+      return '';
+    }
+  }
+
   // ────────────────────────────────────────────────────────────────
   // Step 1 — Inject chrome partials (boot screen + shell)
   // ────────────────────────────────────────────────────────────────
   const placeholder = document.getElementById('partials-root');
 
-  // Inject boot screen first
+  // Inject boot screen first to show progress
   try {
     const bootHtml = await fetchHtml(chromeParts[0]);
     placeholder.before(parseFragment(bootHtml));
-
-    // Start the smooth animation loop as soon as boot is in the DOM
     startProgressLoop();
   } catch (err) {
     console.error('[loader] boot screen failed:', err);
   }
 
-  // Load remaining chrome partials
-  for (let i = 1; i < chromeParts.length; i++) {
-    try {
-      const html = await fetchHtml(chromeParts[i]);
-      placeholder.before(parseFragment(html));
-    } catch (err) {
-      console.error('[loader] chrome partial failed:', chromeParts[i], err);
-    } finally {
-      assetsLoaded++;
-      updateTarget();
-      await sleep(0);
-    }
-  }
+  // Fetch remaining chrome, page, and footer partials in parallel
+  const [chromeRests, pageContents, footerContents] = await Promise.all([
+    Promise.all(chromeParts.slice(1).map(fetchWithProgress)),
+    Promise.all(pageParts.map(fetchWithProgress)),
+    Promise.all(afterMainParts.map(fetchWithProgress))
+  ]);
 
-  // ────────────────────────────────────────────────────────────────
-  // Step 2 — Build <main> and inject page sections
-  // ────────────────────────────────────────────────────────────────
+  // Inject Chrome
+  chromeRests.forEach(html => placeholder.before(parseFragment(html)));
+
+  // Inject Pages into <main>
   const main = document.createElement('main');
   main.id = 'main-content';
   main.className = 'main-content';
   main.style.display = 'none';
-
-  for (const url of pageParts) {
-    try {
-      const html = await fetchHtml(url);
-      main.appendChild(parseFragment(html));
-    } catch (err) {
-      console.error('[loader] page partial failed:', url, err);
-    } finally {
-      assetsLoaded++;
-      updateTarget();
-      await sleep(0);
-    }
-  }
+  pageContents.forEach(html => main.appendChild(parseFragment(html)));
 
   placeholder.before(main);
   placeholder.remove();
 
-  // ────────────────────────────────────────────────────────────────
-  // Step 2b — Inject after-main partials (footer, toast) after <main>
-  // ────────────────────────────────────────────────────────────────
-  for (const url of afterMainParts) {
-    try {
-      const html = await fetchHtml(url);
-      document.body.appendChild(parseFragment(html));
-    } catch (err) {
-      console.error('[loader] after-main partial failed:', url, err);
-    } finally {
-      assetsLoaded++;
-      updateTarget();
-      await sleep(0);
-    }
-  }
+  // Inject After-Main
+  footerContents.forEach(html => document.body.appendChild(parseFragment(html)));
 
   // ────────────────────────────────────────────────────────────────
   // Step 3 — Load app scripts sequentially (each waits for previous)

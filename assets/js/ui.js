@@ -184,7 +184,7 @@ const UI = (() => {
       if (btn) btn.disabled = true;
     };
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       // Turnstile Validation
@@ -197,33 +197,60 @@ const UI = (() => {
       const btn = form.querySelector('[type="submit"]');
       const success = document.getElementById('form-success');
 
-      // Simulate sending
+      // Capture Form Data
+      const payload = {
+        name: form.querySelector('input[type="text"]').value,
+        email: form.querySelector('input[type="email"]').value,
+        subject: form.querySelector('.field__input--select').value,
+        message: form.querySelector('textarea').value,
+        token: turnstileResponse
+      };
+
+      // Visual Feedback: Transmitting
       if (btn) {
-        btn.disabled = true; // Stay disabled during transmission
+        btn.disabled = true;
         btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
       }
 
-      setTimeout(() => {
-        form.reset();
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
 
-        // Reset Turnstile widget
-        if (window.turnstile) {
-          window.turnstile.reset();
-          // Button stays disabled until Turnstile verifies again
+        const result = await response.json();
+
+        if (response.ok) {
+          form.reset();
+          
+          // Reset Turnstile widget
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
+
+          if (success) {
+            success.classList.remove('hidden');
+            showToast('TRANSMISSION_RECEIVED');
+            setTimeout(() => success.classList.add('hidden'), 5000);
+          }
+        } else {
+          console.error("Transmission Error:", result.error);
+          showToast(result.error || 'TRANSMISSION_FAILED');
         }
 
+      } catch (error) {
+        console.error("Network Error:", error);
+        showToast('CONNECTION_STABILITY_ERROR');
+      } finally {
         if (btn) {
           btn.innerHTML = `<span class="material-symbols-outlined">send</span> Initiate Transmission`;
-          // Explicitly keep disabled after reset until next verification
+          // Stays disabled until next verification or manual entry if needed
           btn.disabled = true;
         }
-
-        if (success) {
-          success.classList.remove('hidden');
-          showToast('TRANSMISSION_RECEIVED');
-          setTimeout(() => success.classList.add('hidden'), 5000);
-        }
-      }, 1800);
+      }
     });
   }
 

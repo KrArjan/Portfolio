@@ -77,15 +77,14 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // 2. Prepare Discord Webhook Payload
-    // Uses Discord Embeds for a premium presentation
+    // 2. Prepare Discord Payload
     const discordPayload = {
       username: "Nexus Transmission Hub",
-      avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico", // Attempt to use favicon as avatar
+      avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
       embeds: [{
         title: `📡 NEW TRANSMISSION_RECEIVED // ${subject.toUpperCase()}`,
         description: `Source: Portfolio Contact System`,
-        color: 0x00D0FF, // Cyan/Blue glow
+        color: 0x00D0FF,
         fields: [
           { name: "IDENTIFIER", value: `\`${name}\``, inline: true },
           { name: "SECURE_EMAIL", value: `\`${email}\``, inline: true },
@@ -99,20 +98,35 @@ async function handleContactForm(request, env) {
       }]
     };
 
-    // 3. Send to Discord
-    const discordRes = await fetch(env.DISCORD_WEBHOOK_URL, {
+    // 3. Parallel Transmission (Webhook & DM)
+    const transmissions = [];
+
+    // Webhook Transmission
+    transmissions.push(fetch(env.DISCORD_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(discordPayload)
-    });
+    }));
 
-    if (!discordRes.ok) {
-      console.error("Discord error:", await discordRes.text());
-      throw new Error('DISCORD_TRANSMISSION_FAILED');
+    // DM Transmission (if configured)
+    if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+      transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, env.DISCORD_USER_ID, discordPayload));
+    }
+
+    const results = await Promise.allSettled(transmissions);
+    const failed = results.filter(r => r.status === 'rejected' || (r.value && !r.value.ok));
+
+    if (failed.length === transmissions.length) {
+      console.error("All transmissions failed:", results);
+      throw new Error('ALL_TRANSMISSIONS_FAILED');
     }
 
     // 4. Return Success
-    return new Response(JSON.stringify({ success: true, message: 'TRANSMISSION_SUCCESS' }), {
+    return new Response(JSON.stringify({ 
+      success: true, 
+      message: 'TRANSMISSION_SUCCESS',
+      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE'
+    }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
@@ -123,5 +137,46 @@ async function handleContactForm(request, env) {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+}
+
+/**
+ * Sends a DM to a specific Discord user via the Bot API.
+ */
+async function sendDiscordDM(token, userId, payload) {
+  try {
+    // 1. Create DM channel
+    const channelRes = await fetch('https://discord.com/api/v10/users/@me/channels', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bot ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ recipient_id: userId })
+    });
+
+    if (!channelRes.ok) {
+      const errorData = await channelRes.text();
+      console.error("DM Channel Creation Failed:", errorData);
+      return { ok: false, error: 'DM_CHANNEL_FAILURE' };
+    }
+
+    const channelData = await channelRes.json();
+    const channelId = channelData.id;
+
+    // 2. Send Message to the channel
+    const messageRes = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bot ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ embeds: payload.embeds })
+    });
+
+    return messageRes;
+  } catch (err) {
+    console.error("sendDiscordDM Exception:", err);
+    return { ok: false, error: err.message };
   }
 }

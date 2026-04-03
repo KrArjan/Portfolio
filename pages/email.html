@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Transmission | New Message Received</title>
+  <style>
+    /* 
+     * NEXUS_HUB // EMAIL_TEMPLATE_V2
+     * Theme: High-Fidelity Terminal Aesthetic
+     */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #080808;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #b0b0b0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrapper {
+      width: 100%;
+      background-color: #080808;
+      padding: 60px 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #111111;
+      border: 1px solid #222222;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .header {
+      padding: 48px 30px;
+      text-align: center;
+      background: linear-gradient(180deg, #161616 0%, #111111 100%);
+      border-bottom: 1px solid #222222;
+      position: relative;
+    }
+
+    /* Glow accent */
+    .header::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #00f2ff, transparent);
+      opacity: 0.5;
+    }
+
+    .logo-container {
+      margin-bottom: 24px;
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      border: 1.5px solid rgba(0, 242, 255, 0.3);
+      padding: 4px;
+      background: rgba(0, 242, 255, 0.05);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #00f2ff;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .status-badge {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 6px 14px;
+      background: rgba(0, 242, 255, 0.08);
+      color: #00f2ff;
+      border: 1px solid rgba(0, 242, 255, 0.2);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .field {
+      margin-bottom: 32px;
+    }
+
+    .label {
+      font-size: 10px;
+      color: #00f2ff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      opacity: 0.6;
+    }
+
+    .value {
+      font-size: 16px;
+      color: #ffffff;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Message specific styling */
+    .message-box {
+      border-left: 3px solid #00f2ff;
+      font-weight: 300;
+      color: #e0e0e0;
+    }
+
+    .footer {
+      padding: 32px;
+      text-align: center;
+      background: #0d0d0d;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: #555555;
+      letter-spacing: 1px;
+      line-height: 1.8;
+    }
+
+    .footer-links {
+      margin-top: 16px;
+    }
+
+    .footer-links a {
+      color: #00f2ff;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .content { padding: 30px 20px; }
+      .header { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <!-- HEADER SECTION -->
+      <div class="header">
+        <div class="logo-container">
+          <img src="https://krarjan.dev/assets/images/pfp.png" alt="KR" class="logo">
+        </div>
+        <h1>TRANSMISSION_CONNECTED</h1>
+        <div class="status-badge">SECURE_CHANNEL_ACTIVE</div>
+      </div>
+      
+      <!-- CONTENT SECTION -->
+      <div class="content">
+        <!-- NAME FIELD -->
+        <div class="field">
+          <div class="label">IDENTITY_NAME</div>
+          <div class="value">{{from_name}}</div>
+        </div>
+        
+        <!-- EMAIL FIELD -->
+        <div class="field">
+          <div class="label">RETURN_SIGNAL_EMAIL</div>
+          <div class="value">{{from_email}}</div>
+        </div>
+        
+        <!-- SUBJECT FIELD -->
+        <div class="field">
+          <div class="label">PROTOCOL_OBJECTIVE</div>
+          <div class="value">{{subject}}</div>
+        </div>
+        
+        <!-- MESSAGE FIELD -->
+        <div class="field">
+          <div class="label">MESSAGE_PAYLOAD</div>
+          <div class="value message-box" style="white-space: pre-wrap;">{{message}}</div>
+        </div>
+      </div>
+      
+      <!-- FOOTER SECTION -->
+      <div class="footer">
+        <div class="footer-text">
+          SIGNAL_ORIGIN: Nexus Portfolio V2.0.4<br>
+          ENCRYPTION: AES-256-GCM (Worker Relay Mode)<br>
+          © 2026 KrArjan Laboratory // All Protocols Reserved
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/KrArjan">GITHUB</a>
+          <a href="mailto:krarjanwork@gmail.com">DIRECT_COMMS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -120,7 +120,6 @@ async function handleContactForm(request, env) {
 
     // DM Transmission (if configured)
     if (env.DISCORD_BOT_TOKEN && env.DISCORD_USER_ID && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
-      // Split by comma and ensures each ID is clean of comments/whitespace
       const userIds = env.DISCORD_USER_ID.split(',').map(part => {
         // Remove everything after '#' if it exists
         const cleanId = part.split('#')[0].trim();
@@ -130,6 +129,16 @@ async function handleContactForm(request, env) {
       userIds.forEach(userId => {
         transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
       });
+    }
+
+    // EmailJS Transmission (REST API)
+    if (env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
+      transmissions.push(sendEmailJS(env, {
+        from_name: name,
+        from_email: email,
+        subject: subject,
+        message: message
+      }));
     }
 
     const results = await Promise.allSettled(transmissions);
@@ -200,6 +209,45 @@ async function sendDiscordDM(token, userId, payload) {
     return messageRes;
   } catch (err) {
     console.error("sendDiscordDM Exception:", err);
+    return { ok: false, error: err.message };
+  }
+}
+
+/**
+ * Sends an email via the EmailJS REST API.
+ * Uses Service ID, Template ID, and Public Key from the environment.
+ */
+async function sendEmailJS(env, templateParams) {
+  try {
+    const payload = {
+      service_id: env.EMAILJS_SERVICE_ID,
+      template_id: env.EMAILJS_TEMPLATE_ID,
+      user_id: env.EMAILJS_PUBLIC_KEY,
+      template_params: templateParams,
+    };
+
+    // If a private key is provided, include it for extra security
+    if (env.EMAILJS_PRIVATE_KEY && !env.EMAILJS_PRIVATE_KEY.includes('PASTE_YOUR')) {
+      payload.accessToken = env.EMAILJS_PRIVATE_KEY;
+    }
+
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("EmailJS Error:", errorText);
+      return { ok: false, error: 'EMAILJS_API_FAILURE' };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    console.error("sendEmailJS Exception:", err);
     return { ok: false, error: err.message };
   }
 }

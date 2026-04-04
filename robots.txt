@@ -1,0 +1,7 @@
+# robots.txt — KrArjan Portfolio
+# https://nullbyte.qzz.io
+
+User-agent: *
+Allow: /
+
+Sitemap: https://nullbyte.qzz.io/sitemap.xml

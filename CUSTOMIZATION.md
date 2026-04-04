@@ -23,7 +23,7 @@ Everything you need to know about personalizing this portfolio.
 
 ## Config File Reference
 
-All content is in **`config/site.config.js`**. The file is structured with clearly labeled sections, each controlling a different part of the site.
+All content is in **`config/portfolio.config.js`**. The file is structured with clearly labeled sections, each controlling a different part of the site.
 
 ### Meta
 
@@ -205,7 +205,7 @@ The Social page also has hardcoded featured cards (GitHub, Discord, LinkedIn, In
 
 ### Adding New Images
 1. Place images in `config/images/`
-2. Reference them in `site.config.js` or page HTML:
+2. Reference them in `portfolio.config.js` or page HTML:
 ```html
 <img src="/config/images/my-image.png" alt="Description">
 ```
@@ -283,7 +283,7 @@ To change fonts:
 
 ### Removing a Page
 
-1. Remove the entry from `navLinks` in `config/site.config.js`
+1. Remove the entry from `navLinks` in `config/portfolio.config.js`
 2. Remove the corresponding partial from `src/pages/`
 3. Remove the page from `pageParts` array in `src/js/loader.js`
 4. Remove the page from `validPages` array in `src/js/router.js`
@@ -310,7 +310,7 @@ const pageParts = [
 ];
 ```
 
-3. Add it to `navLinks` in `config/site.config.js`:
+3. Add it to `navLinks` in `config/portfolio.config.js`:
 ```js
 { id: 'mypage', label: 'My Page', icon: 'star' },
 ```

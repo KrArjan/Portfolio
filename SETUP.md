@@ -25,7 +25,7 @@ cd Portfolio
 
 ### 2. Edit Your Config
 
-Open `config/site.config.js` and update all fields marked with `CHANGE_ME`:
+Open `config/portfolio.config.js` and update all fields marked with `CHANGE_ME`:
 
 ```js
 meta: {

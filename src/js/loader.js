@@ -36,7 +36,7 @@
   /* ── App scripts loaded in strict order after DOM is ready ───── */
   const appScripts = [
     '/src/js/particles-init.js', // start particles immediately
-    '/config/site.config.js',
+    '/config/portfolio.config.js',
     '/src/js/router.js',
     '/src/js/boot.js',
     '/src/js/renderer.js',

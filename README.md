@@ -33,7 +33,7 @@ cd Portfolio
 
 ### 2. Edit Your Config
 
-Open **`config/site.config.js`** and replace the example data with your own:
+Open **`config/portfolio.config.js`** and replace the example data with your own:
 
 ```js
 meta: {
@@ -67,7 +67,7 @@ Open `http://localhost:3000` 🎉
 ```
 Portfolio/
 ├── config/                    ← 🟢 YOUR CONTENT (edit this)
-│   ├── site.config.js         ← All personal data
+│   ├── portfolio.config.js         ← All personal data
 │   └── images/                ← Your images
 │       ├── pfp.png
 │       └── social/
@@ -115,14 +115,14 @@ See **[SETUP.md](SETUP.md)** for detailed deployment guides.
 
 | What to change | Where |
 |---|---|
-| Name, bio, tagline | `config/site.config.js` → `meta` |
-| Projects | `config/site.config.js` → `projects` |
-| Tech stack | `config/site.config.js` → `stack` |
-| Timeline | `config/site.config.js` → `journey` |
-| Social links | `config/site.config.js` → `social` |
+| Name, bio, tagline | `config/portfolio.config.js` → `meta` |
+| Projects | `config/portfolio.config.js` → `projects` |
+| Tech stack | `config/portfolio.config.js` → `stack` |
+| Timeline | `config/portfolio.config.js` → `journey` |
+| Social links | `config/portfolio.config.js` → `social` |
 | Profile picture | `config/images/pfp.png` |
 | Colors & fonts | `src/css/variables.css` |
-| Boot sequence | `config/site.config.js` → `bootLog` |
+| Boot sequence | `config/portfolio.config.js` → `bootLog` |
 
 See **[CUSTOMIZATION.md](CUSTOMIZATION.md)** for the full reference.
 
@@ -139,7 +139,7 @@ See **[CUSTOMIZATION.md](CUSTOMIZATION.md)** for the full reference.
 
 ### JS Module Order
 ```
-particles-init.js → site.config.js → router.js → boot.js → renderer.js → ui.js → app.js
+particles-init.js → portfolio.config.js → router.js → boot.js → renderer.js → ui.js → app.js
 ```
 
 Each module is an IIFE — no bundler required.

@@ -1,5 +1,5 @@
 /* ============================================================
-   site.config.js — Your Portfolio Content & Configuration
+   portfolio.config.js — Your Portfolio Content & Configuration
    ============================================================
 
    🟢 THIS IS THE ONLY FILE YOU NEED TO EDIT.

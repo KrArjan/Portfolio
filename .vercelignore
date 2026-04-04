@@ -1,3 +1,4 @@
+.wrangler/
 _worker.js
 wrangler.toml
 .assetsignore

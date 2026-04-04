@@ -10,3 +10,6 @@ README.md
 wrangler.toml
 _worker.js
 LICENSE
+vercel.json
+api/
+netlify.toml

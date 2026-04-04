@@ -1,57 +1,67 @@
 # 🌐 Deployment Guide
 **Step 2 of 7** // Taking your portfolio live
 
-Once you've personalized your portfolio, it's time to host it on the web. This guide walks you through the most popular hosting options.
+This portfolio is cross-platform compatible and can be hosted on any major provider. Follow the guide for your preferred platform.
 
 ---
 
 ## 🌩️ Cloudflare Pages (Recommended)
 
-**Cloudflare Pages** is the recommended hosting platform because it's free, extremely fast, and natively supports the **contact form backend** (`_worker.js`) without additional configuration.
+**Cloudflare Pages** is the recommended platform. It natively supports the `_worker.js` backend and offers the fastest global delivery.
 
-### Initial Setup
-1. Push your repository to GitHub or GitLab.
-2. Visit the [Cloudflare Dashboard → Pages](https://dash.cloudflare.com/?to=/:account/pages).
-3. Click **"Create a project"** and then **"Connect to Git"**.
-4. Select your portfolio repository.
-5. In the Build configuration:
-   - **Build command**: *(leave empty)*
-   - **Build output directory**: `/` (root)
-6. Click **"Save and Deploy"**.
+### 🔌 Setup
+1. Push your repository to GitHub/GitLab.
+2. Visit [Cloudflare Dashboard → Pages](https://dash.cloudflare.com/?to=/:account/pages).
+3. Click **"Create a project"** and connect your repository.
+4. Set **Build command** to *(empty)* and **Output directory** to `/`.
 
-### Contact Form Backend
-The contact form requires environment secrets to function. After your first deployment:
-1. Go to your Pages project → **Settings → Environment Variables**.
-2. Add the following as **Secrets** (not plain text):
-   - `DISCORD_WEBHOOK_URLS`: Your Discord webhook URL(s).
-   - `TURNSTILE_SECRET_KEY`: Your Cloudflare Turnstile secret key.
-   - `DISCORD_BOT_TOKEN`: (Optional) For DM notifications.
-   - `DISCORD_USER_IDS`: (Optional) User IDs for DMs.
-   - `EMAILJS_SERVICE_ID`: (Optional) Your EmailJS service ID.
-   - `EMAILJS_TEMPLATE_ID`: (Optional) Your EmailJS template ID.
-   - `EMAILJS_PUBLIC_KEY`: (Optional) Your EmailJS public key.
-   - `EMAILJS_PRIVATE_KEY`: (Optional) Your EmailJS private key.
-
-> [!IMPORTANT]
-> Always use **Secrets** for these variables to prevent your Discord tokens and webhook URLs from being exposed in logs or build history.
+### 🔐 Secrets (Environment Variables)
+In **Settings → Environment Variables**, add these as **Secrets**:
+- `DISCORD_WEBHOOK_URLS`
+- `TURNSTILE_SECRET_KEY`
+- `DISCORD_BOT_TOKEN` / `DISCORD_USER_IDS`
 
 ---
 
-## 🚀 Alternative Hosting
+## 🚀 Vercel (Fast & Professional)
 
-### Vercel
-1. Push your repository to GitHub and import it at [vercel.com/new](https://vercel.com/new).
-2. Set **Framework Preset** to "Other" and **Output Directory** to `.` (root).
+Vercel provides excellent UI and fast performance. It uses the `vercel.json` and `/api` folder for functionality.
 
-> [!WARNING]
-> The default contact form backend is Cloudflare-specific. It will **not work on Vercel** without major refactoring.
+### 🔌 Setup
+1. Import your repository at [vercel.com/new](https://vercel.com/new).
+2. Framework Preset: **Other** | Build Command: *(empty)* | Output Directory: `.` (root).
 
-### GitHub Pages
-1. Navigate to your repository **Settings → Pages**.
-2. Set the Source to **"Deploy from a branch"** and select the `/ (root)` folder of `main`.
+### 🔐 Secrets
+In your project **Settings → Environment Variables**, add:
+- `TURNSTILE_SECRET_KEY`
+- `DISCORD_WEBHOOK_URLS`
+- `DISCORD_BOT_TOKEN` / `DISCORD_USER_IDS`
+
+---
+
+## 🛰️ Netlify (Static Leader)
+
+Netlify uses the `netlify.toml` and `netlify/functions` for handling redirects and backend logic.
+
+### 🔌 Setup
+1. Click **"Add new site"** in the Netlify dashboard and connect your Git.
+2. The project will automatically pick up `netlify.toml`.
+
+### 🔐 Secrets
+In **Site Configuration → Environment variables**, add your secrets (same keys as above).
+
+---
+
+## 📦 GitHub Pages (Basic Static)
+
+**Note:** GitHub Pages is **static-only**. The contact form functionality (Discord/Emails via Backend) will **not work** without using third-party services like EmailJS directly from the frontend.
+
+### 🔌 Setup
+1. Go to repository **Settings → Pages**.
+2. Set Source to **"Deploy from a branch"** (main) and folder to `/ (root)`.
 
 > [!CAUTION]
-> GitHub Pages is static-only. This means the contact form will not function and deep-linking (e.g., `/projects`) may require a custom 404 setup.
+> Direct links (e.g., `/projects`) result in 404s on GitHub Pages. Users must use hash-based navigation (e.g., `/#projects`) or provide a custom `404.html` that redirects back to `index.html`.
 
 ---
 

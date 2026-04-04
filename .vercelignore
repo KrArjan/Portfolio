@@ -1,0 +1,12 @@
+_worker.js
+wrangler.toml
+.assetsignore
+.dev.vars
+netlify.toml
+docs/
+README.md
+LICENSE
+api/contact.js.map
+node_modules/
+.git/
+.antigravity*

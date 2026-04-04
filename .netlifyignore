@@ -1,0 +1,11 @@
+_worker.js
+wrangler.toml
+.assetsignore
+.dev.vars
+vercel.json
+docs/
+README.md
+LICENSE
+node_modules/
+.git/
+.antigravity*

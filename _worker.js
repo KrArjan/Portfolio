@@ -95,16 +95,18 @@ async function handleContactForm(request, env) {
 
     // 1. Verify Turnstile Token
     if (!token || typeof token !== 'string' || token.length < 10) {
-      console.warn("Invalid or missing Turnstile token received");
       return new Response(JSON.stringify({ 
         error: 'SECURITY_TOKEN_INVALID',
-        detail: 'The security handshake was not completed or is malformed.'
+        detail: 'The security handshake was not completed. If you are testing, ensure the widget is solved.'
       }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
 
+    // Security Check: Is the secret key a testing key?
+    const isTestSecret = env.TURNSTILE_SECRET_KEY.startsWith('1x') || env.TURNSTILE_SECRET_KEY.startsWith('2x');
+    
     const clientIP = getClientIP(request);
     const verifyParams = new URLSearchParams();
     verifyParams.append('secret', env.TURNSTILE_SECRET_KEY);
@@ -118,15 +120,19 @@ async function handleContactForm(request, env) {
     });
 
     const verifyJson = await verifyRes.json();
+    
+    // Logic: If it's a test secret and we aren't explicitly in a test environment, 
+    // we should be careful. But for now, let's just ensure success is true.
     if (!verifyJson.success) {
       console.error("Turnstile Verification Failed:", verifyJson['error-codes']);
       return new Response(JSON.stringify({ 
         error: 'SECURITY_VERIFICATION_FAILED',
-        detail: 'The automated security check failed. Please refresh and try again.',
-        codes: verifyJson['error-codes']
+        detail: 'Cloudflare rejected the security token.',
+        codes: verifyJson['error-codes'],
+        debug: isTestSecret ? 'Using Testing Secret' : 'Using Real Secret'
       }), {
         status: 403,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
 
@@ -209,8 +215,8 @@ async function handleContactForm(request, env) {
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
-      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
-      details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null
+      verified: true,
+      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE'
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }

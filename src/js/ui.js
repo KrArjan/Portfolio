@@ -102,7 +102,11 @@ const UI = (() => {
       // Check if already rendered (has children)
       if (turnstileEl.children.length === 0) {
         try {
-          const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
+          const sitekey = turnstileEl.dataset.sitekey;
+          if (!sitekey) {
+            console.error("Turnstile Error: Missing data-sitekey attribute.");
+            return;
+          }
           window.turnstile.render('#connect-turnstile', {
             sitekey: sitekey,
             theme: 'dark',
@@ -239,8 +243,10 @@ const UI = (() => {
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
-          console.error("Transmission Error:", result.error);
-          showToast(result.error || 'TRANSMISSION_FAILED');
+          const errMsg = result.detail || result.error || 'TRANSMISSION_FAILED';
+          console.error("Transmission Error:", result.error, result.codes);
+          showToast(errMsg);
+          if (result.codes) console.warn("Cloudflare Error Codes:", result.codes);
         }
 
       } catch (error) {

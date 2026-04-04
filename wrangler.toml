@@ -19,7 +19,8 @@ not_found_handling = "single-page-application"
 # Settings -> Variables -> Secrets
 # This ensures they persist across every build and stay private.
 [vars]
-TURNSTILE_SITE_KEY = "0x4AAAAAACxrRyQCBE-RD7A1"
+# Default: Cloudflare's test key (always passes). Replace with your own for production.
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 
 [observability]
 enabled = false

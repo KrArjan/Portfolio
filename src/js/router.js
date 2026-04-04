@@ -65,8 +65,16 @@ const Router = (() => {
   /* ---- Init: Read hash or default to home ---- */
   function init() {
     const path = window.location.pathname.replace(/^\/|\/$/g, '');
+    const hash = window.location.hash.replace(/^#\/?/, '');
     const validPages = ['home','profile','projects','stack','journey','lab','connect','social','404'];
-    const startPage = validPages.includes(path) ? path : (path ? '404' : 'home');
+    const resolved = path || hash || '';
+    const startPage = validPages.includes(resolved) ? resolved : (resolved ? '404' : 'home');
+
+    // Clean up hash-based URL to proper path (e.g. /#journey → /journey)
+    if (!path && hash && validPages.includes(hash)) {
+      const cleanPath = hash === 'home' ? '/' : '/' + hash;
+      history.replaceState({ page: hash }, '', cleanPath);
+    }
 
     // Set initial active state
     document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));

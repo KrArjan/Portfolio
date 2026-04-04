@@ -101,11 +101,14 @@ The contact form requires environment secrets. After deploying:
 | `EMAILJS_PUBLIC_KEY` | Optional | EmailJS public key |
 | `EMAILJS_PRIVATE_KEY` | Optional | EmailJS private key |
 
-3. Also update the **Turnstile Site Key** in `wrangler.toml`:
-```toml
-[vars]
-TURNSTILE_SITE_KEY = "your-site-key-here"
-```
+3. **Update the Turnstile Site Key** in `wrangler.toml`:
+
+   The repo ships with Cloudflare's **test key** (`1x00000000000000000000AA`) which always passes verification — great for local testing, but **you must replace it with your own key for production**:
+
+   ```toml
+   [vars]
+   TURNSTILE_SITE_KEY = "your-real-site-key-here"
+   ```
 
 #### Getting a Turnstile Key:
 

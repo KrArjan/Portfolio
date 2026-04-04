@@ -121,13 +121,14 @@ async function handleContactForm(request, env) {
 
     const verifyJson = await verifyRes.json();
     
-    // LOGGING: This shows up in your 'wrangler dev' console
-    console.log(`[Turnstile] Result: ${verifyJson.success ? 'PASS' : 'FAIL'} | codes: ${verifyJson['error-codes'] || 'none'}`);
+    // DEBUG LOG: See this in your terminal
+    console.log(`[Turnstile] Status: ${verifyJson.success ? 'VERIFIED' : 'REJECTED'}`);
 
     if (!verifyJson.success) {
+      console.error("Transmission Blocked: Turnstile Verification Failed.", verifyJson['error-codes']);
       return new Response(JSON.stringify({ 
         error: 'SECURITY_VERIFICATION_FAILED',
-        detail: 'Cloudflare Turnstile rejected this request. Please refresh and try again.',
+        detail: 'The security check failed. No data was transmitted.',
         codes: verifyJson['error-codes']
       }), {
         status: 403,
@@ -135,8 +136,11 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // Additional Check: If it's a test secret, remind the user in the response
-    const security_notice = isTestSecret ? 'TEST_MODE_ACTIVE (Always Passes)' : 'STRICT_MODE_ACTIVE';
+    // --- SECURITY PASSED: PROCEED TO TRANSMISSIONS ---
+    console.log("[Transmission] Security cleared. Initiating messenger protocols...");
+
+    // Additional Check: If it's a test secret, remind the user
+    const security_notice = isTestSecret ? 'TEST_MODE_ACTIVE' : 'STRICT_MODE_ACTIVE';
 
     // 2. Prepare Discord Payload
     const discordPayload = {

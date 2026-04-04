@@ -94,27 +94,37 @@ async function handleContactForm(request, env) {
     const { name, email, subject, message, token } = await request.json();
 
     // 1. Verify Turnstile Token
-    if (!token) {
-      return new Response(JSON.stringify({ error: 'SECURITY_TOKEN_MISSING' }), {
+    if (!token || typeof token !== 'string' || token.length < 10) {
+      console.warn("Invalid or missing Turnstile token received");
+      return new Response(JSON.stringify({ 
+        error: 'SECURITY_TOKEN_INVALID',
+        detail: 'The security handshake was not completed or is malformed.'
+      }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const verifyFormData = new FormData();
     const clientIP = getClientIP(request);
-    verifyFormData.append('secret', env.TURNSTILE_SECRET_KEY);
-    verifyFormData.append('response', token);
-    verifyFormData.append('remoteip', clientIP);
+    const verifyParams = new URLSearchParams();
+    verifyParams.append('secret', env.TURNSTILE_SECRET_KEY);
+    verifyParams.append('response', token);
+    verifyParams.append('remoteip', clientIP);
 
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
-      body: verifyFormData
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: verifyParams.toString()
     });
 
     const verifyJson = await verifyRes.json();
     if (!verifyJson.success) {
-      return new Response(JSON.stringify({ error: 'SECURITY_VERIFICATION_FAILED' }), {
+      console.error("Turnstile Verification Failed:", verifyJson['error-codes']);
+      return new Response(JSON.stringify({ 
+        error: 'SECURITY_VERIFICATION_FAILED',
+        detail: 'The automated security check failed. Please refresh and try again.',
+        codes: verifyJson['error-codes']
+      }), {
         status: 403,
         headers: { 'Content-Type': 'application/json' }
       });

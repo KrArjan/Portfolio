@@ -188,8 +188,15 @@ const UI = (() => {
       e.preventDefault();
 
       // Turnstile Validation
-      const turnstileResponse = window.turnstile ? window.turnstile.getResponse() : null;
-      if (window.turnstile && !turnstileResponse) {
+      // 1. Check if the script is loaded
+      if (!window.turnstile) {
+        showToast('SECURITY_SERVICE_UNAVAILABLE (Check Adblocker)');
+        return;
+      }
+
+      // 2. Check if the token is present
+      const turnstileResponse = window.turnstile.getResponse();
+      if (!turnstileResponse) {
         showToast('SECURITY_CHECK_REQUIRED');
         return;
       }

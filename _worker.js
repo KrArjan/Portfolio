@@ -94,7 +94,8 @@ async function handleContactForm(request, env) {
       });
     }
 
-    const { name, email, subject, message, token } = await request.json();
+    const body = await request.json();
+    const { name, email, subject, message, token, ipv4 } = body;
 
     // 1. Verify Turnstile Token
     if (!token) {
@@ -146,7 +147,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `${WORKER_CONFIG.notifications.embed.footerText || "KrArjan Terminal"} | IP: ${getClientIP(request, body.ipv4)}`
+          text: `${WORKER_CONFIG.notifications.embed.footerText || "KrArjan Terminal"} | IP: ${getClientIP(request, ipv4)}`
         }
       }]
     };

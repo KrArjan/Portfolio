@@ -94,53 +94,31 @@ async function handleContactForm(request, env) {
     const { name, email, subject, message, token } = await request.json();
 
     // 1. Verify Turnstile Token
-    if (!token || typeof token !== 'string' || token.length < 10) {
-      return new Response(JSON.stringify({ 
-        error: 'SECURITY_TOKEN_INVALID',
-        detail: 'The security handshake was not completed. If you are testing, ensure the widget is solved.'
-      }), {
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'SECURITY_TOKEN_MISSING' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // Security Check: Is the secret key a testing key?
-    const isTestSecret = env.TURNSTILE_SECRET_KEY.startsWith('1x') || env.TURNSTILE_SECRET_KEY.startsWith('2x');
-    
+    const verifyFormData = new FormData();
     const clientIP = getClientIP(request);
-    const verifyParams = new URLSearchParams();
-    verifyParams.append('secret', env.TURNSTILE_SECRET_KEY);
-    verifyParams.append('response', token);
-    verifyParams.append('remoteip', clientIP);
+    verifyFormData.append('secret', env.TURNSTILE_SECRET_KEY);
+    verifyFormData.append('response', token);
+    verifyFormData.append('remoteip', clientIP);
 
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: verifyParams.toString()
+      body: verifyFormData
     });
 
     const verifyJson = await verifyRes.json();
-    
-    // DEBUG LOG: See this in your terminal
-    console.log(`[Turnstile] Status: ${verifyJson.success ? 'VERIFIED' : 'REJECTED'}`);
-
     if (!verifyJson.success) {
-      console.error("Transmission Blocked: Turnstile Verification Failed.", verifyJson['error-codes']);
-      return new Response(JSON.stringify({ 
-        error: 'SECURITY_VERIFICATION_FAILED',
-        detail: 'The security check failed. No data was transmitted.',
-        codes: verifyJson['error-codes']
-      }), {
+      return new Response(JSON.stringify({ error: 'SECURITY_VERIFICATION_FAILED' }), {
         status: 403,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Content-Type': 'application/json' }
       });
     }
-
-    // --- SECURITY PASSED: PROCEED TO TRANSMISSIONS ---
-    console.log("[Transmission] Security cleared. Initiating messenger protocols...");
-
-    // Additional Check: If it's a test secret, remind the user
-    const security_notice = isTestSecret ? 'TEST_MODE_ACTIVE' : 'STRICT_MODE_ACTIVE';
 
     // 2. Prepare Discord Payload
     const discordPayload = {
@@ -221,9 +199,8 @@ async function handleContactForm(request, env) {
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
-      verified: true,
-      security_tier: security_notice,
-      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE'
+      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
+      details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }

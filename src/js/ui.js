@@ -102,11 +102,7 @@ const UI = (() => {
       // Check if already rendered (has children)
       if (turnstileEl.children.length === 0) {
         try {
-          const sitekey = turnstileEl.dataset.sitekey;
-          if (!sitekey) {
-            console.error("Turnstile Error: Missing data-sitekey attribute.");
-            return;
-          }
+          const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
           window.turnstile.render('#connect-turnstile', {
             sitekey: sitekey,
             theme: 'dark',
@@ -192,15 +188,8 @@ const UI = (() => {
       e.preventDefault();
 
       // Turnstile Validation
-      // 1. Check if the script is loaded
-      if (!window.turnstile) {
-        showToast('SECURITY_SERVICE_UNAVAILABLE (Check Adblocker)');
-        return;
-      }
-
-      // 2. Check if the token is present
-      const turnstileResponse = window.turnstile.getResponse();
-      if (!turnstileResponse) {
+      const turnstileResponse = window.turnstile ? window.turnstile.getResponse() : null;
+      if (window.turnstile && !turnstileResponse) {
         showToast('SECURITY_CHECK_REQUIRED');
         return;
       }
@@ -234,24 +223,17 @@ const UI = (() => {
 
         const result = await response.json();
 
-        // Extra Validation: Confirm the response came from the Worker, not a static server bypass
-        if (response.ok && result.verified) {
+        if (response.ok) {
           form.reset();
+
           if (success) {
             success.classList.remove('hidden');
-            showToast('TRANSMISSION_SUCCESS: SECURITY_VERIFIED');
+            showToast('TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
-        } else if (response.ok && !result.verified) {
-          // If the status is 200/OK but the backend didn't send 'verified: true'
-          // This means a static server (like 'npx serve') is intercepting the request
-          console.error("Critical: Static server bypass detected. Ensure you are using 'wrangler dev'.");
-          showToast('BACKEND_NOT_REACHABLE (Static Server Warning)');
         } else {
-          const errMsg = result.detail || result.error || 'TRANSMISSION_FAILED';
-          console.error("Transmission Error:", result.error, result.codes);
-          showToast(errMsg);
-          if (result.codes) console.warn("Cloudflare Error Codes:", result.codes);
+          console.error("Transmission Error:", result.error);
+          showToast(result.error || 'TRANSMISSION_FAILED');
         }
 
       } catch (error) {

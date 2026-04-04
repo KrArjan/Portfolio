@@ -5,7 +5,6 @@
 'use strict';
 
 const UI = (() => {
-  let cachedConfig = null;
 
   /* ===================== DRAWER ===================== */
 
@@ -91,7 +90,7 @@ const UI = (() => {
     });
   }
 
-  async function handleTurnstile(page) {
+  function handleTurnstile(page) {
     if (page !== 'connect') return;
 
     const turnstileEl = document.getElementById('connect-turnstile');
@@ -104,19 +103,9 @@ const UI = (() => {
     }
 
     try {
-      // 1. Fetch sitekey from API config if NOT cached
-      if (!cachedConfig) {
-        try {
-          const res = await fetch('/api/config');
-          if (res.ok) {
-            cachedConfig = await res.json();
-          }
-        } catch (e) {
-          console.warn("Could not fetch remote config, using defaults:", e);
-        }
-      }
-
-      const sitekey = cachedConfig?.TURNSTILE_SITE_KEY || turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
+      // 1. Read injected sitekey (populated by HTMLRewriter in _worker.js)
+      // If not injected, fallback to a public test key or null
+      const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
 
       const render = () => {
         if (!window.turnstile) return;

@@ -49,7 +49,7 @@ const SITE_DATA = {
    * CHANGE_ME: Update turnstileSiteKey with your public key.
    * ================================================ */
   security: {
-    turnstileSiteKey: '1x00000000000000000000AA', // CHANGE_ME: Cloudflare Turnstile Site Key
+    turnstileSiteKey: '2x00000000000000000000AB', // CHANGE_ME: Cloudflare Turnstile Site Key
   },
 
   /* ===================== STATS ===================== *

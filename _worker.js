@@ -91,7 +91,7 @@ async function handleContactForm(request, env) {
       });
     }
 
-    const { name, email, subject, message, token } = await request.json();
+    const { name, email, subject, message, token, config } = await request.json();
 
     // 1. Verify Turnstile Token
     if (!token) {
@@ -120,14 +120,14 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // 2. Prepare Discord Payload
+    // 2. Prepare Discord Payload using dynamic config
     const discordPayload = {
-      username: "Nexus Transmission Hub",
-      avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
+      username: config?.discordUsername || "Nexus Transmission Hub",
+      avatar_url: config?.discordAvatarUrl || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
       embeds: [{
-        title: `📡 NEW TRANSMISSION_RECEIVED // ${subject.toUpperCase()}`,
+        title: `${config?.embedTitle || '📡 NEW TRANSMISSION_RECEIVED'} // ${subject.toUpperCase()}`,
         description: `Source: Portfolio Contact System`,
-        color: 0x00D0FF,
+        color: config?.embedColor || 0x00D0FF,
         fields: [
           { name: "IDENTIFIER", value: `\`${name}\``, inline: true },
           { name: "SECURE_EMAIL", value: `\`${email}\``, inline: true },
@@ -136,7 +136,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `Nexus Terminal | IP: ${getClientIP(request)}`
+          text: `${config?.embedFooter || 'Nexus Terminal'} | IP: ${getClientIP(request)}`
         }
       }]
     };
@@ -144,10 +144,10 @@ async function handleContactForm(request, env) {
     // 3. Parallel Transmission (Webhook & DM)
     const transmissions = [];
 
-    // Webhook Transmissions (if configured)
-    if (env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
+    // Webhook Transmissions (if configured & enabled)
+    const webhookEnabled = config?.enableDiscordWebhook !== false;
+    if (webhookEnabled && env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
       const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => {
-        // Remove everything after '#' if it exists
         const cleanUrl = part.split('#')[0].trim();
         return cleanUrl;
       }).filter(url => url.length > 0);
@@ -161,10 +161,10 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // DM Transmission (if configured)
-    if (env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+    // DM Transmission (if configured & enabled)
+    const dmEnabled = config?.enableDiscordDM !== false;
+    if (dmEnabled && env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
       const userIds = env.DISCORD_USER_ID.split(',').map(part => {
-        // Remove everything after '#' if it exists
         const cleanId = part.split('#')[0].trim();
         return cleanId;
       }).filter(id => id.length > 0);
@@ -175,7 +175,8 @@ async function handleContactForm(request, env) {
     }
 
     // EmailJS Transmission (REST API)
-    if (env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
+    const emailEnabled = config?.enableEmailJS !== false;
+    if (emailEnabled && env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
       transmissions.push(sendEmailJS(env, {
         from_name: name,
         from_email: email,

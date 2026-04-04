@@ -43,6 +43,9 @@ const SITE_DATA = {
   /* ===================== FEATURES ===================== *
    * Feature flags to toggle sections on/off.
    * ================================================ */
+  /* ===================== FEATURES ===================== *
+   * Feature flags to toggle sections on/off.
+   * ================================================ */
   features: {
     showBootScreen: true,     // Toggle the cinematic loading animation
     showStats: true,          // Toggle the statistic cards on home page
@@ -51,6 +54,44 @@ const SITE_DATA = {
     showProjectsFilter: true, // Toggle the filtering buttons on Projects page
     showJourneyTimeline: true,// Toggle the journey entries on the Journey page
     showContactForm: true,    // Toggle the contact form on the Connect page
+  },
+
+  /* ===================== PARTICLES ===================== *
+   * Configuration for the global background animation.
+   * ================================================ */
+  particles: {
+    enable: true,             // Set to false to disable background particles
+    colors: ['#00f2ff', '#7701d0', '#74f5ff'], // Particle colors
+    number: 70,               // Total number of particles
+    density: 800,             // Lower numbers = more packed particles
+    speed: 0.45,              // Movement speed
+    interactivity: {
+      hoverMode: 'grab',      // Options: 'grab', 'bubble', 'repulse', or 'none'
+      clickMode: 'push',      // Options: 'push', 'remove', 'repulse', or 'none'
+    }
+  },
+
+  /* ===================== CONTACT ===================== *
+   * Branding and behavior for your contact form backend.
+   * ================================================ */
+  contact: {
+    // Custom messages shown in the UI
+    successMessage: "TRANSMISSION_RECEIVED // Thank you for your message.",
+    errorMessage: "SYSTEM_ERROR // Failed to send transmission. Please try again.",
+
+    // Discord Webhook Branding (Update these to brand your Discord messages)
+    discordUsername: "Nexus Transmission Hub",
+    discordAvatarUrl: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
+    
+    // Discord Embed Customization
+    embedTitle: "📡 NEW TRANSMISSION_RECEIVED",
+    embedColor: 0x00D0FF,
+    embedFooter: "Nexus Terminal",
+
+    // Backend Toggles (Only works if environment Secrets are also set)
+    enableDiscordWebhook: true,
+    enableDiscordDM: true,
+    enableEmailJS: true,
   },
 
   /* ===================== SECURITY ===================== *

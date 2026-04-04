@@ -232,7 +232,10 @@ const UI = (() => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            ...payload,
+            config: SITE_DATA.contact // Send personalization config to backend
+          })
         });
 
         const result = await response.json();
@@ -242,12 +245,12 @@ const UI = (() => {
 
           if (success) {
             success.classList.remove('hidden');
-            showToast('TRANSMISSION_RECEIVED');
+            showToast(SITE_DATA.contact?.successMessage || 'TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
           console.error("Transmission Error:", result.error);
-          showToast(result.error || 'TRANSMISSION_FAILED');
+          showToast(SITE_DATA.contact?.errorMessage || result.error || 'TRANSMISSION_FAILED');
         }
 
       } catch (error) {

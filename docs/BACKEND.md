@@ -64,7 +64,21 @@ EmailJS allows you to receive emails directly from your contact form.
 
 ---
 
-## Next Steps
-- **[Deployment](DEPLOYMENT.md)** — Finalize your hosting setup.
-- **[Configuration](CONFIGURATION.md)** — Master individual field tailoring.
-- **[Architecture](ARCHITECTURE.md)** — Learn how the worker handles requests.
+## 4. Personalization & Branding
+
+You can customize the look and feel of your Discord notifications directly from `config/portfolio.config.js` without touching the backend code.
+
+### Discord Branding
+In the `contact` section of your config:
+- `discordUsername`: The name the bot uses when a message is sent.
+- `discordAvatarUrl`: The profile picture for the bot.
+- `embedColor`: The accent color of the Discord message embed.
+
+### Feature Toggles
+You can selectively enable or disable transmission methods using the `contact` block flags:
+- `enableDiscordWebhook`: Toggles channel notifications.
+- `enableDiscordDM`: Toggles personal DM notifications.
+- `enableEmailJS`: Toggles email delivery.
+
+> [!CAUTION]
+> These toggles only work if the corresponding **Secret** environment variables are correctly configured in your Cloudflare dashboard. See the sections above for setup details.

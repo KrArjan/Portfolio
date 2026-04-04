@@ -68,12 +68,66 @@ const Renderer = (() => {
     });
   }
 
+  /* ===================== THEME ENGINE ===================== */
+
+  /**
+   * Applies THEME_CONFIG design tokens to CSS variables on :root.
+   */
+  function applyTheme() {
+    if (typeof THEME_CONFIG === 'undefined') return;
+
+    const root = document.documentElement;
+    const { colors, fonts, rounding } = THEME_CONFIG;
+
+    // 1. Apply Colors
+    if (colors) {
+      if (colors.surface_dim)    root.style.setProperty('--surface-dim', colors.surface_dim);
+      if (colors.surface_low)    root.style.setProperty('--surface-low', colors.surface_low);
+      if (colors.surface_high)   root.style.setProperty('--surface-high', colors.surface_high);
+      if (colors.on_surface)     root.style.setProperty('--on-surface', colors.on_surface);
+      if (colors.on_surface_dim) root.style.setProperty('--on-surface-variant', colors.on_surface_dim);
+
+      if (colors.primary)        root.style.setProperty('--primary-container', colors.primary);
+      if (colors.primary_fixed)  root.style.setProperty('--primary-fixed', colors.primary_fixed);
+      if (colors.on_primary)     root.style.setProperty('--on-primary', colors.on_primary);
+
+      if (colors.secondary)       root.style.setProperty('--secondary-container', colors.secondary);
+      if (colors.secondary_fixed) root.style.setProperty('--secondary-fixed', colors.secondary_fixed);
+      if (colors.on_secondary)    root.style.setProperty('--on-secondary', colors.on_secondary);
+
+      if (colors.tertiary)        root.style.setProperty('--tertiary-container', colors.tertiary);
+      if (colors.tertiary_fixed)  root.style.setProperty('--tertiary-fixed', colors.tertiary_fixed);
+      if (colors.on_tertiary)     root.style.setProperty('--on-tertiary', colors.on_tertiary);
+      
+      // Update dependent gradients (Primary-to-Secondary)
+      if (colors.primary && colors.secondary) {
+        const grad = `linear-gradient(135deg, ${colors.primary} 0%, ${colors.secondary} 100%)`;
+        root.style.setProperty('--gradient-primary', grad);
+        root.style.setProperty('--gradient-text', grad);
+      }
+    }
+
+    // 2. Apply Fonts
+    if (fonts) {
+      if (fonts.headline) root.style.setProperty('--font-headline', fonts.headline);
+      if (fonts.body)     root.style.setProperty('--font-body', fonts.body);
+    }
+
+    // 3. Apply Style (Rounding)
+    if (rounding) {
+      if (rounding.base)  root.style.setProperty('--radius-md', rounding.base);
+      if (rounding.large) root.style.setProperty('--radius-lg', rounding.large);
+      if (rounding.full)  root.style.setProperty('--radius-pill', rounding.full);
+    }
+  }
+
   /* ===================== NAV ===================== */
 
   function renderNav() {
     const { navLinks, meta } = SITE_DATA;
+    const activeLinks = navLinks.filter(l => l.enabled !== false);
 
-    const linksHTML = navLinks.map(l =>
+    const linksHTML = activeLinks.map(l =>
       `<a href="#" class="nav__link" data-page="${l.id}"
          onclick="Router.navTo('${l.id}'); return false;">${l.label}</a>`
     ).join('');
@@ -83,7 +137,7 @@ const Renderer = (() => {
 
     const sidebarIconsEl = document.getElementById('sidebar-icons');
     if (sidebarIconsEl) {
-      sidebarIconsEl.innerHTML = navLinks.map(l =>
+      sidebarIconsEl.innerHTML = activeLinks.map(l =>
         `<span class="sidebar-right__icon material-symbols-outlined"
                title="${l.label}"
                onclick="Router.navTo('${l.id}')">${l.icon}</span>`
@@ -97,7 +151,9 @@ const Renderer = (() => {
     const container = document.getElementById('bottom-sheet-nav');
     if (!container) return;
 
-    container.innerHTML = SITE_DATA.navLinks.map(l =>
+    const activeLinks = SITE_DATA.navLinks.filter(l => l.enabled !== false);
+
+    container.innerHTML = activeLinks.map(l =>
       `<button class="bottom-sheet__btn" data-page="${l.id}"
                onclick="Router.navTo('${l.id}'); UI.closeBottomSheet();">
          <span class="material-symbols-outlined">${l.icon}</span>
@@ -118,9 +174,10 @@ const Renderer = (() => {
 
   function renderFooter() {
     const { navLinks, social } = SITE_DATA;
+    const activeLinks = navLinks.filter(l => l.enabled !== false);
 
     // 1. Render Directives (Nav links)
-    const navHtml = navLinks.map(l =>
+    const navHtml = activeLinks.map(l =>
       `<a href="#" class="footer__link" 
          style="display:flex; align-items:center; gap:8px;"
          onclick="Router.navTo('${l.id}'); return false;">
@@ -500,8 +557,10 @@ const Renderer = (() => {
    * root is optional (used for partial injection)
    */
   function init(root = document) {
-    // 0. Set browser tab and meta info (only on primary init)
+    // 0. Apply Theme Overrides (only on primary init)
     if (root === document) {
+      applyTheme();
+      
       if (SITE_DATA.meta?.title) {
         document.title = SITE_DATA.meta.title;
       }

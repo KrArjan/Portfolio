@@ -566,14 +566,14 @@ const SITE_DATA = {
    * You can remove pages here to hide them from the nav.
    * ================================================ */
   navLinks: [
-    { id: 'home', label: 'Home', icon: 'home' },
-    { id: 'profile', label: 'Profile', icon: 'person' },
-    { id: 'projects', label: 'Projects', icon: 'code' },
-    { id: 'stack', label: 'Stack', icon: 'layers' },
-    { id: 'journey', label: 'Journey', icon: 'timeline' },
-    { id: 'lab', label: 'Lab', icon: 'science' },
-    { id: 'social', label: 'Social', icon: 'hub' },
-    { id: 'connect', label: 'Connect', icon: 'alternate_email' },
+    { id: 'home', label: 'Home', icon: 'home', enabled: true },
+    { id: 'profile', label: 'Profile', icon: 'person', enabled: true },
+    { id: 'projects', label: 'Projects', icon: 'code', enabled: true },
+    { id: 'stack', label: 'Stack', icon: 'layers', enabled: true },
+    { id: 'journey', label: 'Journey', icon: 'timeline', enabled: true },
+    { id: 'lab', label: 'Lab', icon: 'science', enabled: true },
+    { id: 'social', label: 'Social', icon: 'hub', enabled: true },
+    { id: 'connect', label: 'Connect', icon: 'alternate_email', enabled: true },
   ],
 
   /* ===================== SOCIAL LINKS ===================== *

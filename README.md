@@ -21,30 +21,29 @@ A high-performance, dark-themed developer portfolio — built with pure HTML, CS
 
 ---
 
-## 📚 Documentation
+## 📚 Documentation Path
 
-Explore the full documentation suite to personalize and deploy your portfolio:
+Follow the sequential guide below to personalize and deploy your professional portfolio:
 
-### 1. [Getting Started](docs/GETTING_STARTED.md)
-*Clone the repo, set up your local environment, and see your portfolio in action.*
+### 🛠️ Phase 1: Setup & Launch
+1.  **[Getting Started](docs/GETTING_STARTED.md)** — *Step 1 of 7*
+    *Install dependencies, set up your local environment, and see your portfolio in action.*
+2.  **[Deployment Guide](docs/DEPLOYMENT.md)** — *Step 2 of 7*
+    *Host your portfolio on Cloudflare Pages (Recommended), Vercel, or Netlify.*
 
-### 2. [Deployment Guide](docs/DEPLOYMENT.md)
-*Host your portfolio on Cloudflare Pages (Recommended), Vercel, or Netlify.*
+### 🎨 Phase 2: Customization
+3.  **[Configuration Reference](docs/CONFIGURATION.md)** — *Step 3 of 7*
+    *Master the `portfolio.config.js` file to update your bio, projects, and tech stack.*
+4.  **[Theming & Design](docs/THEMING.md)** — *Step 4 of 7*
+    *How to customize colors, fonts, and the visual design system from `theme.config.js`.*
 
-### 3. [Configuration Reference](docs/CONFIGURATION.md)
-*Master the `portfolio.config.js` file to update your bio, projects, and tech stack.*
-
-### 4. [Theming & Design](docs/THEMING.md)
-*How to customize colors, fonts, and the visual design system.*
-
-### 5. [Backend & Security](docs/BACKEND.md)
-*Set up Turnstile anti-spam, Discord notifications, and EmailJS.*
-
-### 6. [Technical Architecture](docs/ARCHITECTURE.md)
-*Dive into the SPA engine, routing logic, and CSS structure.*
-
-### 7. [FAQ & Error Reference](docs/FAQ_ERRORS.md)
-*Solutions to common setup issues and frequently asked questions.*
+### 🔐 Phase 3: Infrastructure
+5.  **[Backend & Security](docs/BACKEND.md)** — *Step 5 of 7*
+    *Set up Turnstile anti-spam, Discord notifications, and EmailJS.*
+6.  **[FAQ & Error Reference](docs/FAQ_ERRORS.md)** — *Step 6 of 7*
+    *Solutions to common setup issues and frequently asked questions.*
+7.  **[Technical Architecture](docs/ARCHITECTURE.md)** — *Step 7 of 7*
+    *Dive into the SPA engine, routing logic, and CSS structure.*
 
 ---
 

@@ -1,17 +1,20 @@
-# Getting Started Guide
+# 🚀 Getting Started Guide
+**Step 1 of 7** // Setting up your local environment
 
 This guide will help you set up your portfolio for local development and prepare it for customization.
 
-## Prerequisites
+---
+
+## 🛠️ Prerequisites
 
 Before you begin, ensure you have the following installed:
 
 - **Git**: For cloning the repository.
 - **Code Editor**: We recommend [Visual Studio Code](https://code.visualstudio.com/).
-- **Web Server**: Any static file server will work. Examples include:
-  - `npx serve` (requires Node.js)
-  - Python's `http.server`
-  - VS Code's "Live Server" extension
+- **Web Server**: Any static file server will work. 
+
+> [!TIP]
+> This portfolio is built with pure HTML, CSS, and JS, meaning it **does not require a build step**. You can edit and refresh instantly!
 
 ---
 
@@ -26,7 +29,7 @@ cd Portfolio
 
 ## 2. Local Development
 
-This portfolio is built with pure HTML, CSS, and JS, meaning it **does not require a build step**. However, because it uses `fetch()` to load page partials, you **must use an HTTP server** (the `file://` protocol will not work).
+Because the site uses `fetch()` to load page partials, you **must use an HTTP server** (the `file://` protocol will not work due to CORS restrictions).
 
 ### Option 1: Using `npx` (Node.js)
 If you have Node.js installed, run:
@@ -34,14 +37,8 @@ If you have Node.js installed, run:
 npx serve .
 ```
 
-### Option 2: Using Python
-If you have Python installed, run:
-```bash
-python3 -m http.server 3000
-```
-
-### Option 3: VS Code Live Server
-1. Install the "Live Server" extension.
+### Option 2: VS Code Live Server
+1. Install the **"Live Server"** extension.
 2. Right-click `index.html` and select **"Open with Live Server"**.
 
 Once the server is running, visit `http://localhost:3000` (or the port specified) to see your portfolio!
@@ -52,16 +49,15 @@ Once the server is running, visit `http://localhost:3000` (or the port specified
 
 Before making detailed changes, verify that you can edit the global configuration:
 
-1. Open `config/portfolio.config.js` (Frontend) and `config/connect.config.js` (Backend).
- 2. Locate the `meta` object in `portfolio.config.js` or the `channels` object in `connect.config.js`.
- 3. Update a field (like your `name` or a toggle) and refresh your browser.
+1. Open **`config/portfolio.config.js`** (Frontend) and **`config/theme.config.js`** (Visuals).
+2. Locate the `meta` object in `portfolio.config.js`.
+3. Update a field (like your `name`) and refresh your browser.
+
+> [!IMPORTANT]
+> If your changes don't appear immediately, try a **Hard Refresh** (Ctrl + F5) to clear the browser's script cache.
 
 ---
 
-## Next Steps
+## 🔗 Sequential Navigation
 
-Now that your local environment is ready, you can move on to:
-
-- **[Deployment](DEPLOYMENT.md)** — Host your portfolio on the web.
-- **[Configuration](CONFIGURATION.md)** — Personalize your projects, tech stack, and more.
-- **[Theming](THEMING.md)** — Customize colors and fonts.
+← **Previous:** [README](../README.md) | **Next:** [Deployment Guide](DEPLOYMENT.md) →

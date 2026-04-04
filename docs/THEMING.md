@@ -1,90 +1,68 @@
-# Theming Guide
+# 🎨 Theming & Design
+**Step 4 of 7** // Styling your visual identity
 
-The portfolio's design is centered around a modern, dark-themed system. All design tokens (colors, fonts, radii, etc.) are managed in `src/css/variables.css`.
+The portfolio's design system is centralized in **`config/theme.config.js`**. This allows you to customize the entire visual identity—colors, fonts, and UI style—without editing any CSS files.
 
-## Core Variables
+---
 
-Modify these values to change the mood of the entire site.
+## 🎨 Theme Configuration
 
-```css
-:root {
-  /* Primary Tints (Accents) */
-  --primary-container: #00f2ff;    /* Cyan accent */
-  --secondary-container: #7701d0;  /* Purple accent */
-  --tertiary-fixed: #ffe173;       /* Amber accent */
+All design tokens are managed via the `THEME_CONFIG` object in your theme config file.
 
-  /* Backgrounds */
-  --surface-dim: #131313;          /* Main dark background */
-  --surface-low: #1b1b1b;          /* Card/Section background */
-  --surface-highest: #333232;      /* Elevated component background */
+### 1. Colors
+You can customize the surfaces (backgrounds) and the three main accent colors.
 
-  /* Surface/Text */
-  --on-surface: #e5e2e1;           /* Main body text */
-  --on-surface-variant: #b9cacb;   /* Secondary/Dimmed text */
-  --outline-variant: #444444;      /* Border color */
+```js
+colors: {
+  surface_dim:  "#131313",  // Main background
+  primary:      "#00f2ff",  // Your main accent color
+  secondary:    "#dcb8ff",  // Secondary brand color
+  tertiary:     "#fff6e4",  // Third brand color
+}
+```
+
+> [!TIP]
+> When you update the **Primary** and **Secondary** colors, the system automatically regenerates all site-wide gradients and glow effects to match your new palette.
+
+### 2. Typography
+The portfolio uses Google Fonts. You can easily override the font families:
+
+```js
+fonts: {
+  headline: "'Space Grotesk', sans-serif",
+  body:     "'Manrope', sans-serif",
 }
 ```
 
 ---
 
-## Typography
+## 🌈 Design Presets
 
-The portfolio uses two Google Fonts by default:
+Copy/paste these values into your `config/theme.config.js` to instantly change the mood:
 
-- **Space Grotesk** (`--font-headline`): Used for navigation, headings, and labels.
-- **Manrope** (`--font-body`): Used for body text and descriptions.
+### 🌲 Forest (Emerald & Gold)
+- **Primary**: `#10b981` (Emerald)
+- **Secondary**: `#059669`
+- **Surface**: `#0b1410`
 
-### Changing Fonts
-1. Open `index.html`.
-2. Update the Google Fonts link with your desired typeface.
-3. Update the font variables in `src/css/variables.css`:
-```css
---font-headline: 'Your Font Name', sans-serif;
---font-body: 'Your Font Name', sans-serif;
-```
+### 🌅 Sunset (Orange & Pink)
+- **Primary**: `#f97316` (Orange)
+- **Secondary**: `#db2777`
+- **Surface**: `#140b0b`
 
----
-
-## Border Radii
-
-You can globalize the corner rounding for all cards and buttons.
-
-```css
---radius-xs: 4px;
---radius-sm: 8px;
---radius-md: 12px;
---radius-lg: 16px;
---radius-xl: 20px;
-```
+### 🌌 Midnight (Deep Blue & Silver)
+- **Primary**: `#3b82f6` (Blue)
+- **Secondary**: `#1d4ed8`
+- **Surface**: `#050a14`
 
 ---
 
-## Quick Design Presets
+## 🔧 Advance Customizations (CSS)
 
-### Midnight Blue
-```css
---primary-container: #4a9eff;
---secondary-container: #0052cc;
---surface-dim: #050a14;
-```
-
-### Emerald Cyber
-```css
---primary-container: #00ff88;
---secondary-container: #008855;
---surface-dim: #05140a;
-```
-
-### Crimson Dark
-```css
---primary-container: #ff4a6a;
---secondary-container: #cc0033;
---surface-dim: #140505;
-```
+The theme configuration works by overriding variables in **`src/css/variables.css`**. If you need granular control over animations or complex layouts, you can modify the core variables there.
 
 ---
 
-## Next Steps
-- **[Configuration](CONFIGURATION.md)** — Customize your projects and data.
-- **[Backend](BACKEND.md)** — Set up the contact form backend.
-- **[Architecture](ARCHITECTURE.md)** — Learn how the CSS layers are structured.
+## 🔗 Sequential Navigation
+
+← **Previous:** [Configuration Reference](CONFIGURATION.md) | **Next:** [Backend & Security](BACKEND.md) →

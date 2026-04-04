@@ -1,33 +1,33 @@
-# Backend & Contact Form Configuration
+# 🔐 Backend & Security
+**Step 5 of 7** // Powering your contact form
 
-This project features a secure contact form powered by a Cloudflare Pages Worker (`_worker.js`). This guide explains how to set up and secure its transmission.
+This project features a secure contact form powered by a Cloudflare Pages Worker (`_worker.js`). This guide explains how to set up and secure its transmission protocol.
 
-## Overview
+---
 
-The contact form is designed for **security and anti-spam** from the ground up:
-1.  **Frontend Validation**: Basic field checks.
-2.  **Turnstile Verification**: Prevents automated bot submissions.
-3.  **Backend Logic**: A Cloudflare Worker verifies the Turnstile token and sends the message.
-4.  **Integration**: Messages can be sent to Discord (Webhook or DM) and EmailJS.
+## 🛡️ Security Overview
+
+The contact form is designed for **maximum anti-spam security**:
+1.  **Turnstile Verification**: Replaces traditional CAPTCHAs with a seamless, invisible security check to block automated bot submissions.
+2.  **Secret Management**: All sensitive tokens and webhook URLs are stored as **Environment Secrets** on Cloudflare, never exposed in your frontend code.
+3.  **Multi-Channel Routing**: Supports broadcasting messages to multiple Discord Webhooks, Discord DMs, and EmailJS simultaneously.
 
 ---
 
 ## 1. Cloudflare Turnstile Setup
 
-Turnstile is Cloudflare's smart CAPTCHA replacement.
-
 ### Site Key (Public)
 1. Go to [Cloudflare Dashboard → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile).
-2. Create a new widget and set your site's domain.
-3. Copy the **Site Key** and paste it into `config/portfolio.config.js`:
+2. Create a new widget and copy the **Site Key**.
+3. Paste it into `config/portfolio.config.js`:
    ```js
    security: {
-     turnstileSiteKey: 'YOUR_SITE_KEY',
+     turnstileSiteKey: '0x4AAAAAA...',
    }
    ```
 
-### Secret Key (Secret)
-1. Copy the **Secret Key**.
+### Secret Key (Private)
+1. Copy the **Secret Key** from the same dashboard.
 2. Go to your Cloudflare Pages project **Settings → Environment Variables**.
 3. Add `TURNSTILE_SECRET_KEY` as a **Secret** variable and paste your key.
 
@@ -35,71 +35,54 @@ Turnstile is Cloudflare's smart CAPTCHA replacement.
 
 ## 2. Discord Integration
 
-You can receive notifications directly in a Discord channel or via DM.
+### Webhook Setup (Broadcast Mode)
+1. In Discord, go to **Channel Settings → Integrations → Webhooks** and create a new webhook.
+2. Copy the URL and add it to Cloudflare as `DISCORD_WEBHOOK_URLS`.
 
-### Webhook Setup
-1. Open Discord, navigate to the desired channel, and select **Edit Channel → Integrations → Webhooks**.
-2. Click **"New Webhook"** and copy the **Webhook URL**.
-3. In Cloudflare Pages, add `DISCORD_WEBHOOK_URLS` as a **Secret** environment variable.
+> [!TIP]
+> You can specify **multiple webhooks** as a comma-separated list (e.g., `URL1,URL2`) to broadcast notifications to multiple servers or channels at once.
 
-### Multi-Webhook Support (Broadcasting)
-You can specify multiple webhooks as a **comma-separated list** (e.g., `URL1,URL2`). The worker will broadcast the message to all URLs in the list.
-
-### DM Setup (Optional)
-To receive messages via DM, you must set an additional **Secret**:
+### DM Setup (Direct Notify)
 1. Add `DISCORD_BOT_TOKEN`: Your Discord bot's token.
-2. Add `DISCORD_USER_IDS`: Your personal Discord user ID(s) as a **comma-separated list** (e.g., `ID1,ID2`).
+2. Add `DISCORD_USER_IDS`: Your personal Discord user ID(s) as a comma-separated list.
 
 ---
 
 ## 3. EmailJS Integration (Optional)
 
-EmailJS allows you to receive emails directly from your contact form.
+EmailJS allows you to receive formatted emails directly from your contact form without a dedicated backend server.
 
 ### Setup
 1. Create an account at [EmailJS](https://www.emailjs.com/).
-2. Create a mail service and a template.
-3. Add the following **Secret** variables in Cloudflare Pages:
+2. Create a mail service (e.g., connect your Gmail) and a template.
+3. Note your IDs and add them to Cloudflare as **Secrets**:
    - `EMAILJS_SERVICE_ID`
    - `EMAILJS_TEMPLATE_ID`
    - `EMAILJS_PUBLIC_KEY`
    - `EMAILJS_PRIVATE_KEY`
 
+> [!TIP]
+> You can find your **Public Key** in the Account settings and your **Secret Key** in the API Keys section of the EmailJS dashboard.
+
 ---
 
-## 4. Communication Configuration
- 
- The **`config/connect.config.js`** file allows you to enable or disable specific communication channels and customize the notification messages sent by the backend.
- 
- ### Channel Toggles
- You can enable or disable each notification method by setting its `enabled` flag to `true` or `false` in the `channels` object:
- 
- ```js
- channels: {
-   discord_webhook: true,    // Send to your Discord Webhook URL(s)
-   discord_dm: true,         // Send DM via Bot Token to User ID(s)
-   emailjs: true,            // Send via EmailJS REST API
- },
- ```
- 
- ### Message Customization
- In the `notifications` object, you can customize the identity and appearance of the Discord notification:
- 
- - **Username & Avatar**: Change the `username` and `avatar_url` shown in the Discord message header.
- - **Embed Content**: Update the `titleTemplate`, `descriptionText`, `color`, and `footerText` for the Discord rich embed.
- 
- ### Dynamic Placeholders
- Placeholders can be used in your `titleTemplate` to inject dynamic data from the contact form:
- 
- | Placeholder | Description |
- |---|---|
- | `{{subject}}` | The subject line from the contact form. |
- | `{{name}}` | The sender's name. |
- | `{{email}}` | The sender's email address. |
- 
- ---
- 
- ## Next Steps
-- **[Deployment](DEPLOYMENT.md)** — Finalize your hosting setup.
-- **[Configuration](CONFIGURATION.md)** — Master individual field tailoring.
-- **[Architecture](ARCHITECTURE.md)** — Learn how the worker handles requests.
+## 3. Communication Control (`connect.config.js`)
+
+Manage your notification channels and personalize the message appearance without redeploying.
+
+```js
+channels: {
+  discord_webhook: true, // Send to all specified webhooks
+  discord_dm:      true, // Send directly to your Discord inbox
+  emailjs:         false, // Toggle EmailJS integration
+}
+```
+
+> [!IMPORTANT]
+> The **`connect.config.js`** file only controls the *logic* of the worker. You must still provide the actual `DISCORD_BOT_TOKEN` and `WEBHOOK_URLS` in your Cloudflare environment settings for them to work.
+
+---
+
+## 🔗 Sequential Navigation
+
+← **Previous:** [Theming & Design](THEMING.md) | **Next:** [FAQ & Error Reference](FAQ_ERRORS.md) →

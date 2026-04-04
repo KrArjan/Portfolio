@@ -11,6 +11,14 @@ const Router = (() => {
 
   /* ---- Public: Navigate to a page ---- */
   function navTo(page) {
+    // Access Control: Check if page is enabled in config
+    const linkConfig = SITE_DATA.navLinks.find(l => l.id === page);
+    if (linkConfig && linkConfig.enabled === false) {
+      console.warn(`[router] navigation blocked: page '${page}' is disabled.`);
+      if (page !== 'home') navTo('home');
+      return;
+    }
+
     if (page === currentPage) return;
 
     // Hide all sections
@@ -68,7 +76,13 @@ const Router = (() => {
     const hash = window.location.hash.replace(/^#\/?/, '');
     const validPages = ['home','profile','projects','stack','journey','lab','connect','social','404'];
     const resolved = path || hash || '';
-    const startPage = validPages.includes(resolved) ? resolved : (resolved ? '404' : 'home');
+    let startPage = validPages.includes(resolved) ? resolved : (resolved ? '404' : 'home');
+
+    // Access Control: Redirect if startPage is disabled
+    const linkConfig = SITE_DATA.navLinks.find(l => l.id === startPage);
+    if (linkConfig && linkConfig.enabled === false) {
+      startPage = 'home';
+    }
 
     // Clean up hash-based URL to proper path (e.g. /#journey → /journey)
     if (!path && hash && validPages.includes(hash)) {

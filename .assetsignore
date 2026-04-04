@@ -3,12 +3,10 @@ node_modules/
 .dev.vars
 .git/
 .antigravity*
-_worker.js
-wrangler.toml
+docs/
 README.md
-SETUP.md
-CUSTOMIZATION.md
+.env.example
+.dev.vars
+wrangler.toml
+_worker.js
 LICENSE
-package.json
-package-lock.json
-functions/

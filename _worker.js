@@ -35,7 +35,7 @@ export default {
       // If the path doesn't look like a file (no extension), serve index.html
       // We check for a dot followed by at least 2-4 extension characters
       const hasExtension = /\.[a-z0-9]{2,4}$/i.test(url.pathname);
-      
+
       if (!hasExtension && url.pathname !== "/") {
         if (!env.ASSETS) {
           return new Response("ERROR_SPA_ROUTING: env.ASSETS_BINDING_NOT_CONFIGURED. Check wrangler.toml for [assets] binding = 'ASSETS'.", { status: 500 });
@@ -48,15 +48,15 @@ export default {
       if (!env.ASSETS) {
         return new Response("ERROR_STATIC_ASSET: env.ASSETS_BINDING_MISSING.", { status: 500 });
       }
-      
+
       return env.ASSETS.fetch(request);
 
     } catch (err) {
       console.error("Worker Global Exception:", err);
-      return new Response(JSON.stringify({ 
-        error: 'WORKER_RUNTIME_EXCEPTION', 
+      return new Response(JSON.stringify({
+        error: 'WORKER_RUNTIME_EXCEPTION',
         message: err.message,
-        stack: err.stack 
+        stack: err.stack
       }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
@@ -74,7 +74,7 @@ async function handleContactForm(request, env) {
     // 0. Configuration Validation
     if (!env.TURNSTILE_SECRET_KEY || env.TURNSTILE_SECRET_KEY === '' || env.TURNSTILE_SECRET_KEY.includes('PASTE_YOUR')) {
       console.error("Missing TURNSTILE_SECRET_KEY");
-      return new Response(JSON.stringify({ 
+      return new Response(JSON.stringify({
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
         detail: 'TURNSTILE_SECRET_KEY is missing or invalid in environment settings.'
       }), {
@@ -85,7 +85,7 @@ async function handleContactForm(request, env) {
 
     if (!env.DISCORD_WEBHOOK_URL || env.DISCORD_WEBHOOK_URL === '' || env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
       console.error("Missing DISCORD_WEBHOOK_URL");
-      return new Response(JSON.stringify({ 
+      return new Response(JSON.stringify({
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
         detail: 'DISCORD_WEBHOOK_URL is missing or invalid in environment settings.'
       }), {
@@ -132,8 +132,8 @@ async function handleContactForm(request, env) {
     };
 
     const discordPayload = {
-      username: WORKER_CONFIG.notifications.username || "Nexus Transmission Hub",
-      avatar_url: WORKER_CONFIG.notifications.avatar_url || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
+      username: WORKER_CONFIG.notifications.username || "KrArjan Portfolio",
+      avatar_url: WORKER_CONFIG.notifications.avatar_url || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.png",
       embeds: [{
         title: formatTemplate(WORKER_CONFIG.notifications.embed.titleTemplate, placeholders),
         description: WORKER_CONFIG.notifications.embed.descriptionText || `Source: Portfolio Contact System`,
@@ -146,7 +146,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `${WORKER_CONFIG.notifications.embed.footerText || "Nexus Terminal"} | IP: ${getClientIP(request)}`
+          text: `${WORKER_CONFIG.notifications.embed.footerText || "KrArjan Terminal"} | IP: ${getClientIP(request)}`
         }
       }]
     };
@@ -209,8 +209,8 @@ async function handleContactForm(request, env) {
     }
 
     // 4. Return Success
-    return new Response(JSON.stringify({ 
-      success: true, 
+    return new Response(JSON.stringify({
+      success: true,
       message: 'TRANSMISSION_SUCCESS',
       delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
       details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null

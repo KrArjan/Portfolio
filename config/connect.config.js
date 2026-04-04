@@ -16,8 +16,8 @@ export const WORKER_CONFIG = {
    * ================================================ */
   channels: {
     discord_webhook: true,    // Send to your Discord Webhook URL(s)
-    discord_dm: false,         // Send DM via Bot Token to User ID(s)
-    emailjs: false,            // Send via EmailJS REST API
+    discord_dm: true,         // Send DM via Bot Token to User ID(s)
+    emailjs: true,            // Send via EmailJS REST API
   },
 
   /* ===================== NOTIFICATIONS ===================== *

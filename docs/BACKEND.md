@@ -64,21 +64,39 @@ EmailJS allows you to receive emails directly from your contact form.
 
 ---
 
-## 4. Personalization & Branding
-
-You can customize the look and feel of your Discord notifications directly from `config/portfolio.config.js` without touching the backend code.
-
-### Discord Branding
-In the `contact` section of your config:
-- `discordUsername`: The name the bot uses when a message is sent.
-- `discordAvatarUrl`: The profile picture for the bot.
-- `embedColor`: The accent color of the Discord message embed.
-
-### Feature Toggles
-You can selectively enable or disable transmission methods using the `contact` block flags:
-- `enableDiscordWebhook`: Toggles channel notifications.
-- `enableDiscordDM`: Toggles personal DM notifications.
-- `enableEmailJS`: Toggles email delivery.
-
-> [!CAUTION]
-> These toggles only work if the corresponding **Secret** environment variables are correctly configured in your Cloudflare dashboard. See the sections above for setup details.
+## 4. Communication Configuration
+ 
+ The **`config/connect.config.js`** file allows you to enable or disable specific communication channels and customize the notification messages sent by the backend.
+ 
+ ### Channel Toggles
+ You can enable or disable each notification method by setting its `enabled` flag to `true` or `false` in the `channels` object:
+ 
+ ```js
+ channels: {
+   discord_webhook: true,    // Send to your Discord Webhook URL(s)
+   discord_dm: true,         // Send DM via Bot Token to User ID(s)
+   emailjs: true,            // Send via EmailJS REST API
+ },
+ ```
+ 
+ ### Message Customization
+ In the `notifications` object, you can customize the identity and appearance of the Discord notification:
+ 
+ - **Username & Avatar**: Change the `username` and `avatar_url` shown in the Discord message header.
+ - **Embed Content**: Update the `titleTemplate`, `descriptionText`, `color`, and `footerText` for the Discord rich embed.
+ 
+ ### Dynamic Placeholders
+ Placeholders can be used in your `titleTemplate` to inject dynamic data from the contact form:
+ 
+ | Placeholder | Description |
+ |---|---|
+ | `{{subject}}` | The subject line from the contact form. |
+ | `{{name}}` | The sender's name. |
+ | `{{email}}` | The sender's email address. |
+ 
+ ---
+ 
+ ## Next Steps
+- **[Deployment](DEPLOYMENT.md)** — Finalize your hosting setup.
+- **[Configuration](CONFIGURATION.md)** — Master individual field tailoring.
+- **[Architecture](ARCHITECTURE.md)** — Learn how the worker handles requests.

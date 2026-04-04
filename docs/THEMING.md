@@ -1,7 +1,6 @@
-The portfolio's design is centered around a modern, dark-themed system. All design tokens (colors, fonts, radii, etc.) are managed in `src/css/variables.css`.
+# Theming Guide
 
-> [!TIP]
-> **EASY CUSTOMIZATION**: You can now change your site's entire color palette without touching any CSS files by using the **`design.colors`** object in `config/portfolio.config.js`. These values will automatically override the defaults at runtime.
+The portfolio's design is centered around a modern, dark-themed system. All design tokens (colors, fonts, radii, etc.) are managed in `src/css/variables.css`.
 
 ## Core Variables
 

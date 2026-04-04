@@ -11,14 +11,7 @@ const Router = (() => {
 
   /* ---- Public: Navigate to a page ---- */
   function navTo(page) {
-    if (page === currentPage) {
-      if (typeof UI !== 'undefined' && UI.scrollTo) {
-        UI.scrollTo(document.getElementById('page-' + page));
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      return;
-    }
+    if (page === currentPage) return;
 
     // Hide all sections
     document.querySelectorAll('.page-section').forEach(s => {

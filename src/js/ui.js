@@ -232,10 +232,7 @@ const UI = (() => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            ...payload,
-            config: SITE_DATA.contact // Send personalization config to backend
-          })
+          body: JSON.stringify(payload)
         });
 
         const result = await response.json();
@@ -245,12 +242,12 @@ const UI = (() => {
 
           if (success) {
             success.classList.remove('hidden');
-            showToast(SITE_DATA.contact?.successMessage || 'TRANSMISSION_RECEIVED');
+            showToast('TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
           console.error("Transmission Error:", result.error);
-          showToast(SITE_DATA.contact?.errorMessage || result.error || 'TRANSMISSION_FAILED');
+          showToast(result.error || 'TRANSMISSION_FAILED');
         }
 
       } catch (error) {
@@ -294,21 +291,6 @@ const UI = (() => {
 
     update();
     setInterval(update, 1000);
-  }
-
-  /* ===================== SCROLL UTILS ===================== */
-  function scrollTo(el) {
-    if (!el) return;
-    const offset = SITE_DATA.performance?.scrollOffset || 80;
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = el.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition - offset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
   }
 
   /* ===================== SCROLL TO TOP ===================== */

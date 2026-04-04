@@ -52,10 +52,9 @@ Once the server is running, visit `http://localhost:3000` (or the port specified
 
 Before making detailed changes, verify that you can edit the global configuration:
 
-1. Open `config/portfolio.config.js`.
-2. Locate the `meta` object.
-3. Change the `name` field to your own name.
-4. Refresh your browser to see the update.
+1. Open `config/portfolio.config.js` (Frontend) and `config/connect.config.js` (Backend).
+ 2. Locate the `meta` object in `portfolio.config.js` or the `channels` object in `connect.config.js`.
+ 3. Update a field (like your `name` or a toggle) and refresh your browser.
 
 ---
 

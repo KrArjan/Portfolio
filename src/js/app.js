@@ -24,10 +24,10 @@
   const showBoot = SITE_DATA.features?.showBootScreen !== false;
 
   if (showBoot) {
-    const minDur = SITE_DATA.performance?.bootMinDuration || 400;
+    // Standard cinematic reveal with 400ms pause
     setTimeout(() => {
       Boot.dismiss(false);
-    }, minDur);
+    }, 400);
   } else {
     // Immediate bypass
     Boot.dismiss(true);

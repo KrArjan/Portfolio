@@ -57,6 +57,15 @@ Styles are organized into a layered system to ensure maintainability:
 3.  `animations.css`: All @keyframes and reveal transitions.
 4.  `layout.css`: Grid systems and flexbox utilities.
 5.  `components.css`: Reusable UI components (buttons, cards, navbars).
+ 
+ ---
+ 
+ ## 6. Backend Logic (`_worker.js`)
+ 
+ The backend is a Cloudflare Worker that handles the contact form:
+ - **Importing Config**: It imports `connect.config.js` to determine enabled channels and message templates.
+ - **Payload Formatting**: It uses form data to populate your custom messages using the `formatTemplate` helper.
+ - **Transmission**: Dispatches messages to Discord (Webhook or DM) and EmailJS based on your settings.
 
 ---
 

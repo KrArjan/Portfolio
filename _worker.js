@@ -5,6 +5,9 @@
  * 2. Static Asset Serving (Fallback to env.ASSETS)
  */
 
+import { WORKER_CONFIG } from './config/connect.config.js';
+
+
 export default {
   async fetch(request, env) {
     try {
@@ -91,7 +94,7 @@ async function handleContactForm(request, env) {
       });
     }
 
-    const { name, email, subject, message, token, config } = await request.json();
+    const { name, email, subject, message, token } = await request.json();
 
     // 1. Verify Turnstile Token
     if (!token) {
@@ -120,14 +123,21 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // 2. Prepare Discord Payload using dynamic config
+    // 2. Prepare Discord Payload
+    const placeholders = {
+      name: name,
+      email: email,
+      subject: subject || 'No Subject',
+      message: message
+    };
+
     const discordPayload = {
-      username: config?.discordUsername || "Nexus Transmission Hub",
-      avatar_url: config?.discordAvatarUrl || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
+      username: WORKER_CONFIG.notifications.username || "Nexus Transmission Hub",
+      avatar_url: WORKER_CONFIG.notifications.avatar_url || "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
       embeds: [{
-        title: `${config?.embedTitle || '📡 NEW TRANSMISSION_RECEIVED'} // ${subject.toUpperCase()}`,
-        description: `Source: Portfolio Contact System`,
-        color: config?.embedColor || 0x00D0FF,
+        title: formatTemplate(WORKER_CONFIG.notifications.embed.titleTemplate, placeholders),
+        description: WORKER_CONFIG.notifications.embed.descriptionText || `Source: Portfolio Contact System`,
+        color: WORKER_CONFIG.notifications.embed.color || 0x00D0FF,
         fields: [
           { name: "IDENTIFIER", value: `\`${name}\``, inline: true },
           { name: "SECURE_EMAIL", value: `\`${email}\``, inline: true },
@@ -136,7 +146,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `${config?.embedFooter || 'Nexus Terminal'} | IP: ${getClientIP(request)}`
+          text: `${WORKER_CONFIG.notifications.embed.footerText || "Nexus Terminal"} | IP: ${getClientIP(request)}`
         }
       }]
     };
@@ -144,10 +154,11 @@ async function handleContactForm(request, env) {
     // 3. Parallel Transmission (Webhook & DM)
     const transmissions = [];
 
-    // Webhook Transmissions (if configured & enabled)
-    const webhookEnabled = config?.enableDiscordWebhook !== false;
-    if (webhookEnabled && env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
+    // Webhook Transmissions (if configured AND enabled)
+    if (WORKER_CONFIG.channels.discord_webhook && env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
+
       const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => {
+        // Remove everything after '#' if it exists
         const cleanUrl = part.split('#')[0].trim();
         return cleanUrl;
       }).filter(url => url.length > 0);
@@ -161,10 +172,11 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // DM Transmission (if configured & enabled)
-    const dmEnabled = config?.enableDiscordDM !== false;
-    if (dmEnabled && env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+    // DM Transmission (if configured AND enabled)
+    if (WORKER_CONFIG.channels.discord_dm && env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+
       const userIds = env.DISCORD_USER_ID.split(',').map(part => {
+        // Remove everything after '#' if it exists
         const cleanId = part.split('#')[0].trim();
         return cleanId;
       }).filter(id => id.length > 0);
@@ -175,15 +187,15 @@ async function handleContactForm(request, env) {
     }
 
     // EmailJS Transmission (REST API)
-    const emailEnabled = config?.enableEmailJS !== false;
-    if (emailEnabled && env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
+    if (WORKER_CONFIG.channels.emailjs && env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
       transmissions.push(sendEmailJS(env, {
         from_name: name,
         from_email: email,
-        subject: subject,
+        subject: (WORKER_CONFIG.notifications.email.subjectPrefix || "") + subject,
         message: message
       }));
     }
+
 
     const results = await Promise.allSettled(transmissions);
     const failed = results.filter(r => {
@@ -304,3 +316,20 @@ async function sendEmailJS(env, templateParams) {
 function getClientIP(request) {
   return request.headers.get('Cf-Pseudo-IPv4') || request.headers.get('CF-Connecting-IP') || 'UNKNOWN';
 }
+
+/**
+ * Simple placeholder replacement in strings.
+ * Replaces {{key}} with value from params object.
+ */
+function formatTemplate(template, params) {
+  if (!template) return "";
+  let result = template;
+  for (const [key, value] of Object.entries(params)) {
+    // Escape value if it's not a string to avoid issues
+    const safeValue = String(value);
+    // Use replaceAll or global regex to replace all instances
+    result = result.replace(new RegExp(`{{${key}}}`, 'g'), safeValue);
+  }
+  return result;
+}
+

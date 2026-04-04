@@ -51,7 +51,7 @@ Explore the full documentation suite to personalize and deploy your portfolio:
 ## 🚀 Quick Start (60 Seconds)
 
 1. **Fork & Clone**: `git clone https://github.com/YOUR_USERNAME/Portfolio.git`
-2. **Personalize**: Edit `config/portfolio.config.js` with your details.
+2. **Personalize**: Edit `config/portfolio.config.js` (Frontend) and `config/connect.config.js` (Backend) with your details.
 3. **Run Locally**: `npx serve .` and visit `http://localhost:3000`.
 
 ---
@@ -60,7 +60,7 @@ Explore the full documentation suite to personalize and deploy your portfolio:
 
 ```text
 Portfolio/
-├── config/             ← 🟢 YOUR CONTENT (Bio, Projects, Images)
+├── config/             ← 🟢 YOUR CONTENT (Bio, Projects, Images, Connect)
 ├── docs/               ← 📚 DOCUMENTATION (Guides and Manuals)
 ├── src/                ← 🔵 THE ENGINE (Page Templates, CSS, JS)
 ├── index.html          ← Entry Point

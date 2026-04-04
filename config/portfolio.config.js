@@ -43,9 +43,6 @@ const SITE_DATA = {
   /* ===================== FEATURES ===================== *
    * Feature flags to toggle sections on/off.
    * ================================================ */
-  /* ===================== FEATURES ===================== *
-   * Feature flags to toggle sections on/off.
-   * ================================================ */
   features: {
     showBootScreen: true,     // Toggle the cinematic loading animation
     showStats: true,          // Toggle the statistic cards on home page
@@ -56,50 +53,12 @@ const SITE_DATA = {
     showContactForm: true,    // Toggle the contact form on the Connect page
   },
 
-  /* ===================== PARTICLES ===================== *
-   * Configuration for the global background animation.
-   * ================================================ */
-  particles: {
-    enable: true,             // Set to false to disable background particles
-    colors: ['#00f2ff', '#7701d0', '#74f5ff'], // Particle colors
-    number: 70,               // Total number of particles
-    density: 800,             // Lower numbers = more packed particles
-    speed: 0.45,              // Movement speed
-    interactivity: {
-      hoverMode: 'grab',      // Options: 'grab', 'bubble', 'repulse', or 'none'
-      clickMode: 'push',      // Options: 'push', 'remove', 'repulse', or 'none'
-    }
-  },
-
-  /* ===================== CONTACT ===================== *
-   * Branding and behavior for your contact form backend.
-   * ================================================ */
-  contact: {
-    // Custom messages shown in the UI
-    successMessage: "TRANSMISSION_RECEIVED // Thank you for your message.",
-    errorMessage: "SYSTEM_ERROR // Failed to send transmission. Please try again.",
-
-    // Discord Webhook Branding (Update these to brand your Discord messages)
-    discordUsername: "KrArjan Portfolio",
-    discordAvatarUrl: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.png",
-
-    // Discord Embed Customization
-    embedTitle: "📡 NEW TRANSMISSION_RECEIVED",
-    embedColor: 0x00D0FF,
-    embedFooter: "KrArjan Terminal",
-
-    // Backend Toggles (Only works if environment Secrets are also set)
-    enableDiscordWebhook: true,
-    enableDiscordDM: true,
-    enableEmailJS: true,
-  },
-
   /* ===================== SECURITY ===================== *
    * Security settings for contact forms and Turnstile.
    * CHANGE_ME: Update turnstileSiteKey with your public key.
    * ================================================ */
   security: {
-    turnstileSiteKey: '0x4AAAAAACxrRyQCBE-RD7A1', // CHANGE_ME: Cloudflare Turnstile Site Key
+    turnstileSiteKey: '1x00000000000000000000AA', // CHANGE_ME: Cloudflare Turnstile Site Key
   },
 
   /* ===================== STATS ===================== *
@@ -484,30 +443,6 @@ const SITE_DATA = {
     { text: 'Syncing Modules', status: 'WAIT', delay: 1500 },
     { text: 'Booting Portfolio', status: 'QUEUED', delay: 2100 },
   ],
-
-  /* ===================== DESIGN & THEME ===================== *
-   * Global design tokens to override system defaults.
-   * CHANGE_ME: Customize your site's color palette.
-   * ================================================ */
-  design: {
-    colors: {
-      primary: '#00f2ff',         // Cyan accent
-      secondary: '#7701d0',       // Purple accent
-      tertiary: '#ffe173',        // Amber accent
-      surface: '#131313',         // Main background
-      error: '#ffb4ab',           // Red error accent
-    },
-    glassOpacity: 0.06,           // Card transparency (0.01 to 0.1)
-  },
-
-  /* ===================== PERFORMANCE ===================== *
-   * Fine-tune animation speeds and timing.
-   * ================================================ */
-  performance: {
-    bootMinDuration: 600,         // Minimum ms to show boot screen (for cinematic flair)
-    scrollOffset: 80,             // Pixel offset when scrolling to a section
-    pageTransitionSpeed: 400,     // ms for fade-in animations
-  },
 };
 
 /* Export for use in other modules */

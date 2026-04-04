@@ -1,36 +1,53 @@
 /* ============================================================
-   data.js — Site Content & Configuration
-   All text, project info, tech stack, timeline entries, etc.
+   site.config.js — Your Portfolio Content & Configuration
+   ============================================================
+
+   🟢 THIS IS THE ONLY FILE YOU NEED TO EDIT.
+   
+   Replace the example values below with your own information.
+   Look for "CHANGE_ME" comments — those are the fields you
+   must update before deploying.
+
+   After editing, your portfolio will automatically reflect
+   all changes. No need to touch HTML, CSS, or core JS files.
    ============================================================ */
 
 'use strict';
 
 const SITE_DATA = {
 
-  /* ===================== META ===================== */
+  /* ===================== META ===================== *
+   * Basic identity info shown across the site.
+   * CHANGE_ME: Update all fields with your info.
+   * ================================================ */
   meta: {
-    name: 'KrArjan',
-    title: 'KrArjan',
-    tagline: 'Building Since 2021.',
-    role: 'Student Developer & Technical Builder',
-    description: 'Building software, bots, tools, and digital systems that move the needle.',
-    version: '2.0.4',
-    buildRef: 'KR-77-LAB',
-    email: 'krarjanwork@gmail.com',
-    github: 'https://github.com/KrArjan',
-    discord: 'https://discord.gg/nullbyte',
-    site: 'https://nullbyte.qzz.io',
-    cpanel: 'https://cpanel.nullbyte.qzz.io',
-    authToken: '0x7701D0_A39C',
-    buildSince: '2021',
+    name: 'KrArjan',                                     // CHANGE_ME: Your display name
+    title: 'KrArjan',                                    // CHANGE_ME: Browser tab title
+    tagline: 'Building Since 2021.',                     // CHANGE_ME: Short tagline
+    role: 'Student Developer & Technical Builder',       // CHANGE_ME: Your role/title
+    description: 'Building software, bots, tools, and digital systems that move the needle.', // CHANGE_ME: SEO description
+    version: '2.0.4',                                    // Your portfolio version
+    buildRef: 'KR-77-LAB',                               // CHANGE_ME: Custom build reference
+    email: 'krarjanwork@gmail.com',                      // CHANGE_ME: Your email
+    github: 'https://github.com/KrArjan',                // CHANGE_ME: GitHub profile URL
+    discord: 'https://discord.gg/nullbyte',              // CHANGE_ME: Discord server invite
+    site: 'https://nullbyte.qzz.io',                     // CHANGE_ME: Your main website
+    cpanel: 'https://cpanel.nullbyte.qzz.io',            // CHANGE_ME: Admin panel (optional)
+    authToken: '0x7701D0_A39C',                          // Decorative auth token shown in UI
+    buildSince: '2021',                                  // CHANGE_ME: Year you started coding
   },
 
-  /* ===================== FEATURES ===================== */
+  /* ===================== FEATURES ===================== *
+   * Feature flags to toggle sections on/off.
+   * ================================================ */
   features: {
-    showLabNotes: false,
+    showLabNotes: false,  // Set to true to show lab notes on the Lab page
   },
 
-  /* ===================== STATS ===================== */
+  /* ===================== STATS ===================== *
+   * Quick statistics displayed on the home page.
+   * CHANGE_ME: Update values and labels.
+   * ================================================ */
   stats: [
     { value: '2021', label: 'Started Building', color: 'var(--primary-container)' },
     { value: '10+', label: 'Projects Worked On', color: 'var(--secondary)' },
@@ -38,7 +55,22 @@ const SITE_DATA = {
     { value: 'Code + Systems', label: 'Work Focus', color: 'var(--primary-container)' },
   ],
 
-  /* ===================== PROJECTS ===================== */
+  /* ===================== PROJECTS ===================== *
+   * Your project portfolio. Each project needs:
+   *   id          — Unique slug (used for featured references)
+   *   title       — Display name
+   *   description — Short description (1-2 sentences)
+   *   category    — Array of tags for filtering: 'bots', 'automation', 'web', 'community'
+   *   tags        — Tech stack labels shown on the card
+   *   status      — One of: 'BUILDING', 'DEPLOYED', 'ONGOING', 'IN_PROGRESS', 'RESEARCH', 'IDEATION'
+   *   icon        — Material Symbols icon name (https://fonts.google.com/icons)
+   *   size        — Card size: 'small', 'medium', 'large', 'xl'
+   *   color       — Accent color (use CSS variables from the design system)
+   *   role        — (Optional) Your role in the project
+   *   uuid        — (Optional) Custom identifier shown on the card
+   *
+   * CHANGE_ME: Replace with your own projects.
+   * ================================================ */
   projects: [
     {
       id: 'upi-bot',
@@ -113,15 +145,23 @@ const SITE_DATA = {
     },
   ],
 
-  /* ===================== FEATURED WORK ===================== */
+  /* ===================== FEATURED WORK ===================== *
+   * Project IDs to highlight on the home page hero section.
+   * Must match 'id' values from the projects array above.
+   * CHANGE_ME: Pick your best 2-3 projects.
+   * ================================================ */
   featuredWork: [
     'nullbyte',
     'skycastle',
     'gway-joiner'
   ],
 
-  /* ===================== STACK ===================== */
+  /* ===================== STACK ===================== *
+   * Your technical skills, tools, and infrastructure.
+   * CHANGE_ME: Replace with your own tech stack.
+   * ================================================ */
   stack: {
+    /* Languages & Frameworks you work with */
     languages: [
       { name: 'HTML/CSS', icon: 'html' },
       { name: 'JS/TS', icon: 'javascript' },
@@ -135,12 +175,16 @@ const SITE_DATA = {
       { name: 'MySQL', icon: 'database' },
       { name: 'Redis', icon: 'database' },
     ],
+
+    /* Your core competency areas */
     domains: [
       { label: 'Frontend', value: 'UI Architecture' },
       { label: 'Backend', value: 'Logic & APIs' },
       { label: 'Payments', value: 'Stripe / UPI' },
       { label: 'Data', value: 'DB Connections' },
     ],
+
+    /* Bot development skills */
     bots: [
       { name: 'Discord API', detail: 'Slash Commands, Buttons, Menus', icon: 'forum' },
       { name: 'Verification Systems', detail: 'Security & Role Management', icon: 'verified_user' },
@@ -148,6 +192,8 @@ const SITE_DATA = {
       { name: 'Logic Engines', detail: 'Multi-Server Deployment Logic', icon: 'memory' },
       { name: 'Selfbot Tooling', detail: 'discord.js-selfbot-v13', icon: 'smart_toy' },
     ],
+
+    /* Development tools you use */
     devTools: [
       { name: 'Antigravity', icon: 'rocket_launch' },
       { name: 'Copilot', icon: 'bolt' },
@@ -166,6 +212,8 @@ const SITE_DATA = {
       { name: 'Notion', icon: 'article' },
       { name: 'Termius', icon: 'terminal' }
     ],
+
+    /* Infrastructure & cloud platforms */
     infra: [
       { name: 'AWS', icon: 'cloud' },
       { name: 'Oracle Cloud', icon: 'cloud_queue' },
@@ -190,12 +238,12 @@ const SITE_DATA = {
       { name: 'Dokploy', icon: 'rocket_launch' }
     ],
 
+    /* Free-text descriptions of your experience areas */
     os: 'Linux-based systems, VPS management, SSH usage, reverse proxies, SSL setup, Docker networking, and general deployment workflows.',
-
     community: 'Discord server systems, ticket workflows, role setup, permission management, support structure, and technical moderation setups.',
-
     gaming: 'Minecraft server setup, plugin configuration, proxies, permissions, panel setup, and technical server management.',
 
+    /* What you're currently learning */
     learning: [
       { accent: 'Development', label: 'Full Stack Projects', color: 'primary' },
       { accent: 'Backend', label: 'Better Logic & APIs', color: 'secondary' },
@@ -205,7 +253,21 @@ const SITE_DATA = {
     ],
   },
 
-  /* ===================== JOURNEY / TIMELINE ===================== */
+  /* ===================== JOURNEY / TIMELINE ===================== *
+   * Your development timeline. Each entry needs:
+   *   year         — Time period (e.g., '2021 — PRESENT')
+   *   era          — Short label for the era
+   *   title        — Heading for the card
+   *   description  — What you did during this period
+   *   tags         — Key skills/tech from this era
+   *   icon         — Material Symbols icon name
+   *   borderColor  — CSS color for the card border
+   *   nodeGlow     — CSS rgba() for the timeline node glow
+   *   side         — 'left' or 'right' (visual layout)
+   *   isPulsing    — (Optional) true for the current/active entry
+   *
+   * CHANGE_ME: Replace with your own timeline.
+   * ================================================ */
   journey: [
     {
       year: '2021 — PRESENT',
@@ -254,7 +316,11 @@ const SITE_DATA = {
     },
   ],
 
-  /* ===================== LAB PROJECTS ===================== */
+  /* ===================== LAB PROJECTS ===================== *
+   * Experimental / in-progress projects for the Lab page.
+   * The first item is featured as the "main" card.
+   * CHANGE_ME: Replace with your own experiments.
+   * ================================================ */
   lab: [
     {
       id: 'neural-dash',
@@ -302,7 +368,11 @@ const SITE_DATA = {
     },
   ],
 
-  /* ===================== LAB NOTES ===================== */
+  /* ===================== LAB NOTES ===================== *
+   * Short log entries displayed on the Lab page
+   * (only visible if features.showLabNotes is true).
+   * CHANGE_ME: Replace with your own notes.
+   * ================================================ */
   labNotes: [
     { text: 'Fixed ARM64 apt sources → ports.ubuntu.com/ubuntu-ports', color: 'var(--primary-container)' },
     { text: 'Purged firewalld, switched to iptables-legacy on vps-in01', color: 'var(--primary-container)' },
@@ -312,7 +382,11 @@ const SITE_DATA = {
     { text: '.nixpacks.toml — skip system pkg installs on Dokploy', color: 'var(--tertiary-fixed)' },
   ],
 
-  /* ===================== NAV LINKS ===================== */
+  /* ===================== NAV LINKS ===================== *
+   * Navigation items. The 'id' must match the page section
+   * ID in the HTML (e.g., id="page-home").
+   * You can remove pages here to hide them from the nav.
+   * ================================================ */
   navLinks: [
     { id: 'home', label: 'Home', icon: 'home' },
     { id: 'profile', label: 'Profile', icon: 'person' },
@@ -324,7 +398,11 @@ const SITE_DATA = {
     { id: 'connect', label: 'Connect', icon: 'alternate_email' },
   ],
 
-  /* ===================== SOCIAL LINKS ===================== */
+  /* ===================== SOCIAL LINKS ===================== *
+   * Social media profiles shown on the Social and Connect pages.
+   * Set href to '#' for platforms you haven't set up yet.
+   * CHANGE_ME: Replace with your own social links.
+   * ================================================ */
   social: [
     { id: 'github', label: 'GitHub', icon: 'code', href: 'https://github.com/KrArjan' },
     { id: 'discord', label: 'Discord', icon: 'forum', href: 'https://discord.com/users/606851356854321171' },
@@ -338,7 +416,10 @@ const SITE_DATA = {
     { id: 'spotify', label: 'Spotify', icon: 'music_note', href: '#' },
   ],
 
-  /* ===================== BOOT LOG LINES ===================== */
+  /* ===================== BOOT LOG LINES ===================== *
+   * Terminal-style boot messages shown on the loading screen.
+   * CHANGE_ME: Customize the boot sequence text.
+   * ================================================ */
   bootLog: [
     { text: 'Initializing KrArjan Interface', status: 'OK', delay: 300 },
     { text: 'Loading Projects', status: 'PROC...', delay: 900, isActive: true },

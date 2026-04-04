@@ -1,146 +1,178 @@
-# KRARJAN // THE_KINETIC_ARCHITECT
-### Portfolio Website — Full-Stack Structure
+# Portfolio Template
+
+A modern, dark-themed developer portfolio — built with pure HTML, CSS, and JavaScript. No frameworks, no build step.
+
+**Fork it. Edit one file. Deploy your own.**
+
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Deploy](https://img.shields.io/badge/deploy-Cloudflare%20Pages-orange)
+
+---
+
+## ✨ Features
+
+- **Cinematic boot sequence** — terminal-style loading animation
+- **8 page sections** — Home, Profile, Projects, Stack, Journey, Lab, Social, Connect
+- **SPA routing** — smooth page transitions, browser history support
+- **Particle background** — interactive tsParticles canvas
+- **Fully responsive** — mobile-first with bottom sheet navigation
+- **Contact form backend** — Discord webhook, DM, and EmailJS integration
+- **Scroll animations** — reveal-on-scroll, progress bars, card tilts
+- **Zero build step** — no npm needed to run locally
+
+---
+
+## 🚀 Quick Start
+
+### 1. Fork & Clone
+
+```bash
+git clone https://github.com/YOUR_USERNAME/Portfolio.git
+cd Portfolio
+```
+
+### 2. Edit Your Config
+
+Open **`config/site.config.js`** and replace the example data with your own:
+
+```js
+meta: {
+  name: 'Your Name',
+  title: 'Your Name',
+  tagline: 'Your tagline here.',
+  role: 'Your Role',
+  email: 'you@example.com',
+  github: 'https://github.com/you',
+  // ...
+},
+```
+
+Replace `config/images/pfp.png` with your profile picture.
+
+### 3. Run Locally
+
+```bash
+# No build step needed — just serve the files:
+npx serve .
+# or
+python3 -m http.server 3000
+```
+
+Open `http://localhost:3000` 🎉
 
 ---
 
 ## 📁 Project Structure
 
 ```
-krarjan-portfolio/
+Portfolio/
+├── config/                    ← 🟢 YOUR CONTENT (edit this)
+│   ├── site.config.js         ← All personal data
+│   └── images/                ← Your images
+│       ├── pfp.png
+│       └── social/
 │
-├── index.html                  ← Main SPA shell (all pages live here)
+├── src/                       ← 🔵 ENGINE (don't touch)
+│   ├── pages/                 ← HTML templates
+│   ├── css/                   ← Stylesheets
+│   └── js/                    ← Application logic
 │
-├── assets/
-│   ├── css/
-│   │   ├── variables.css       ← Design tokens: colors, spacing, radii, z-index
-│   │   ├── base.css            ← CSS reset, typography scale, global utilities
-│   │   ├── animations.css      ← All @keyframes, animation classes, hover effects
-│   │   ├── layout.css          ← Grid system, containers, bento layouts, flexbox utils
-│   │   └── components.css      ← Reusable UI: glass, buttons, badges, nav, footer, etc.
-│   │
-│   ├── js/
-│   │   ├── data.js             ← All site content (projects, stack, timeline, social…)
-│   │   ├── router.js           ← SPA routing: page switching, history API, hash support
-│   │   ├── boot.js             ← Boot screen animation (SVG ring, log lines, dismiss)
-│   │   ├── renderer.js         ← Dynamic HTML injection from data.js
-│   │   ├── ui.js               ← Interactions: drawer, filters, form, timer, scroll reveal
-│   │   └── app.js              ← Entry point: bootstrap order
-│   │
-│   ├── images/                 ← (add your images/avatars/og-image here)
-│   └── fonts/                  ← (add self-hosted fonts here if needed)
-│
-└── README.md                   ← This file
+├── index.html                 ← SPA entry point
+├── _worker.js                 ← Cloudflare Worker (contact form)
+├── wrangler.toml              ← Cloudflare config
+└── .env.example               ← Backend secrets template
 ```
+
+> **Only edit files in `config/`** — that's where all your personal content lives.
 
 ---
 
-## 🧠 Architecture Decisions
+## 🌐 Deploy
+
+### Cloudflare Pages (Recommended)
+
+1. Push your repo to GitHub
+2. Go to [Cloudflare Pages](https://pages.cloudflare.com)
+3. Connect your repo → set build output to `/` (root)
+4. Add environment secrets (see `.env.example`) in the Cloudflare dashboard
+5. Deploy!
+
+### Vercel / Netlify
+
+Works out of the box — just connect your repo. The contact form backend requires Cloudflare Workers though, so the form won't work on other platforms without modification.
+
+### GitHub Pages
+
+1. Go to Settings → Pages → Source: Deploy from branch
+2. Select `main` branch, root `/`
+3. Note: Contact form backend won't work on GitHub Pages
+
+See **[SETUP.md](SETUP.md)** for detailed deployment guides.
+
+---
+
+## 🎨 Customization
+
+| What to change | Where |
+|---|---|
+| Name, bio, tagline | `config/site.config.js` → `meta` |
+| Projects | `config/site.config.js` → `projects` |
+| Tech stack | `config/site.config.js` → `stack` |
+| Timeline | `config/site.config.js` → `journey` |
+| Social links | `config/site.config.js` → `social` |
+| Profile picture | `config/images/pfp.png` |
+| Colors & fonts | `src/css/variables.css` |
+| Boot sequence | `config/site.config.js` → `bootLog` |
+
+See **[CUSTOMIZATION.md](CUSTOMIZATION.md)** for the full reference.
+
+---
+
+## 🧠 Architecture
 
 ### CSS Layer Order
-1. **variables.css** — Design tokens only; no selectors that output styles
-2. **base.css** — Reset + typography; relies on variables
-3. **animations.css** — Keyframes + animation utility classes
-4. **layout.css** — Grid/flex/spacing; purely structural
-5. **components.css** — Visual components (glass, buttons, nav, etc.)
+1. `variables.css` — Design tokens (colors, spacing, radii)
+2. `base.css` — Reset + typography
+3. `animations.css` — @keyframes + animation classes
+4. `layout.css` — Grid, flex, spacing
+5. `components.css` — UI components (glass cards, buttons, nav)
 
-No class conflicts possible because layers have clearly separated responsibilities.
-
-### JS Module Order (script load)
+### JS Module Order
 ```
-data.js → router.js → boot.js → renderer.js → ui.js → app.js
-```
-Each module is an IIFE returning a public API. No ES Modules (works without a bundler).
-
-| Module | Responsibility |
-|---|---|
-| `data.js` | Single source of truth for all content |
-| `router.js` | Show/hide page sections, update nav active state, history API |
-| `boot.js` | SVG ring animation, log line reveals, dismiss to site |
-| `renderer.js` | Read `SITE_DATA`, inject HTML into placeholder `id` elements |
-| `ui.js` | Drawer toggle, filter buttons, contact form, lab timer, scroll reveal |
-| `app.js` | Boots everything in correct order |
-
----
-
-## 🎨 Design System
-
-### Color Tokens (in variables.css)
-| Token | Value | Usage |
-|---|---|---|
-| `--primary-container` | `#00f2ff` | Cyan accent, glows, active states |
-| `--secondary-container` | `#7701d0` | Purple energy, gradients |
-| `--tertiary-fixed` | `#ffe173` | Amber status indicators |
-| `--surface-dim` | `#131313` | Base background |
-| `--on-surface` | `#e5e2e1` | Primary text |
-| `--on-surface-variant` | `#b9cacb` | Secondary text |
-
-### Typography
-- **Headlines / Labels**: `Space Grotesk` — tight tracking, engineered feel
-- **Body**: `Manrope` — highly legible, warm
-
----
-
-## 🚀 How to Run
-
-**No build step needed** — pure HTML/CSS/JS.
-
-```bash
-# Option 1: Python server
-python3 -m http.server 3000
-
-# Option 2: Node.js
-npx serve .
-
-# Option 3: VS Code
-# Install "Live Server" extension, right-click index.html → Open with Live Server
+particles-init.js → site.config.js → router.js → boot.js → renderer.js → ui.js → app.js
 ```
 
-Then open `http://localhost:3000`
+Each module is an IIFE — no bundler required.
 
 ---
 
 ## 📄 Pages
 
-| Route Hash | Page |
+| Route | Page |
 |---|---|
-| `#home` | Landing — hero, stats, featured projects, mission |
-| `#profile` | Bio story, origin timeline, what I do |
-| `#projects` | Filterable project showcase grid |
-| `#stack` | Languages, tools, infra, bots, currently learning |
-| `#journey` | Visual development timeline 2021→present |
-| `#lab` | Active workspace, experiments, lab notes |
-| `#connect` | Contact form + social links |
+| `/` | Home — hero, stats, featured projects |
+| `/profile` | Bio, origin story, approach |
+| `/projects` | Filterable project grid |
+| `/stack` | Languages, tools, infra, learning |
+| `/journey` | Development timeline |
+| `/lab` | Experiments, active builds |
+| `/social` | Social media cards |
+| `/connect` | Contact form + direct links |
 
 ---
 
-## ✏️ Customization
+## 🤝 Contributing
 
-All content lives in **`assets/js/data.js`** — edit that file to:
-- Add/remove projects
-- Update tech stack
-- Change social links
-- Edit bio text
-- Modify timeline entries
-
-No need to touch HTML or CSS for content changes.
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feat/my-feature`
+3. Commit: `git commit -m 'Add my feature'`
+4. Push: `git push origin feat/my-feature`
+5. Open a Pull Request
 
 ---
 
-## 🗂️ Adding Images
+## 📜 License
 
-Place images in `assets/images/` and reference them in `data.js`:
-```js
-projects: [
-  {
-    id: 'my-project',
-    image: 'assets/images/my-project.jpg',
-    ...
-  }
-]
-```
+MIT — see [LICENSE](LICENSE) for details.
 
-Then update `renderer.js` to inject `<img>` tags where needed.
-
----
-
-**© 2025 KRARJAN // BUILT_FOR_THE_NEXT_ERA**
+Built by **KrArjan** — [github.com/KrArjan](https://github.com/KrArjan)

@@ -129,6 +129,7 @@ const Renderer = (() => {
 
     const linksHTML = activeLinks.map(l =>
       `<a href="#" class="nav__link" data-page="${l.id}"
+         aria-label="Navigate to ${l.label}"
          onclick="Router.navTo('${l.id}'); return false;">${l.label}</a>`
     ).join('');
 
@@ -140,6 +141,8 @@ const Renderer = (() => {
       sidebarIconsEl.innerHTML = activeLinks.map(l =>
         `<span class="sidebar-right__icon material-symbols-outlined"
                title="${l.label}"
+               role="button"
+               aria-label="${l.label}"
                onclick="Router.navTo('${l.id}')">${l.icon}</span>`
       ).join('');
     }

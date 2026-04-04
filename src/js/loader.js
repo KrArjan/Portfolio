@@ -173,7 +173,6 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(0);
     }
   }
 

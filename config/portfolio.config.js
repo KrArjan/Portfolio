@@ -22,7 +22,7 @@ const SITE_DATA = {
    * ================================================ */
   meta: {
     name: 'KrArjan',                                     // CHANGE_ME: Your display name
-    title: 'KrArjan',                                    // CHANGE_ME: Browser tab title
+    title: 'KrArjan | Student Developer & Technical Builder', // Updated title for consistency
     tagline: 'Building Since 2021.',                     // CHANGE_ME: Short tagline
     role: 'Student Developer & Technical Builder',       // CHANGE_ME: Your role/title
     description: 'Building software, bots, tools, and digital systems that move the needle.', // CHANGE_ME: SEO description

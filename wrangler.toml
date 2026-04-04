@@ -18,9 +18,6 @@ not_found_handling = "single-page-application"
 # Instead, add them once in the Cloudflare Dashboard under:
 # Settings -> Variables -> Secrets
 # This ensures they persist across every build and stay private.
-[vars]
-# Default: Cloudflare's test key (always passes). Replace with your own for production.
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 
 [observability]
 enabled = false

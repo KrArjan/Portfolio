@@ -103,9 +103,8 @@ const UI = (() => {
     }
 
     try {
-      // 1. Read injected sitekey (populated by HTMLRewriter in _worker.js)
-      // If not injected, fallback to a public test key or null
-      const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
+      // Use sitekey from SITE_DATA config with fallbacks
+      const sitekey = SITE_DATA?.security?.turnstileSiteKey || '0x4AAAAAACxrRyQCBE-RD7A1';
 
       const render = () => {
         if (!window.turnstile) return;
@@ -125,7 +124,7 @@ const UI = (() => {
         });
       };
 
-      // 2. Wait for script if not ready
+      // Wait for script if not ready
       if (!window.turnstile) {
         let retries = 0;
         const interval = setInterval(() => {

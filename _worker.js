@@ -33,37 +33,20 @@ export default {
       // We check for a dot followed by at least 2-4 extension characters
       const hasExtension = /\.[a-z0-9]{2,4}$/i.test(url.pathname);
       
-      let response;
       if (!hasExtension && url.pathname !== "/") {
         if (!env.ASSETS) {
           return new Response("ERROR_SPA_ROUTING: env.ASSETS_BINDING_NOT_CONFIGURED. Check wrangler.toml for [assets] binding = 'ASSETS'.", { status: 500 });
         }
         // Force fallback to the root index.html
-        response = await env.ASSETS.fetch(new Request(url.origin, request));
-      } else {
-        // 4. Default: Serve static assets
-        if (!env.ASSETS) {
-          return new Response("ERROR_STATIC_ASSET: env.ASSETS_BINDING_MISSING.", { status: 500 });
-        }
-        response = await env.ASSETS.fetch(request);
+        return env.ASSETS.fetch(new Request(url.origin, request));
       }
 
-      // 5. Inject Environment Variables into HTML via HTMLRewriter
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("text/html")) {
-        return new HTMLRewriter()
-          .on('#connect-turnstile', {
-            element(el) {
-              const siteKey = env.TURNSTILE_SITE_KEY;
-              if (siteKey && siteKey !== '' && !siteKey.includes('PASTE_YOUR')) {
-                el.setAttribute('data-sitekey', siteKey);
-              }
-            }
-          })
-          .transform(response);
+      // 4. Default: Serve static assets
+      if (!env.ASSETS) {
+        return new Response("ERROR_STATIC_ASSET: env.ASSETS_BINDING_MISSING.", { status: 500 });
       }
-
-      return response;
+      
+      return env.ASSETS.fetch(request);
 
     } catch (err) {
       console.error("Worker Global Exception:", err);

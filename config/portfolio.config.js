@@ -44,6 +44,14 @@ const SITE_DATA = {
     showLabNotes: false,  // Set to true to show lab notes on the Lab page
   },
 
+  /* ===================== SECURITY ===================== *
+   * Security settings for contact forms and Turnstile.
+   * CHANGE_ME: Update turnstileSiteKey with your public key.
+   * ================================================ */
+  security: {
+    turnstileSiteKey: '1x00000000000000000000AA', // CHANGE_ME: Cloudflare Turnstile Site Key
+  },
+
   /* ===================== STATS ===================== *
    * Quick statistics displayed on the home page.
    * CHANGE_ME: Update values and labels.

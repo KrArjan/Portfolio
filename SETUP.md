@@ -101,13 +101,14 @@ The contact form requires environment secrets. After deploying:
 | `EMAILJS_PUBLIC_KEY` | Optional | EmailJS public key |
 | `EMAILJS_PRIVATE_KEY` | Optional | EmailJS private key |
 
-3. **Update the Turnstile Site Key** in `wrangler.toml`:
+3. **Update the Turnstile Site Key** in `config/portfolio.config.js`:
 
-   The repo ships with Cloudflare's **test key** (`1x00000000000000000000AA`) which always passes verification — great for local testing, but **you must replace it with your own key for production**:
+   The repo ships with Cloudflare's **test key** (`1x00000000wfwwff00000000AA`) which always passes verification — great for local testing, but **you must replace it with your own key for production**:
 
-   ```toml
-   [vars]
-   TURNSTILE_SITE_KEY = "your-real-site-key-here"
+   ```js
+   security: {
+     turnstileSiteKey: "your-real-site-key-here"
+   }
    ```
 
 #### Getting a Turnstile Key:
@@ -115,7 +116,7 @@ The contact form requires environment secrets. After deploying:
 1. Go to [Cloudflare Dashboard → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile)
 2. Create a new widget
 3. Set the domain to your portfolio URL
-4. Copy the **Site Key** → `wrangler.toml`
+4. Copy the **Site Key** → `config/portfolio.config.js`
 5. Copy the **Secret Key** → Cloudflare Pages environment secrets
 
 ---

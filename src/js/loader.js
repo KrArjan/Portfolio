@@ -11,37 +11,37 @@
 
   /* ── Partials injected directly before <main> ─────────────────── */
   const chromeParts = [
-    '/pages/boot.html',
-    '/pages/shell.html',
+    '/src/pages/boot.html',
+    '/src/pages/shell.html',
   ];
 
   /* ── Page sections placed inside <main> ──────────────────────── */
   const pageParts = [
-    '/pages/home.html',
-    '/pages/profile.html',
-    '/pages/projects.html',
-    '/pages/stack.html',
-    '/pages/journey.html',
-    '/pages/lab.html',
-    '/pages/connect.html',
-    '/pages/social.html',
-    '/pages/404.html',
+    '/src/pages/home.html',
+    '/src/pages/profile.html',
+    '/src/pages/projects.html',
+    '/src/pages/stack.html',
+    '/src/pages/journey.html',
+    '/src/pages/lab.html',
+    '/src/pages/connect.html',
+    '/src/pages/social.html',
+    '/src/pages/404.html',
   ];
 
   /* ── Elements that must come AFTER <main> in the DOM ─────────── */
   const afterMainParts = [
-    '/pages/after-main.html',   // footer + toast
+    '/src/pages/after-main.html',   // footer + toast
   ];
 
   /* ── App scripts loaded in strict order after DOM is ready ───── */
   const appScripts = [
-    '/assets/js/particles-init.js', // start particles immediately
-    '/assets/js/data.js',
-    '/assets/js/router.js',
-    '/assets/js/boot.js',
-    '/assets/js/renderer.js',
-    '/assets/js/ui.js',
-    '/assets/js/app.js',
+    '/src/js/particles-init.js', // start particles immediately
+    '/config/portfolio.config.js',
+    '/src/js/router.js',
+    '/src/js/boot.js',
+    '/src/js/renderer.js',
+    '/src/js/ui.js',
+    '/src/js/app.js',
   ];
 
   // ────────────────────────────────────────────────────────────────

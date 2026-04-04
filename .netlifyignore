@@ -3,6 +3,7 @@ wrangler.toml
 .assetsignore
 .dev.vars
 vercel.json
+.vercelignore
 docs/
 README.md
 LICENSE

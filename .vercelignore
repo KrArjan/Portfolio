@@ -3,6 +3,7 @@ wrangler.toml
 .assetsignore
 .dev.vars
 netlify.toml
+.netlifyignore
 docs/
 README.md
 LICENSE

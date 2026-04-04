@@ -19,3 +19,4 @@ yarn-error.log*
 # Distribution & Compiled
 api/contact.js.map
 netlify/functions/contact.js.map
+# (Note: Deployment-specific ignore files like .vercelignore, .netlifyignore are tracked in Git)

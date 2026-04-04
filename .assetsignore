@@ -11,5 +11,7 @@ wrangler.toml
 _worker.js
 LICENSE
 vercel.json
+.vercelignore
 api/
 netlify.toml
+.netlifyignore

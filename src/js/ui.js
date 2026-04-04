@@ -148,6 +148,11 @@ const UI = (() => {
     const filterGroup = document.querySelector('.filter-group');
     if (!filterGroup) return;
 
+    if (SITE_DATA.features?.showProjectsFilter === false) {
+      filterGroup.style.display = 'none';
+      return;
+    }
+
     filterGroup.addEventListener('click', (e) => {
       const btn = e.target.closest('.filter-btn');
       if (!btn) return;
@@ -177,6 +182,11 @@ const UI = (() => {
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
+
+    if (SITE_DATA.features?.showContactForm === false) {
+      form.parentElement.style.display = 'none';
+      return;
+    }
 
     // Define Turnstile callbacks globally for the widget
     window.onSuccess = function () {

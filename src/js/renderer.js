@@ -120,6 +120,11 @@ const Renderer = (() => {
     const container = document.getElementById('stats-row');
     if (!container) return;
 
+    if (SITE_DATA.features?.showStats === false) {
+      container.parentElement.style.display = 'none';
+      return;
+    }
+
     container.innerHTML = SITE_DATA.stats.map(s => `
       <div class="stat-card glass bg-surface-low">
         <p class="stat-card__value" style="color:${s.color}">${s.value}</p>
@@ -182,6 +187,12 @@ const Renderer = (() => {
   function renderFeatured() {
     const container = document.getElementById('featured-grid');
     if (!container) return;
+
+    if (SITE_DATA.features?.showFeaturedWork === false) {
+      // Hide the entire featured section (parent container)
+      container.closest('.section-lg').style.display = 'none';
+      return;
+    }
 
     // Map IDs to full project objects from SITE_DATA.projects
     const ids = SITE_DATA.featuredWork || [];
@@ -302,6 +313,11 @@ const Renderer = (() => {
   function renderJourney() {
     const container = document.getElementById('timeline-entries');
     if (!container) return;
+
+    if (SITE_DATA.features?.showJourneyTimeline === false) {
+      container.closest('.section-lg').style.display = 'none';
+      return;
+    }
 
     container.innerHTML = SITE_DATA.journey.map((entry, i) => {
       const isRight = i % 2 !== 0;

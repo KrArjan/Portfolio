@@ -40,8 +40,17 @@ const SITE_DATA = {
   /* ===================== FEATURES ===================== *
    * Feature flags to toggle sections on/off.
    * ================================================ */
+  /* ===================== FEATURES ===================== *
+   * Feature flags to toggle sections on/off.
+   * ================================================ */
   features: {
-    showLabNotes: false,  // Set to true to show lab notes on the Lab page
+    showBootScreen: true,     // Toggle the cinematic loading animation
+    showStats: true,          // Toggle the statistic cards on home page
+    showFeaturedWork: true,   // Toggle the featured projects bento on home page
+    showLabNotes: false,      // Toggle terminal-style log entries on Lab page
+    showProjectsFilter: true, // Toggle the filtering buttons on Projects page
+    showJourneyTimeline: true,// Toggle the journey entries on the Journey page
+    showContactForm: true,    // Toggle the contact form on the Connect page
   },
 
   /* ===================== SECURITY ===================== *

@@ -32,7 +32,7 @@ const Boot = (() => {
   }
 
   /* ---- Dismiss boot screen and reveal the site ---- */
-  function dismiss() {
+  function dismiss(instant = false) {
     const bootScreen  = document.getElementById('boot-screen');
     const mainNav     = document.getElementById('main-nav');
     const mainContent = document.getElementById('main-content');
@@ -40,21 +40,27 @@ const Boot = (() => {
     const sidebar     = document.getElementById('sidebar-right');
 
     if (bootScreen) {
+      if (instant) {
+        bootScreen.style.display = 'none';
+        [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
+          if (el) el.style.removeProperty('display');
+        });
+        if (onCompleteCallback) onCompleteCallback();
+        return;
+      }
+
       setComplete();
-      
       bootScreen.style.opacity       = '0';
       bootScreen.style.pointerEvents = 'none';
 
       setTimeout(() => {
         bootScreen.style.display = 'none';
-
         [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
           if (el) {
             el.style.removeProperty('display');
             el.classList.add('anim-fade-in');
           }
         });
-
         if (onCompleteCallback) onCompleteCallback();
       }, 800);
     }

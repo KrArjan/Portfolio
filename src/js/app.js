@@ -21,9 +21,16 @@
   });
 
   /* 3. Manual Dismiss: signal that all assets are loaded and systems ready */
-  // We add a short 400ms pause at 100% as requested by the user.
-  setTimeout(() => {
-    Boot.dismiss();
-  }, 400);
+  const showBoot = SITE_DATA.features?.showBootScreen !== false;
+
+  if (showBoot) {
+    // Standard cinematic reveal with 400ms pause
+    setTimeout(() => {
+      Boot.dismiss(false);
+    }, 400);
+  } else {
+    // Immediate bypass
+    Boot.dismiss(true);
+  }
 
 })();

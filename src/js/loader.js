@@ -35,7 +35,6 @@
 
   /* ── App scripts loaded in strict order after DOM is ready ───── */
   const appScripts = [
-    '/src/js/particles-init.js', // start particles immediately
     '/config/portfolio.config.js',
     '/src/js/router.js',
     '/src/js/boot.js',
@@ -175,5 +174,15 @@
       updateTarget();
     }
   }
+
+  // ────────────────────────────────────────────────────────────────
+  // Step 4 — Lazy-load tsParticles after critical path completes
+  // ────────────────────────────────────────────────────────────────
+  requestIdleCallback(() => {
+    const ps = document.createElement('script');
+    ps.src = 'https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js';
+    ps.onload = () => loadScript('/src/js/particles-init.js').catch(() => {});
+    document.body.appendChild(ps);
+  }, { timeout: 2000 });
 
 })();

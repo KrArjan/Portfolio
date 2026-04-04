@@ -121,20 +121,22 @@ async function handleContactForm(request, env) {
 
     const verifyJson = await verifyRes.json();
     
-    // Logic: If it's a test secret and we aren't explicitly in a test environment, 
-    // we should be careful. But for now, let's just ensure success is true.
+    // LOGGING: This shows up in your 'wrangler dev' console
+    console.log(`[Turnstile] Result: ${verifyJson.success ? 'PASS' : 'FAIL'} | codes: ${verifyJson['error-codes'] || 'none'}`);
+
     if (!verifyJson.success) {
-      console.error("Turnstile Verification Failed:", verifyJson['error-codes']);
       return new Response(JSON.stringify({ 
         error: 'SECURITY_VERIFICATION_FAILED',
-        detail: 'Cloudflare rejected the security token.',
-        codes: verifyJson['error-codes'],
-        debug: isTestSecret ? 'Using Testing Secret' : 'Using Real Secret'
+        detail: 'Cloudflare Turnstile rejected this request. Please refresh and try again.',
+        codes: verifyJson['error-codes']
       }), {
         status: 403,
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     }
+
+    // Additional Check: If it's a test secret, remind the user in the response
+    const security_notice = isTestSecret ? 'TEST_MODE_ACTIVE (Always Passes)' : 'STRICT_MODE_ACTIVE';
 
     // 2. Prepare Discord Payload
     const discordPayload = {
@@ -216,6 +218,7 @@ async function handleContactForm(request, env) {
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
       verified: true,
+      security_tier: security_notice,
       delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE'
     }), {
       status: 200,

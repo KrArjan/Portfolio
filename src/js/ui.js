@@ -234,14 +234,19 @@ const UI = (() => {
 
         const result = await response.json();
 
-        if (response.ok) {
+        // Extra Validation: Confirm the response came from the Worker, not a static server bypass
+        if (response.ok && result.verified) {
           form.reset();
-
           if (success) {
             success.classList.remove('hidden');
-            showToast('TRANSMISSION_RECEIVED');
+            showToast('TRANSMISSION_SUCCESS: SECURITY_VERIFIED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
+        } else if (response.ok && !result.verified) {
+          // If the status is 200/OK but the backend didn't send 'verified: true'
+          // This means a static server (like 'npx serve') is intercepting the request
+          console.error("Critical: Static server bypass detected. Ensure you are using 'wrangler dev'.");
+          showToast('BACKEND_NOT_REACHABLE (Static Server Warning)');
         } else {
           const errMsg = result.detail || result.error || 'TRANSMISSION_FAILED';
           console.error("Transmission Error:", result.error, result.codes);

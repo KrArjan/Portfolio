@@ -28,7 +28,12 @@ export default {
         return handleContactForm(request, env);
       }
 
-      // 3. SPA Routing Fallback
+      // 3. API: Configuration Exporter (Public keys only)
+      if (url.pathname === "/api/config" && (request.method === "GET" || request.method === "OPTIONS")) {
+        return handleConfig(request, env);
+      }
+
+      // 4. SPA Routing Fallback
       // If the path doesn't look like a file (no extension), serve index.html
       // We check for a dot followed by at least 2-4 extension characters
       const hasExtension = /\.[a-z0-9]{2,4}$/i.test(url.pathname);
@@ -63,17 +68,18 @@ export default {
 };
 
 /**
- * Helper to create a JSON response with proper CORS headers.
- * Ensures even error responses (403, 500) are readable by the frontend.
+ * Public Configuration Endpoint
+ * Returns non-sensitive environment variables for frontend use.
  */
-function createResponse(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
+async function handleConfig(request, env) {
+  return new Response(JSON.stringify({ 
+    TURNSTILE_SITE_KEY: env.TURNSTILE_SITE_KEY || '0x4AAAAAACxrRyQCBE-RD7A1' // Fallback to default if not set
+  }), {
+    status: 200,
+    headers: { 
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'public, max-age=3600'
     }
   });
 }
@@ -86,55 +92,55 @@ async function handleContactForm(request, env) {
   try {
     // 0. Configuration Validation
     if (!env.TURNSTILE_SECRET_KEY || env.TURNSTILE_SECRET_KEY === '' || env.TURNSTILE_SECRET_KEY.includes('PASTE_YOUR')) {
-      console.error("[Config] Missing TURNSTILE_SECRET_KEY");
-      return createResponse({ 
+      console.error("Missing TURNSTILE_SECRET_KEY");
+      return new Response(JSON.stringify({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
-        detail: 'TURNSTILE_SECRET_KEY is missing in environment.'
-      }, 500);
+        detail: 'TURNSTILE_SECRET_KEY is missing or invalid in environment settings.'
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     if (!env.DISCORD_WEBHOOK_URL || env.DISCORD_WEBHOOK_URL === '' || env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
-      console.error("[Config] Missing DISCORD_WEBHOOK_URL");
-      return createResponse({ 
+      console.error("Missing DISCORD_WEBHOOK_URL");
+      return new Response(JSON.stringify({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
-        detail: 'DISCORD_WEBHOOK_URL is missing in environment.'
-      }, 500);
+        detail: 'DISCORD_WEBHOOK_URL is missing or invalid in environment settings.'
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
-    const body = await request.json();
-    const { name, email, subject, message, token } = body;
+    const { name, email, subject, message, token } = await request.json();
 
     // 1. Verify Turnstile Token
-    if (!token || typeof token !== 'string' || token.trim() === '') {
-      console.warn("[Security] Invalid or missing token in request body");
-      return createResponse({ error: 'SECURITY_TOKEN_MISSING' }, 400);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'SECURITY_TOKEN_MISSING' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
+    const verifyFormData = new FormData();
     const clientIP = getClientIP(request);
-    
-    // Cloudflare Siteverify expects application/x-www-form-urlencoded
-    const verifyBody = new URLSearchParams();
-    verifyBody.append('secret', env.TURNSTILE_SECRET_KEY);
-    verifyBody.append('response', token);
-    verifyBody.append('remoteip', clientIP);
+    verifyFormData.append('secret', env.TURNSTILE_SECRET_KEY);
+    verifyFormData.append('response', token);
+    verifyFormData.append('remoteip', clientIP);
 
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: verifyBody.toString()
+      body: verifyFormData
     });
 
     const verifyJson = await verifyRes.json();
-    
     if (!verifyJson.success) {
-      console.error("[Security] Turnstile Verification Failed:", verifyJson['error-codes'] || 'unknown_error');
-      return createResponse({ 
-        error: 'SECURITY_VERIFICATION_FAILED', 
-        details: verifyJson['error-codes'] 
-      }, 403);
+      return new Response(JSON.stringify({ error: 'SECURITY_VERIFICATION_FAILED' }), {
+        status: 403,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
-
-    console.log("[Security] Turnstile Verification Succeeded for IP:", clientIP);
 
     // 2. Prepare Discord Payload
     const discordPayload = {
@@ -152,17 +158,22 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `Nexus Terminal | IP: ${clientIP}`
+          text: `Nexus Terminal | IP: ${getClientIP(request)}`
         }
       }]
     };
 
-    // 3. Parallel Transmission (Webhook & DM & EmailJS)
+    // 3. Parallel Transmission (Webhook & DM)
     const transmissions = [];
 
-    // Webhook Transmissions
+    // Webhook Transmissions (if configured)
     if (env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
-      const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => part.split('#')[0].trim()).filter(url => url.length > 0);
+      const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => {
+        // Remove everything after '#' if it exists
+        const cleanUrl = part.split('#')[0].trim();
+        return cleanUrl;
+      }).filter(url => url.length > 0);
+
       webhookUrls.forEach(url => {
         transmissions.push(fetch(url, {
           method: 'POST',
@@ -172,16 +183,21 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // DM Transmission
-    if (env.DISCORD_BOT_TOKEN && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR') && env.DISCORD_USER_ID) {
-      const userIds = env.DISCORD_USER_ID.split(',').map(part => part.split('#')[0].trim()).filter(id => id.length > 0);
+    // DM Transmission (if configured)
+    if (env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
+      const userIds = env.DISCORD_USER_ID.split(',').map(part => {
+        // Remove everything after '#' if it exists
+        const cleanId = part.split('#')[0].trim();
+        return cleanId;
+      }).filter(id => id.length > 0);
+
       userIds.forEach(userId => {
         transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
       });
     }
 
-    // EmailJS Transmission
-    if (env.EMAILJS_SERVICE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
+    // EmailJS Transmission (REST API)
+    if (env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
       transmissions.push(sendEmailJS(env, {
         from_name: name,
         from_email: email,
@@ -190,29 +206,34 @@ async function handleContactForm(request, env) {
       }));
     }
 
-    // Proceed only if there are transmissions to send
-    if (transmissions.length === 0) {
-       console.warn("[Transmission] No delivery channels configured.");
-    }
-
     const results = await Promise.allSettled(transmissions);
-    const failedCount = results.filter(r => r.status === 'rejected' || (r.value && r.value.ok === false)).length;
+    const failed = results.filter(r => {
+      // Check for rejected promises or internal {ok: false} returns
+      return r.status === 'rejected' || (r.value && r.value.ok === false);
+    });
 
-    if (transmissions.length > 0 && failedCount === transmissions.length) {
-      console.error("[Transmission] All deliveries failed.");
+    if (failed.length === transmissions.length) {
+      console.error("All transmissions failed:", results);
       throw new Error('ALL_TRANSMISSIONS_FAILED');
     }
 
     // 4. Return Success
-    return createResponse({ 
+    return new Response(JSON.stringify({ 
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
-      delivery: failedCount > 0 ? 'PARTIAL' : 'COMPLETE'
-    }, 200);
+      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
+      details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+    });
 
   } catch (err) {
-    console.error("[Worker] Process Failure:", err.message);
-    return createResponse({ error: 'CORE_PROCESS_FAILURE', detail: err.message }, 500);
+    console.error("Worker process error:", err);
+    return new Response(JSON.stringify({ error: 'CORE_PROCESS_FAILURE', detail: err.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
 

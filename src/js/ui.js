@@ -5,6 +5,7 @@
 'use strict';
 
 const UI = (() => {
+  let cachedConfig = null;
 
   /* ===================== DRAWER ===================== */
 
@@ -90,52 +91,67 @@ const UI = (() => {
     });
   }
 
-  function handleTurnstile(page) {
+  async function handleTurnstile(page) {
     if (page !== 'connect') return;
 
-    const render = () => {
-      if (!window.turnstile) return;
-      
-      const turnstileEl = document.getElementById('connect-turnstile');
-      if (!turnstileEl) return;
+    const turnstileEl = document.getElementById('connect-turnstile');
+    if (!turnstileEl) return;
 
-      // Check if already rendered (has children)
-      if (turnstileEl.children.length === 0) {
+    // Check if already rendered (has children)
+    if (turnstileEl.children.length > 0) {
+      window.turnstile?.reset(turnstileEl);
+      return;
+    }
+
+    try {
+      // 1. Fetch sitekey from API config if NOT cached
+      if (!cachedConfig) {
         try {
-          const sitekey = turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
-          window.turnstile.render('#connect-turnstile', {
-            sitekey: sitekey,
-            theme: 'dark',
-            callback: function(token) {
-              if (window.onSuccess) window.onSuccess(token);
-            },
-            'expired-callback': function() {
-              if (window.onExpired) window.onExpired();
-            },
-            'error-callback': function() {
-              if (window.onError) window.onError();
-            }
-          });
+          const res = await fetch('/api/config');
+          if (res.ok) {
+            cachedConfig = await res.json();
+          }
         } catch (e) {
-          console.error("Turnstile render error:", e);
+          console.warn("Could not fetch remote config, using defaults:", e);
         }
-      } else {
-        window.turnstile.reset(turnstileEl);
       }
-    };
 
-    // If turnstile isn't ready, wait for it
-    if (!window.turnstile) {
-      let retries = 0;
-      const interval = setInterval(() => {
-        if (window.turnstile) {
-          clearInterval(interval);
-          render();
-        }
-        if (++retries > 10) clearInterval(interval);
-      }, 500);
-    } else {
-      render();
+      const sitekey = cachedConfig?.TURNSTILE_SITE_KEY || turnstileEl.dataset.sitekey || '0x4AAAAAACxrRyQCBE-RD7A1';
+
+      const render = () => {
+        if (!window.turnstile) return;
+        
+        window.turnstile.render('#connect-turnstile', {
+          sitekey: sitekey,
+          theme: 'dark',
+          callback: function(token) {
+            if (window.onSuccess) window.onSuccess(token);
+          },
+          'expired-callback': function() {
+            if (window.onExpired) window.onExpired();
+          },
+          'error-callback': function() {
+            if (window.onError) window.onError();
+          }
+        });
+      };
+
+      // 2. Wait for script if not ready
+      if (!window.turnstile) {
+        let retries = 0;
+        const interval = setInterval(() => {
+          if (window.turnstile) {
+            clearInterval(interval);
+            render();
+          }
+          if (++retries > 20) clearInterval(interval);
+        }, 500);
+      } else {
+        render();
+      }
+
+    } catch (err) {
+      console.error("Turnstile Initialization Failure:", err);
     }
   }
 
@@ -221,35 +237,23 @@ const UI = (() => {
           body: JSON.stringify(payload)
         });
 
-        // Try to parse JSON, fall back to text if it's not JSON
-        let result;
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          result = await response.json();
-        } else {
-          result = { error: 'UNKNOWN_SERVER_RESPONSE', detail: await response.text() };
-        }
+        const result = await response.json();
 
         if (response.ok) {
           form.reset();
+
           if (success) {
             success.classList.remove('hidden');
             showToast('TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
-          // Explicitly handle Security Failures
-          if (response.status === 403 || result.error === 'SECURITY_VERIFICATION_FAILED') {
-            console.error("Security Block:", result.details || 'Turnstile verification failed');
-            showToast('SECURITY_VERIFICATION_FAILED');
-          } else {
-            console.error("Transmission Error:", result.error || response.statusText);
-            showToast(result.error || 'TRANSMISSION_FAILED');
-          }
+          console.error("Transmission Error:", result.error);
+          showToast(result.error || 'TRANSMISSION_FAILED');
         }
 
       } catch (error) {
-        console.error("Network / Worker Error:", error);
+        console.error("Network Error:", error);
         showToast('CONNECTION_STABILITY_ERROR');
       } finally {
         // Always reset Turnstile after every transmission (tokens are single-use)

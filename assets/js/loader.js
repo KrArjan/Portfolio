@@ -133,12 +133,6 @@
   // Inject boot screen first to show progress
   try {
     const bootHtml = await fetchHtml(chromeParts[0]);
-
-    // Ensure icons are ready before showing the boot screen to avoid FOUT
-    if (document.fonts) {
-      await document.fonts.load('24px "Material Symbols Outlined"').catch(() => {});
-    }
-
     placeholder.before(parseFragment(bootHtml));
     startProgressLoop();
   } catch (err) {

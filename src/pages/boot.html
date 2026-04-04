@@ -1,11 +1,11 @@
 <!-- =====================================================================
-     BOOT SCREEN  ÔÇö  Cinematic Terminal Edition
+     BOOT SCREEN  —  Cinematic Terminal Edition
      Replaces the old boot screen. Auto-dismissed by boot.js after the
      loading animation completes.
      ===================================================================== -->
 
 <style>
-  /* ÔöÇÔöÇ Boot-screen-only styles ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ */
+  /* ── Boot-screen-only styles ─────────────────────────────────────────────────────────────────── */
 
   #boot-screen {
     position: fixed;
@@ -72,13 +72,8 @@
   }
 
   @keyframes bootScanSweep {
-    0% {
-      top: -100px;
-    }
-
-    100% {
-      top: 100%;
-    }
+    0% { top: -100px; }
+    100% { top: 100%; }
   }
 
   /* Top status bar */
@@ -108,202 +103,82 @@
     color: var(--on-surface);
   }
 
-  /* ÔöÇÔöÇ 3D Holographic Cube ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ */
+  /* ── 3D Holographic Geometry (Wireframe Icosahedron) ────────────────────────────────────────── */
 
   #boot-screen .cube-scene {
     position: relative;
-    width: 140px;
-    height: 140px;
-    perspective: 600px;
+    width: 200px;
+    height: 200px;
+    perspective: 800px;
   }
 
-  @media (min-width: 768px) {
-    #boot-screen .cube-scene {
-      width: 180px;
-      height: 180px;
-    }
-  }
-
-  /* Ambient bloom behind the cube */
+  /* Ambient bloom behind the geometry */
   #boot-screen .cube-bloom {
     position: absolute;
-    inset: -40px;
+    inset: -60px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(0, 242, 255, 0.22) 0%, transparent 70%);
-    filter: blur(28px);
+    filter: blur(32px);
     pointer-events: none;
   }
 
-  #boot-screen .cube {
+  #boot-screen .shape-container {
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    animation: cubeRotate 10s ease-in-out infinite;
+    animation: shapeRotate 12s linear infinite;
   }
 
-  @keyframes cubeRotate {
-    0% {
-      transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
-    }
-
-    25% {
-      transform: rotateX(30deg) rotateY(90deg) rotateZ(5deg);
-    }
-
-    50% {
-      transform: rotateX(20deg) rotateY(180deg) rotateZ(0deg);
-    }
-
-    75% {
-      transform: rotateX(10deg) rotateY(270deg) rotateZ(-5deg);
-    }
-
-    100% {
-      transform: rotateX(20deg) rotateY(360deg) rotateZ(0deg);
-    }
+  @keyframes shapeRotate {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    100% { transform: rotateX(360deg) rotateY(720deg) rotateZ(0deg); }
   }
 
-  /* All 6 faces */
-  #boot-screen .cube__face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 1px dashed rgba(0, 242, 255, 0.55);
-    box-shadow:
-      0 0 12px rgba(0, 242, 255, 0.18) inset,
-      0 0 6px rgba(0, 242, 255, 0.28);
-    background: rgba(0, 242, 255, 0.025);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Front */
-  #boot-screen .cube__face--front {
-    transform: translateZ(calc(var(--cube-half)));
-  }
-
-  /* Back */
-  #boot-screen .cube__face--back {
-    transform: rotateY(180deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* Left */
-  #boot-screen .cube__face--left {
-    transform: rotateY(-90deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* Right */
-  #boot-screen .cube__face--right {
-    transform: rotateY(90deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* Top */
-  #boot-screen .cube__face--top {
-    transform: rotateX(90deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* Bottom */
-  #boot-screen .cube__face--bottom {
-    transform: rotateX(-90deg) translateZ(calc(var(--cube-half)));
-  }
-
-  /* CSS custom property for half-size (changes per breakpoint) */
-  #boot-screen .cube-scene {
-    --cube-half: 70px;
-  }
-
-  @media (min-width: 768px) {
-    #boot-screen .cube-scene {
-      --cube-half: 90px;
-    }
-  }
-
-  /* Corner accent dots on frontal face */
-  #boot-screen .cube__face--front .cube-corner {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 242, 255, 0.9);
-    box-shadow: 0 0 8px rgba(0, 242, 255, 1), 0 0 16px rgba(0, 242, 255, 0.6);
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(1) {
-    top: 8px;
-    left: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(2) {
-    top: 8px;
-    right: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(3) {
-    bottom: 8px;
-    left: 8px;
-  }
-
-  #boot-screen .cube__face--front .cube-corner:nth-child(4) {
-    bottom: 8px;
-    right: 8px;
-  }
-
-  /* Inner glowing square on front face */
-  #boot-screen .cube__face--front .cube-inner {
-    width: 40%;
-    height: 40%;
-    border: 1px solid rgba(0, 242, 255, 0.8);
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5) inset, 0 0 10px rgba(0, 242, 255, 0.5);
-    animation: cubeInnerPulse 2.5s ease-in-out infinite;
-  }
-
-  @keyframes cubeInnerPulse {
-
-    0%,
-    100% {
-      opacity: 0.7;
-      box-shadow: 0 0 8px rgba(0, 242, 255, 0.4) inset, 0 0 8px rgba(0, 242, 255, 0.4);
-    }
-
-    50% {
-      opacity: 1;
-      box-shadow: 0 0 18px rgba(0, 242, 255, 0.9) inset, 0 0 18px rgba(0, 242, 255, 0.9);
-    }
-  }
-
-  /* Side projecting wing lines (the flat diamond-like extensions in the reference) */
-  #boot-screen .cube-wings {
+  /* Icosahedron Planes */
+  #boot-screen .shape-plane {
     position: absolute;
     inset: 0;
     transform-style: preserve-3d;
     pointer-events: none;
-    animation: cubeRotate 10s ease-in-out infinite;
   }
 
-  #boot-screen .cube-wing {
+  #boot-screen .shape-rect {
     position: absolute;
-    background: transparent;
-    border: 1px dashed rgba(0, 242, 255, 0.18);
-  }
-
-  #boot-screen .cube-wing--h {
     top: 50%;
-    left: -30px;
-    right: -30px;
-    height: 1px;
-    border-width: 0 0 1px 0;
-    transform: translateY(-50%);
+    left: 50%;
+    width: 160px;
+    height: 100px;
+    margin-left: -80px;
+    margin-top: -50px;
+    border: 1.5px solid rgba(0, 242, 255, 0.7);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3), 0 0 5px rgba(0, 242, 255, 0.5) inset;
+    background: rgba(0, 242, 255, 0.03);
+    transform-style: preserve-3d;
   }
 
-  #boot-screen .cube-wing--v {
+  #boot-screen .shape-rect--0 { transform: rotateX(0deg) rotateY(0deg); }
+  #boot-screen .shape-rect--1 { transform: rotateX(90deg) rotateY(0deg); }
+  #boot-screen .shape-rect--2 { transform: rotateX(0deg) rotateY(90deg); }
+
+  /* Inner Core Pulse */
+  #boot-screen .shape-core {
+    position: absolute;
+    top: 50%;
     left: 50%;
-    top: -30px;
-    bottom: -30px;
-    width: 1px;
-    border-width: 0 1px 0 0;
-    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    margin-top: -10px;
+    background: radial-gradient(circle, #00f2ff 0%, #00d0ff 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.8), 0 0 40px rgba(0, 242, 255, 0.4);
+    animation: corePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.5); opacity: 0.4; }
   }
 
   /* Status labels */
@@ -379,7 +254,6 @@
     width: 0%;
     position: relative;
     border-radius: 999px;
-    /* No CSS transition ÔÇö JS requestAnimationFrame handles easing directly */
   }
 
   #boot-screen .boot-progress-fill::after {
@@ -427,9 +301,7 @@
   }
 
   @media (min-width: 1024px) {
-    #boot-screen .boot-float-card {
-      display: block;
-    }
+    #boot-screen .boot-float-card { display: block; }
   }
 
   #boot-screen .boot-float-card--right {
@@ -447,9 +319,7 @@
     margin-bottom: 6px;
   }
 
-  #boot-screen .boot-float-card--right .card-line:nth-child(2) {
-    width: 66%;
-  }
+  #boot-screen .boot-float-card--right .card-line:nth-child(2) { width: 66%; }
 
   #boot-screen .boot-float-card--right .card-coords {
     padding-top: 16px;
@@ -471,9 +341,7 @@
   }
 
   @media (min-width: 1024px) {
-    #boot-screen .boot-float-card--left {
-      display: flex;
-    }
+    #boot-screen .boot-float-card--left { display: flex; }
   }
 
   #boot-screen .boot-float-card--left span {
@@ -481,7 +349,7 @@
     font-size: 0.5625rem;
     letter-spacing: 0.45em;
     text-transform: uppercase;
-    color: rgba(119, 1, 208, 0.4);
+    color: rgba(0, 242, 255, 0.1);
   }
 
   /* Footer */
@@ -522,13 +390,8 @@
     letter-spacing: 0.05em;
   }
 
-  #boot-screen .boot-footer__item .label--cyan {
-    color: var(--primary-container);
-  }
-
-  #boot-screen .boot-footer__item .label--purple {
-    color: var(--secondary);
-  }
+  #boot-screen .boot-footer__item .label--cyan { color: var(--primary-container); }
+  #boot-screen .boot-footer__item .label--purple { color: var(--secondary); }
 
   #boot-screen .boot-footer__item .value {
     font-family: var(--font-headline);
@@ -568,7 +431,6 @@
 
 <div id="boot-screen">
 
-  <!-- ÔöÇÔöÇ Layer 0: backgrounds ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ -->
   <div class="boot-bg-grid"></div>
   <div class="boot-vignette"></div>
   <div class="boot-noise"></div>
@@ -588,17 +450,9 @@
     <p>RENDER_ENGINE: KINETIC_TERMINAL_STABLE</p>
     <p>LATENCY_CHECK: 14ms</p>
     <p>STATUS: OPTIMAL</p>
-    <p>SYSTEM_BOOT_SEQUENCE: INIT_START</p>
-    <p>LOAD_DRIVER: KERNEL_MODULE_G7X</p>
-    <p>FETCHING_REPOSITORY: PORTFOLIO_V2.0.4</p>
-    <p>ESTABLISHING_SECURE_HANDSHAKE...</p>
-    <p>BYPASSING_FIREWALL_LAYERS: [####################] 100%</p>
-    <p>REPLICATING_UI_NODES: SUCCESS</p>
-    <p>SYNCING_ASSETS_CACHE: OK</p>
-    <p>VALIDATING_ENCRYPTION_KEY_0x74f5ff...</p>
   </div>
 
-  <!-- ÔöÇÔöÇ Layer 1: top status bar ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ -->
+  <!-- Layer 1: top status bar -->
   <div class="boot-topbar" aria-hidden="true">
     <span class="material-symbols-outlined" style="font-size:0.875rem;color:var(--primary-container);">terminal</span>
     <div class="boot-topbar__line"></div>
@@ -606,34 +460,28 @@
     <div class="boot-topbar__line"></div>
   </div>
 
-  <!-- ÔöÇÔöÇ Layer 2: main content ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ -->
-  <main
-    style="position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:48px;padding:24px;">
+  <!-- Layer 2: main content -->
+  <main style="position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:48px;padding:24px;">
 
-    <!-- 3D Holographic Cube -->
+    <!-- 3D Holographic Geometry (Icosahedron Wireframe) -->
     <div class="cube-scene">
       <div class="cube-bloom"></div>
-
-      <!-- Outer rotating cube -->
-      <div class="cube">
-        <div class="cube__face cube__face--front">
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <span class="cube-corner"></span>
-          <div class="cube-inner"></div>
+ 
+      <div class="shape-container">
+        <!-- The three base rectangles -->
+        <div class="shape-plane">
+          <div class="shape-rect shape-rect--0"></div>
+          <div class="shape-rect shape-rect--1"></div>
+          <div class="shape-rect shape-rect--2"></div>
         </div>
-        <div class="cube__face cube__face--back"></div>
-        <div class="cube__face cube__face--left"></div>
-        <div class="cube__face cube__face--right"></div>
-        <div class="cube__face cube__face--top"></div>
-        <div class="cube__face cube__face--bottom"></div>
-      </div>
 
-      <!-- Extension wing lines (flat projected arms) -->
-      <div class="cube-wings">
-        <div class="cube-wing cube-wing--h"></div>
-        <div class="cube-wing cube-wing--v"></div>
+        <!-- Inner Core -->
+        <div class="shape-core"></div>
+        
+        <!-- Decorative HUD line overlay -->
+        <div class="shape-plane" style="transform: rotateX(45deg) rotateZ(45deg);">
+           <div class="shape-rect" style="border: 0.5px solid rgba(0, 242, 255, 0.1); background: transparent;"></div>
+        </div>
       </div>
     </div>
 
@@ -651,7 +499,7 @@
           <span>SYNCING MODULES...</span>
         </div>
         <div class="boot-status-row boot-status-row--active anim-pulse">
-          <span class="material-symbols-outlined">downloading</span>
+          <span class="material-symbols-outlined" style="color:var(--primary-container);">downloading</span>
           <span>LOADING PROJECTS...</span>
         </div>
       </div>
@@ -673,7 +521,7 @@
 
   </main>
 
-  <!-- ÔöÇÔöÇ Layer 3: floating glass panels ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ -->
+  <!-- Layer 3: floating glass panels -->
   <div class="boot-float-card boot-float-card--right" aria-hidden="true">
     <div class="card-line"></div>
     <div class="card-line"></div>
@@ -684,7 +532,7 @@
     <span>Encrypted_Path</span>
   </div>
 
-  <!-- ÔöÇÔöÇ Layer 4: footer ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ -->
+  <!-- Layer 4: footer -->
   <div class="boot-footer" aria-hidden="true">
     <div class="boot-footer__node">
       <div class="boot-footer__item">
@@ -697,12 +545,11 @@
       </div>
     </div>
     <p class="boot-footer__copy">
-      ┬® 2025 KRARJAN // KINETIC TERMINAL<br>
+      © 2026 KRARJAN // KINETIC TERMINAL<br>
       ESTABLISHING NEURAL_BRIDGE...
     </p>
   </div>
 
-  <!-- Screen-edge glow ring -->
   <div class="boot-edge-ring"></div>
 
 </div>

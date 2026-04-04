@@ -6,6 +6,8 @@ node_modules/
 _worker.js
 wrangler.toml
 README.md
+SETUP.md
+CUSTOMIZATION.md
 LICENSE
 package.json
 package-lock.json

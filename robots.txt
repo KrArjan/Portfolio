@@ -1,7 +1,0 @@
-# robots.txt — KrArjan Portfolio
-# https://krarjan.dev/
-
-User-agent: *
-Allow: /
-
-Sitemap: https://krarjan.dev/sitemap.xml

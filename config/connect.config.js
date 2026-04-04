@@ -30,7 +30,7 @@ export const WORKER_CONFIG = {
   notifications: {
     // Identity shown in the Discord message header
     username: "KrArjan Portfolio",
-    avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.webp",
+    avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.png",
 
     // Rich Embed styling for Discord
     embed: {

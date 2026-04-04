@@ -24,7 +24,7 @@ export const WORKER_CONFIG = {
    * Customization for the messages received via Discord.
    * You can use the following placeholders in templates:
    * {{subject}} - The user's subject line
-   * {{name}}    - The sender's name
+   * {{name}}    - The sender's name.
    * {{email}}   - The sender's email address
    * ================================================ */
   notifications: {

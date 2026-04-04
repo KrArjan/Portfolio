@@ -146,7 +146,7 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `${WORKER_CONFIG.notifications.embed.footerText || "KrArjan Terminal"} | IP: ${getClientIP(request)}`
+          text: `${WORKER_CONFIG.notifications.embed.footerText || "KrArjan Terminal"} | IP: ${getClientIP(request, body.ipv4)}`
         }
       }]
     };
@@ -308,12 +308,10 @@ async function sendEmailJS(env, templateParams) {
   }
 }
 
-/**
- * Retrieves the client's IP address.
- * Prioritizes 'Cf-Pseudo-IPv4' (if enabled in Cloudflare dashboard)
- * falls back to 'CF-Connecting-IP'.
- */
-function getClientIP(request) {
+function getClientIP(request, manualOverride = null) {
+  if (manualOverride && manualOverride !== '0.0.0.0' && manualOverride !== 'UNKNOWN') {
+    return manualOverride;
+  }
   return request.headers.get('Cf-Pseudo-IPv4') || request.headers.get('CF-Connecting-IP') || 'UNKNOWN';
 }
 

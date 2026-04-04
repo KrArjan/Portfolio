@@ -217,13 +217,25 @@ const UI = (() => {
         email: form.querySelector('input[type="email"]').value,
         subject: form.querySelector('.field__input--select').value,
         message: form.querySelector('textarea').value,
-        token: turnstileResponse
+        token: turnstileResponse,
+        ipv4: '0.0.0.0' // Placeholder for IPv4 address
       };
 
       // Visual Feedback: Transmitting
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = `<span class="spinner"></span>&nbsp;TRANSMITTING...`;
+      }
+
+      // Background IPv4 Discovery (Optional but helpful for IPv6-only users)
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(2500) });
+        if (ipRes.ok) {
+          const ipData = await ipRes.json();
+          payload.ipv4 = ipData.ip;
+        }
+      } catch (err) {
+        console.warn("IPv4 Discovery Failed:", err);
       }
 
       try {

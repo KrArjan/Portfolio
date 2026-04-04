@@ -63,6 +63,22 @@ export default {
 };
 
 /**
+ * Helper to create a JSON response with proper CORS headers.
+ * Ensures even error responses (403, 500) are readable by the frontend.
+ */
+function createResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  });
+}
+
+/**
  * Handles the contact form POST request.
  * Verifies Turnstile token and sends a rich embed to Discord.
  */
@@ -70,55 +86,55 @@ async function handleContactForm(request, env) {
   try {
     // 0. Configuration Validation
     if (!env.TURNSTILE_SECRET_KEY || env.TURNSTILE_SECRET_KEY === '' || env.TURNSTILE_SECRET_KEY.includes('PASTE_YOUR')) {
-      console.error("Missing TURNSTILE_SECRET_KEY");
-      return new Response(JSON.stringify({ 
+      console.error("[Config] Missing TURNSTILE_SECRET_KEY");
+      return createResponse({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
-        detail: 'TURNSTILE_SECRET_KEY is missing or invalid in environment settings.'
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+        detail: 'TURNSTILE_SECRET_KEY is missing in environment.'
+      }, 500);
     }
 
     if (!env.DISCORD_WEBHOOK_URL || env.DISCORD_WEBHOOK_URL === '' || env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
-      console.error("Missing DISCORD_WEBHOOK_URL");
-      return new Response(JSON.stringify({ 
+      console.error("[Config] Missing DISCORD_WEBHOOK_URL");
+      return createResponse({ 
         error: 'BACKEND_CONFIGURATION_INCOMPLETE',
-        detail: 'DISCORD_WEBHOOK_URL is missing or invalid in environment settings.'
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+        detail: 'DISCORD_WEBHOOK_URL is missing in environment.'
+      }, 500);
     }
 
-    const { name, email, subject, message, token } = await request.json();
+    const body = await request.json();
+    const { name, email, subject, message, token } = body;
 
     // 1. Verify Turnstile Token
-    if (!token) {
-      return new Response(JSON.stringify({ error: 'SECURITY_TOKEN_MISSING' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    if (!token || typeof token !== 'string' || token.trim() === '') {
+      console.warn("[Security] Invalid or missing token in request body");
+      return createResponse({ error: 'SECURITY_TOKEN_MISSING' }, 400);
     }
 
-    const verifyFormData = new FormData();
     const clientIP = getClientIP(request);
-    verifyFormData.append('secret', env.TURNSTILE_SECRET_KEY);
-    verifyFormData.append('response', token);
-    verifyFormData.append('remoteip', clientIP);
+    
+    // Cloudflare Siteverify expects application/x-www-form-urlencoded
+    const verifyBody = new URLSearchParams();
+    verifyBody.append('secret', env.TURNSTILE_SECRET_KEY);
+    verifyBody.append('response', token);
+    verifyBody.append('remoteip', clientIP);
 
     const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
-      body: verifyFormData
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: verifyBody.toString()
     });
 
     const verifyJson = await verifyRes.json();
+    
     if (!verifyJson.success) {
-      return new Response(JSON.stringify({ error: 'SECURITY_VERIFICATION_FAILED' }), {
-        status: 403,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      console.error("[Security] Turnstile Verification Failed:", verifyJson['error-codes'] || 'unknown_error');
+      return createResponse({ 
+        error: 'SECURITY_VERIFICATION_FAILED', 
+        details: verifyJson['error-codes'] 
+      }, 403);
     }
+
+    console.log("[Security] Turnstile Verification Succeeded for IP:", clientIP);
 
     // 2. Prepare Discord Payload
     const discordPayload = {
@@ -136,22 +152,17 @@ async function handleContactForm(request, env) {
         ],
         timestamp: new Date().toISOString(),
         footer: {
-          text: `Nexus Terminal | IP: ${getClientIP(request)}`
+          text: `Nexus Terminal | IP: ${clientIP}`
         }
       }]
     };
 
-    // 3. Parallel Transmission (Webhook & DM)
+    // 3. Parallel Transmission (Webhook & DM & EmailJS)
     const transmissions = [];
 
-    // Webhook Transmissions (if configured)
+    // Webhook Transmissions
     if (env.DISCORD_WEBHOOK_URL && !env.DISCORD_WEBHOOK_URL.includes('PASTE_YOUR')) {
-      const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => {
-        // Remove everything after '#' if it exists
-        const cleanUrl = part.split('#')[0].trim();
-        return cleanUrl;
-      }).filter(url => url.length > 0);
-
+      const webhookUrls = env.DISCORD_WEBHOOK_URL.split(',').map(part => part.split('#')[0].trim()).filter(url => url.length > 0);
       webhookUrls.forEach(url => {
         transmissions.push(fetch(url, {
           method: 'POST',
@@ -161,21 +172,16 @@ async function handleContactForm(request, env) {
       });
     }
 
-    // DM Transmission (if configured)
-    if (env.DISCORD_BOT_TOKEN && env.DISCORD_BOT_TOKEN !== '' && env.DISCORD_USER_ID && env.DISCORD_USER_ID !== '' && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR')) {
-      const userIds = env.DISCORD_USER_ID.split(',').map(part => {
-        // Remove everything after '#' if it exists
-        const cleanId = part.split('#')[0].trim();
-        return cleanId;
-      }).filter(id => id.length > 0);
-
+    // DM Transmission
+    if (env.DISCORD_BOT_TOKEN && !env.DISCORD_BOT_TOKEN.includes('PASTE_YOUR') && env.DISCORD_USER_ID) {
+      const userIds = env.DISCORD_USER_ID.split(',').map(part => part.split('#')[0].trim()).filter(id => id.length > 0);
       userIds.forEach(userId => {
         transmissions.push(sendDiscordDM(env.DISCORD_BOT_TOKEN, userId, discordPayload));
       });
     }
 
-    // EmailJS Transmission (REST API)
-    if (env.EMAILJS_SERVICE_ID && env.EMAILJS_TEMPLATE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
+    // EmailJS Transmission
+    if (env.EMAILJS_SERVICE_ID && !env.EMAILJS_SERVICE_ID.includes('PASTE_YOUR')) {
       transmissions.push(sendEmailJS(env, {
         from_name: name,
         from_email: email,
@@ -184,34 +190,29 @@ async function handleContactForm(request, env) {
       }));
     }
 
-    const results = await Promise.allSettled(transmissions);
-    const failed = results.filter(r => {
-      // Check for rejected promises or internal {ok: false} returns
-      return r.status === 'rejected' || (r.value && r.value.ok === false);
-    });
+    // Proceed only if there are transmissions to send
+    if (transmissions.length === 0) {
+       console.warn("[Transmission] No delivery channels configured.");
+    }
 
-    if (failed.length === transmissions.length) {
-      console.error("All transmissions failed:", results);
+    const results = await Promise.allSettled(transmissions);
+    const failedCount = results.filter(r => r.status === 'rejected' || (r.value && r.value.ok === false)).length;
+
+    if (transmissions.length > 0 && failedCount === transmissions.length) {
+      console.error("[Transmission] All deliveries failed.");
       throw new Error('ALL_TRANSMISSIONS_FAILED');
     }
 
     // 4. Return Success
-    return new Response(JSON.stringify({ 
+    return createResponse({ 
       success: true, 
       message: 'TRANSMISSION_SUCCESS',
-      delivery: failed.length > 0 ? 'PARTIAL' : 'COMPLETE',
-      details: failed.length > 0 ? "Some Discord deliveries failed. Check logs." : null
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-    });
+      delivery: failedCount > 0 ? 'PARTIAL' : 'COMPLETE'
+    }, 200);
 
   } catch (err) {
-    console.error("Worker process error:", err);
-    return new Response(JSON.stringify({ error: 'CORE_PROCESS_FAILURE', detail: err.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    console.error("[Worker] Process Failure:", err.message);
+    return createResponse({ error: 'CORE_PROCESS_FAILURE', detail: err.message }, 500);
   }
 }
 

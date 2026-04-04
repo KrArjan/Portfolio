@@ -221,23 +221,35 @@ const UI = (() => {
           body: JSON.stringify(payload)
         });
 
-        const result = await response.json();
+        // Try to parse JSON, fall back to text if it's not JSON
+        let result;
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          result = await response.json();
+        } else {
+          result = { error: 'UNKNOWN_SERVER_RESPONSE', detail: await response.text() };
+        }
 
         if (response.ok) {
           form.reset();
-
           if (success) {
             success.classList.remove('hidden');
             showToast('TRANSMISSION_RECEIVED');
             setTimeout(() => success.classList.add('hidden'), 5000);
           }
         } else {
-          console.error("Transmission Error:", result.error);
-          showToast(result.error || 'TRANSMISSION_FAILED');
+          // Explicitly handle Security Failures
+          if (response.status === 403 || result.error === 'SECURITY_VERIFICATION_FAILED') {
+            console.error("Security Block:", result.details || 'Turnstile verification failed');
+            showToast('SECURITY_VERIFICATION_FAILED');
+          } else {
+            console.error("Transmission Error:", result.error || response.statusText);
+            showToast(result.error || 'TRANSMISSION_FAILED');
+          }
         }
 
       } catch (error) {
-        console.error("Network Error:", error);
+        console.error("Network / Worker Error:", error);
         showToast('CONNECTION_STABILITY_ERROR');
       } finally {
         // Always reset Turnstile after every transmission (tokens are single-use)

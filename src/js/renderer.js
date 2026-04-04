@@ -8,6 +8,13 @@ const Renderer = (() => {
 
   /* ===================== HELPERS ===================== */
 
+  /**
+   * Safe value retrieval from nested object paths (e.g. "meta.name")
+   */
+  function getValue(path, obj = SITE_DATA) {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+  }
+
   function icon(name, cls = '') {
     return `<span class="material-symbols-outlined${cls ? ' ' + cls : ''}">${name}</span>`;
   }
@@ -31,6 +38,34 @@ const Renderer = (() => {
       'BUILDING': 'cyan',
     };
     return badge(status, map[status] || 'neutral');
+  }
+
+  /* ===================== CONFIG INJECTOR ===================== */
+
+  /**
+   * Scans the document for data attributes and injects config values.
+   * data-content="path.to.value" -> Sets innerHTML
+   * data-attr="attrName:path.to.value" -> Sets attribute
+   */
+  function injectConfig(root = document) {
+    // 1. Inject Text/HTML Content
+    root.querySelectorAll('[data-content]').forEach(el => {
+      const path = el.getAttribute('data-content');
+      const val = getValue(path);
+      if (val !== undefined && val !== null) {
+        el.innerHTML = val;
+      }
+    });
+
+    // 2. Inject Attributes (e.g. href, placeholder, src)
+    root.querySelectorAll('[data-attr]').forEach(el => {
+      const attrStr = el.getAttribute('data-attr');
+      const [attrName, path] = attrStr.split(':');
+      const val = getValue(path);
+      if (val !== undefined && val !== null) {
+        el.setAttribute(attrName, val);
+      }
+    });
   }
 
   /* ===================== NAV ===================== */
@@ -190,7 +225,8 @@ const Renderer = (() => {
 
     if (SITE_DATA.features?.showFeaturedWork === false) {
       // Hide the entire featured section (parent container)
-      container.closest('.section-lg').style.display = 'none';
+      const section = container.closest('.section-lg');
+      if (section) section.style.display = 'none';
       return;
     }
 
@@ -237,6 +273,7 @@ const Renderer = (() => {
 
   function renderStack() {
     const s = SITE_DATA.stack;
+    if (!s) return;
 
     // Languages chips
     const langEl = document.getElementById('stack-languages');
@@ -300,8 +337,8 @@ const Renderer = (() => {
     if (learnEl) {
       const colorMap = { primary: 'var(--primary-container)', secondary: 'var(--secondary-container)', amber: 'var(--tertiary-fixed)' };
       learnEl.innerHTML = s.learning.map(l => `
-        <div style="background:rgba(42,42,42,0.4);padding:16px;border-left:2px solid ${colorMap[l.color]};border-radius:var(--radius-sm);display:flex;flex-direction:column;gap:6px;">
-          <span style="font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:${colorMap[l.color]};">${l.accent}</span>
+        <div style="background:rgba(42,42,42,0.4);padding:16px;border-left:2px solid ${colorMap[l.color] || l.color};border-radius:var(--radius-sm);display:flex;flex-direction:column;gap:6px;">
+          <span style="font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:${colorMap[l.color] || l.color};">${l.accent}</span>
           <p style="font-family:var(--font-headline);font-size:0.875rem;font-weight:600;color:var(--on-surface);">${l.label}</p>
         </div>
       `).join('');
@@ -315,12 +352,12 @@ const Renderer = (() => {
     if (!container) return;
 
     if (SITE_DATA.features?.showJourneyTimeline === false) {
-      container.closest('.section-lg').style.display = 'none';
+      const section = container.closest('.section-lg');
+      if (section) section.style.display = 'none';
       return;
     }
 
     container.innerHTML = SITE_DATA.journey.map((entry, i) => {
-      const isRight = i % 2 !== 0;
       const isPresent = entry.year.toLowerCase().includes('present');
 
       return `
@@ -386,7 +423,7 @@ const Renderer = (() => {
             <span>Build Progress</span><span style="color:var(--primary-container);">${main.progress}%</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-bar__fill" data-width="${main.progress}%" style="width:0%"></div>
+            <div class="progress-bar__fill" style="width:${main.progress}%"></div>
           </div>
         </div>
       </div>
@@ -429,6 +466,8 @@ const Renderer = (() => {
     const mainGrid = document.getElementById('social-grid');
     const directoryGrid = document.getElementById('social-directory-grid');
 
+    if (!SITE_DATA.social) return;
+
     // Connect Page Grid
     if (mainGrid) {
       mainGrid.innerHTML = SITE_DATA.social.map(s => `
@@ -456,12 +495,27 @@ const Renderer = (() => {
 
   /* ===================== PUBLIC INIT ===================== */
 
-  function init() {
-    // 0. Set browser tab title
-    if (SITE_DATA.meta.title) {
-      document.title = SITE_DATA.meta.title;
+  /**
+   * Initializes all rendering modules.
+   * root is optional (used for partial injection)
+   */
+  function init(root = document) {
+    // 0. Set browser tab and meta info (only on primary init)
+    if (root === document) {
+      if (SITE_DATA.meta?.title) {
+        document.title = SITE_DATA.meta.title;
+      }
+      
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc && SITE_DATA.meta?.description) {
+        metaDesc.setAttribute('content', SITE_DATA.meta.description);
+      }
     }
 
+    // 1. Run generic config injection for placeholders
+    injectConfig(root);
+
+    // 2. Run module-specific renders
     renderNav();
     renderBottomSheetNav();
     renderFooter();

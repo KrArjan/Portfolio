@@ -12,13 +12,13 @@
       style="text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:80px;">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
         <div style="width:48px;height:1px;background:var(--primary-container);"></div>
-        <span class="label-lg" style="color:var(--primary-container);">ESTABLISH_CONNECTION</span>
+        <span class="label-lg" style="color:var(--primary-container);" data-content="pages.connect.hero.label">ESTABLISH_CONNECTION</span>
         <div style="width:48px;height:1px;background:var(--primary-container);"></div>
       </div>
-      <h1 class="display-xl" style="font-family:var(--font-headline);line-height:0.9;margin-bottom:24px;">
+      <h1 class="display-xl" style="font-family:var(--font-headline);line-height:0.9;margin-bottom:24px;" data-content="pages.connect.hero.title">
         Let's Build<br><span class="gradient-text">Something Great.</span>
       </h1>
-      <p class="body-lg" style="color:var(--on-surface-variant);max-width:600px;margin:0 auto;font-weight:300;">
+      <p class="body-lg" style="color:var(--on-surface-variant);max-width:600px;margin:0 auto;font-weight:300;" data-content="pages.connect.hero.bio">
         Open to coding projects, technical builds, creative ideas, and opportunities to learn while building real
         things.
       </p>
@@ -36,17 +36,17 @@
 
           <div class="form-row">
             <div class="field">
-              <label class="field__label">IDENTIFIER_NAME</label>
-              <input type="text" placeholder="John Doe" class="field__input" required />
+              <label class="field__label" data-content="pages.connect.form.nameLabel">IDENTIFIER_NAME</label>
+              <input type="text" placeholder="John Doe" class="field__input" required data-attr="placeholder:pages.connect.form.namePlaceholder" />
             </div>
             <div class="field">
-              <label class="field__label">SECURE_EMAIL</label>
-              <input type="email" placeholder="nexus@example.com" class="field__input" required />
+              <label class="field__label" data-content="pages.connect.form.emailLabel">SECURE_EMAIL</label>
+              <input type="email" placeholder="nexus@example.com" class="field__input" required data-attr="placeholder:pages.connect.form.emailPlaceholder" />
             </div>
           </div>
 
           <div class="field">
-            <label class="field__label">TRANSMISSION_SUBJECT</label>
+            <label class="field__label" data-content="pages.connect.form.subjectLabel">TRANSMISSION_SUBJECT</label>
             <select class="field__input field__input--select">
               <option>Project Collaboration</option>
               <option>Technical Consultation</option>
@@ -56,9 +56,9 @@
           </div>
 
           <div class="field">
-            <label class="field__label">MESSAGE_PAYLOAD</label>
+            <label class="field__label" data-content="pages.connect.form.messageLabel">MESSAGE_PAYLOAD</label>
             <textarea rows="8" placeholder="Describe the mission parameters..." class="field__input"
-              style="resize:none;min-height:200px;" required></textarea>
+              style="resize:none;min-height:200px;" required data-attr="placeholder:pages.connect.form.messagePlaceholder"></textarea>
           </div>
 
           <div class="turnstile-wrapper" style="margin: 20px 0;">
@@ -67,13 +67,13 @@
 
           <button id="connect-submit" type="submit" class="btn btn-primary btn-full" style="margin-top:8px;" disabled>
             <span class="material-symbols-outlined">send</span>
-            Initiate Transmission
+            <span data-content="pages.connect.form.submitBtn">Initiate Transmission</span>
           </button>
 
           <div id="form-success" class="hidden"
             style="text-align:center;padding:20px;color:var(--primary-container);font-family:var(--font-headline);font-size:0.75rem;letter-spacing:0.15em;margin-top:16px;">
             <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px;">check_circle</span>
-            TRANSMISSION_RECEIVED // WILL_RESPOND_SOON
+            <span data-content="pages.connect.form.successMsg">TRANSMISSION_RECEIVED // WILL_RESPOND_SOON</span>
           </div>
 
         </form>
@@ -96,10 +96,10 @@
                 <span
                   style="position:relative;width:12px;height:12px;border-radius:50%;background:var(--tertiary-fixed);display:block;"></span>
               </span>
-              <span class="label-md" style="color:var(--tertiary-fixed);">SYSTEM_STATUS: ONLINE</span>
+              <span class="label-md" style="color:var(--tertiary-fixed);" data-content="pages.connect.status.label">SYSTEM_STATUS: ONLINE</span>
             </div>
-            <h3 class="headline-md" style="font-family:var(--font-headline);margin-bottom:10px;">Direct Channels Open</h3>
-            <p class="body-sm" style="color:var(--on-surface-variant);">
+            <h3 class="headline-md" style="font-family:var(--font-headline);margin-bottom:10px;" data-content="pages.connect.status.title">Direct Channels Open</h3>
+            <p class="body-sm" style="color:var(--on-surface-variant);" data-content="pages.connect.status.bio">
               Direct protocols below for project inquiries or collaboration requests.
             </p>
           </div>
@@ -114,16 +114,16 @@
         <div class="glass" style="padding:24px;border-radius:var(--radius-md);">
           <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
             <span class="material-symbols-outlined" style="color:var(--primary-container);">schedule</span>
-            <h4 class="label-md" style="color:var(--on-surface);">EXPECTED_LATENCY</h4>
+            <h4 class="label-md" style="color:var(--on-surface);" data-content="pages.connect.latency.title">EXPECTED_LATENCY</h4>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span class="body-sm" style="color:var(--on-surface);">Email</span>
-              <span class="label-md" style="color:var(--primary-container);">~24h</span>
+              <span class="label-md" style="color:var(--secondary);" data-content="pages.connect.latency.email">~24h</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span class="body-sm" style="color:var(--on-surface);">Discord DM</span>
-              <span class="label-md" style="color:var(--tertiary-fixed);">~1-2h</span>
+              <span class="label-md" style="color:var(--tertiary-fixed);" data-content="pages.connect.latency.discord">~1-2h</span>
             </div>
           </div>
         </div>

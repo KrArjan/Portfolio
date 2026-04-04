@@ -11,17 +11,17 @@
     <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:48px;text-align:left;max-width:800px;"
       class="anim-fade-in-up">
       <div
-        style="display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:24px;background:rgba(119, 1, 208, 0.1);border:1px solid rgba(119, 1, 208, 0.2);color:var(--secondary);font-family:var(--font-label);font-size:0.75rem;letter-spacing:0.05em;width:max-content;margin-bottom:16px;">
+        style="display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:24px;background:rgba(119, 1, 208, 0.1);border:1px solid rgba(119, 1, 208, 0.2);color:var(--secondary);font-family:var(--font-label);font-size:0.75rem;letter-spacing:0.05em;width:max-content;margin-bottom:16px;" data-content="pages.social.hero.badge">
         <span class="material-symbols-outlined" style="font-size:1rem;">hub</span>
         DIGITAL PRESENCE // KRARJAN
       </div>
 
-      <h1 class="display-lg" style="font-family:var(--font-headline);line-height:0.9;margin-bottom:16px;">
+      <h1 class="display-lg" style="font-family:var(--font-headline);line-height:0.9;margin-bottom:16px;" data-content="pages.social.hero.title">
         Social Hub // <br>
         <span class="gradient-text">Find Me Online</span>
       </h1>
 
-      <p class="body-lg" style="color:var(--on-surface-variant);max-width:600px;">
+      <p class="body-lg" style="color:var(--on-surface-variant);max-width:600px;" data-content="pages.social.hero.bio">
         A central place for my projects, profiles, communities, and platforms. Explore where I build, share, and stay
         active online.
       </p>
@@ -32,6 +32,7 @@
 
       <!-- GitHub Card (Main Action) -->
       <a href="https://github.com/KrArjan" target="_blank" rel="noopener" class="col-8 glass-card glow-border-inset"
+         data-attr="href:meta.github"
         style="position:relative;padding:48px;display:flex;flex-direction:column;justify-content:space-between;min-height:400px;overflow:hidden;border:1px solid rgba(0,242,255,0.2);text-decoration:none;">
         <img src="/config/images/social/github_bg.png"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.25;mix-blend-mode:overlay;pointer-events:none; transition:transform var(--dur-slow);"
@@ -64,7 +65,7 @@
 
       <!-- Discord Card -->
       <a href="https://discord.com/users/606851356854321171" target="_blank" rel="noopener"
-        class="col-4 glass-card glow-border-top"
+        class="col-4 glass-card glow-border-top" data-attr="href:meta.discord"
         style="position:relative;padding:32px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(119,1,208,0.2);overflow:hidden;text-decoration:none;">
         <img src="/config/images/social/discord_bg.png"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none; transition:transform var(--dur-slow);"
@@ -93,7 +94,7 @@
       </a>
 
       <!-- LinkedIn Card -->
-      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card"
+      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card" data-attr="href:social.5.href"
         style="position:relative;padding:32px;border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;text-decoration:none;">
         <img src="/config/images/social/linkedin_bg.png"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.2;pointer-events:none; transition:transform var(--dur-slow);"
@@ -113,7 +114,7 @@
         <div class="btn btn-secondary" style="width:max-content; position:relative;z-index:1;">EXPAND_NETWORK</div>
       </a>
 
-      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card glow-border-bottom"
+      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card glow-border-bottom" data-attr="href:social.4.href"
         style="position:relative;min-height:300px;overflow:hidden;border:1px solid rgba(0,242,255,0.1);display:block;text-decoration:none;">
         <img src="/config/images/social/instagram_bg.png"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;transition:transform var(--dur-slow);"

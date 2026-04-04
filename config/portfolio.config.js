@@ -40,9 +40,6 @@ const SITE_DATA = {
   /* ===================== FEATURES ===================== *
    * Feature flags to toggle sections on/off.
    * ================================================ */
-  /* ===================== FEATURES ===================== *
-   * Feature flags to toggle sections on/off.
-   * ================================================ */
   features: {
     showBootScreen: true,     // Toggle the cinematic loading animation
     showStats: true,          // Toggle the statistic cards on home page
@@ -59,6 +56,170 @@ const SITE_DATA = {
    * ================================================ */
   security: {
     turnstileSiteKey: '0x4AAAAAACxrRyQCBE-RD7A1', // CHANGE_ME: Cloudflare Turnstile Site Key
+  },
+
+  /* ===================== PAGES CONTENT ===================== *
+   * Detailed content for each page section.
+   * Moving these here eliminates hardcoding in HTML files.
+   * ================================================ */
+  pages: {
+    home: {
+      hero: {
+        badge: 'System_Online // Ver_2.0.4',
+        title: 'KrArjan<br><span class="gradient-text">Student Developer.</span>',
+        bio: 'I’m a student developer working on bots, web tools, automation systems, and technical projects. I enjoy building things that are useful, organized, and actually solve problems.',
+        pfpAlt: 'KrArjan Profile',
+        techTags: [
+          'JAVASCRIPT / NODE.JS',
+          'PYTHON / APIS',
+          'BACKEND / SYSTEMS',
+          'AUTOMATION / WEB'
+        ]
+      },
+      mission: {
+        title: 'MY_CORE',
+        bio: 'I enjoy building useful systems through code — from <span style="color:var(--primary-container);">Discord bots and automation tools</span> to <span style="color:var(--secondary);">backend logic and technical projects</span> that are designed to actually be used.',
+        cards: [
+          {
+            title: 'Automation Systems',
+            description: 'Building workflows and tools that reduce manual work and make tasks easier to manage.'
+          },
+          {
+            title: 'Backend Development',
+            description: 'Working on APIs, logic, databases, and systems that power useful applications.'
+          },
+          {
+            title: 'Technical Systems',
+            description: 'Hands-on work with Linux, hosting panels, deployments, reverse proxies, and technical setups.'
+          }
+        ]
+      }
+    },
+    profile: {
+      hero: {
+        badge: 'BIO_PROFILE_V2.0.4',
+        title: "I'm KrArjan,<br><span class=\"gradient-text\">Student Developer.</span>",
+        bios: [
+          'I’m a student developer with hands-on experience since 2021. I started by working on Minecraft servers, Discord communities, bots, technical systems, and online projects — which helped me understand how real digital systems work from the ground up.',
+          'Over time, I became more interested in coding and building useful things through software, especially bots, automation, technical tools, and backend-focused systems.',
+          'Now I’m focused on improving as a developer by building practical projects, learning through real work, and creating things that are actually useful.'
+        ]
+      },
+      story: {
+        title: 'How I Started',
+        entries: [
+          { label: '2021_START', text: 'Started with Minecraft servers and Discord communities. Working on permissions, setup, and structure gave me my first real interest in how systems work.' },
+          { label: '2022_GROWTH', text: 'Started focusing more on bots, automation, and technical tools. I began learning how APIs, events, and system workflows work in real projects.' },
+          { label: '2023_BUILD', text: 'Moved deeper into coding and software-based projects. Started building more useful systems, tools, and technical workflows through code.' },
+          { label: '2024-PRESENT', text: 'Now I’m focused on growing further into software development, backend systems, automation, and better project building.' }
+        ]
+      },
+      skills: {
+        title: 'What I Do',
+        cards: [
+          { title: 'Bot Development', description: 'Building useful Discord bots, automation systems, and structured command-based tools for real use cases.' },
+          { title: 'Technical Projects', description: 'Building and managing project-based technical systems, tools, panels, and backend-focused setups.' },
+          { title: 'Web & Tool Building', description: 'Working on websites, dashboards, interfaces, and utility-based web projects that are simple, useful, and practical.' },
+          { title: 'Automation Systems', description: 'Creating workflows and systems that reduce manual work and make digital tasks easier to manage.' },
+          { title: 'Community Systems', description: 'Designing and managing structured Discord/community systems with support, roles, permissions, and organization in mind.' }
+        ]
+      }
+    },
+    social: {
+      hero: {
+        badge: 'DIGITAL PRESENCE // KRARJAN',
+        title: 'Social Hub // <br><span class="gradient-text">Find Me Online</span>',
+        bio: 'A central place for my projects, profiles, communities, and platforms. Explore where I build, share, and stay active online.'
+      }
+    },
+    journey: {
+      hero: {
+        badge: 'Status: Evolution_Active',
+        title: 'DEVELOPMENT<br><span class="gradient-text">TIMELINE.</span>',
+        bio: 'My growth through projects, systems, communities, and development work since 2021.'
+      }
+    },
+    lab: {
+      hero: {
+        badge: 'EXPERIMENTAL_ZONE',
+        title: 'Technical<br><span class="gradient-text">Laboratory.</span>',
+        bio: 'A space for research, experimental builds, system tests, and projects that are currently in development.'
+      }
+    },
+    stack: {
+      hero: {
+        badge: 'SYSTEM_CORE',
+        title: 'Technical<br><span class="gradient-text">Architecture.</span>',
+        bio: 'The software, languages, tools, and infrastructure I use to build and manage digital systems.'
+      },
+      sections: {
+        languages: 'LANGUAGES & DEVELOPMENT',
+        bots: 'BOTS & SYSTEMS',
+        tools: 'DEV_TOOLS',
+        infra: 'INFRA_CONTROL',
+        os: 'OS & NETWORKING',
+        community: 'COMMUNITY OPS',
+        gaming: 'GAME_INFRA',
+        focus: 'CURRENT_FOCUS'
+      }
+    },
+    projects: {
+      hero: {
+        badge: 'PROJECT_ARCHIVE',
+        title: 'WORK // <br><span class="gradient-text">Digital Builds.</span>',
+        bio: 'A collection of bots, web tools, automation systems, and technical projects I have built or managed.'
+      },
+      filters: {
+        all: 'ALL_PROJECTS',
+        bots: 'BOTS',
+        web: 'WEB',
+        automation: 'AUTOMATION',
+        community: 'COMMUNITY'
+      }
+    },
+    connect: {
+      hero: {
+        label: 'ESTABLISH_CONNECTION',
+        title: "Let's Build<br><span class=\"gradient-text\">Something Great.</span>",
+        bio: 'Open to coding projects, technical builds, creative ideas, and opportunities to learn while building real things.'
+      },
+      form: {
+        nameLabel: 'IDENTIFIER_NAME',
+        namePlaceholder: 'John Doe',
+        emailLabel: 'SECURE_EMAIL',
+        emailPlaceholder: 'nexus@example.com',
+        subjectLabel: 'TRANSMISSION_SUBJECT',
+        messageLabel: 'MESSAGE_PAYLOAD',
+        messagePlaceholder: 'Describe the mission parameters...',
+        submitBtn: 'Initiate Transmission',
+        successMsg: 'TRANSMISSION_RECEIVED // WILL_RESPOND_SOON'
+      },
+      status: {
+        label: 'SYSTEM_STATUS: ONLINE',
+        title: 'Direct Channels Open',
+        bio: 'Direct protocols below for project inquiries or collaboration requests.'
+      },
+      latency: {
+        title: 'EXPECTED_LATENCY',
+        email: '~24h',
+        discord: '~1-2h'
+      }
+    },
+    boot: {
+      title: 'Initializing KrArjan Interface',
+      version: 'KrArjan v2.0.4-stable',
+      statuses: [
+        'BOOTING PORTFOLIO...',
+        'SYNCING MODULES...',
+        'LOADING PROJECTS...'
+      ],
+      footer: {
+        link: 'NODE_01_SECURE',
+        signal: '100_PERCENT',
+        copy: '© 2026 KRARJAN // KINETIC TERMINAL',
+        status: 'ESTABLISHING NEURAL_BRIDGE...'
+      }
+    }
   },
 
   /* ===================== STATS ===================== *

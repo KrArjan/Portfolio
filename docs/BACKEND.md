@@ -40,12 +40,15 @@ You can receive notifications directly in a Discord channel or via DM.
 ### Webhook Setup
 1. Open Discord, navigate to the desired channel, and select **Edit Channel → Integrations → Webhooks**.
 2. Click **"New Webhook"** and copy the **Webhook URL**.
-3. In Cloudflare Pages, add `DISCORD_WEBHOOK_URL` as a **Secret** environment variable.
+3. In Cloudflare Pages, add `DISCORD_WEBHOOK_URLS` as a **Secret** environment variable.
+
+### Multi-Webhook Support (Broadcasting)
+You can specify multiple webhooks as a **comma-separated list** (e.g., `URL1,URL2`). The worker will broadcast the message to all URLs in the list.
 
 ### DM Setup (Optional)
 To receive messages via DM, you must set an additional **Secret**:
 1. Add `DISCORD_BOT_TOKEN`: Your Discord bot's token.
-2. Add `DISCORD_USER_ID`: Your personal Discord user ID.
+2. Add `DISCORD_USER_IDS`: Your personal Discord user ID(s) as a **comma-separated list** (e.g., `ID1,ID2`).
 
 ---
 

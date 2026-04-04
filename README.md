@@ -43,7 +43,7 @@ Explore the full documentation suite to personalize and deploy your portfolio:
 ### 6. [Technical Architecture](docs/ARCHITECTURE.md)
 *Dive into the SPA engine, routing logic, and CSS structure.*
 
-### 7. [Troubleshooting](docs/TROUBLESHOOTING.md)
+### 7. [FAQ & Error Reference](docs/FAQ_ERRORS.md)
 *Solutions to common setup issues and frequently asked questions.*
 
 ---

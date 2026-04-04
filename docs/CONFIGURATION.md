@@ -69,6 +69,30 @@ The `stack` section is divided into multiple categories:
 
 ---
 
+## Backend Communication (`connect.config.js`)
+
+This file controls how the **Cloudflare Worker** handles incoming contact form submissions.
+
+### Channel Toggles
+Enable or disable notification methods globally:
+
+```js
+channels: {
+  discord_webhook: true,    // Send to your Discord Webhook URL(s)
+  discord_dm: true,         // Send DM via Bot Token to User ID(s)
+  emailjs: true,            // Send via EmailJS REST API
+},
+```
+
+### Notification Personalization
+Customize the look and content of your notifications.
+
+- **`username` / `avatar_url`**: The identity shown in the Discord message header.
+- **`embed`**: Controls the design of the Rich Embed (title, color, footer).
+- **Placeholders**: Use `{{name}}`, `{{email}}`, and `{{subject}}` in templates.
+
+---
+
 ## Feature Flags
 
 Control the visibility and initialization of major UI components using the `features` object:

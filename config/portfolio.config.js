@@ -80,13 +80,13 @@ const SITE_DATA = {
     errorMessage: "SYSTEM_ERROR // Failed to send transmission. Please try again.",
 
     // Discord Webhook Branding (Update these to brand your Discord messages)
-    discordUsername: "Nexus Transmission Hub",
-    discordAvatarUrl: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/favicon.ico",
-    
+    discordUsername: "KrArjan Portfolio",
+    discordAvatarUrl: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.png",
+
     // Discord Embed Customization
     embedTitle: "📡 NEW TRANSMISSION_RECEIVED",
     embedColor: 0x00D0FF,
-    embedFooter: "Nexus Terminal",
+    embedFooter: "KrArjan Terminal",
 
     // Backend Toggles (Only works if environment Secrets are also set)
     enableDiscordWebhook: true,
@@ -484,6 +484,30 @@ const SITE_DATA = {
     { text: 'Syncing Modules', status: 'WAIT', delay: 1500 },
     { text: 'Booting Portfolio', status: 'QUEUED', delay: 2100 },
   ],
+
+  /* ===================== DESIGN & THEME ===================== *
+   * Global design tokens to override system defaults.
+   * CHANGE_ME: Customize your site's color palette.
+   * ================================================ */
+  design: {
+    colors: {
+      primary: '#00f2ff',         // Cyan accent
+      secondary: '#7701d0',       // Purple accent
+      tertiary: '#ffe173',        // Amber accent
+      surface: '#131313',         // Main background
+      error: '#ffb4ab',           // Red error accent
+    },
+    glassOpacity: 0.06,           // Card transparency (0.01 to 0.1)
+  },
+
+  /* ===================== PERFORMANCE ===================== *
+   * Fine-tune animation speeds and timing.
+   * ================================================ */
+  performance: {
+    bootMinDuration: 600,         // Minimum ms to show boot screen (for cinematic flair)
+    scrollOffset: 80,             // Pixel offset when scrolling to a section
+    pageTransitionSpeed: 400,     // ms for fade-in animations
+  },
 };
 
 /* Export for use in other modules */

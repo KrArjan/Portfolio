@@ -168,6 +168,11 @@
   for (const src of appScripts) {
     try {
       await loadScript(src);
+      
+      // If we just loaded the config, apply the theme and SEO immediately
+      if (src.includes('portfolio.config.js')) {
+        applyThemeConfig();
+      }
     } catch (err) {
       console.error('[loader] script failed:', src, err);
     } finally {
@@ -176,5 +181,35 @@
       await sleep(0);
     }
   }
+
+  // ────────────────────────────────────────────────────────────────
+  // Dynamic Configuration Injection
+  // ────────────────────────────────────────────────────────────────
+
+  function applyThemeConfig() {
+    if (typeof SITE_DATA === 'undefined' || !SITE_DATA.design) return;
+    const { colors, glassOpacity } = SITE_DATA.design;
+    if (!colors) return;
+
+    const style = document.createElement('style');
+    style.id = 'dynamic-theme-overrides';
+    style.innerHTML = `
+      :root {
+        ${colors.primary ? `--primary-container: ${colors.primary};` : ''}
+        ${colors.secondary ? `--secondary-container: ${colors.secondary};` : ''}
+        ${colors.tertiary ? `--tertiary-container: ${colors.tertiary};` : ''}
+        ${colors.surface ? `--surface-dim: ${colors.surface}; --surface: ${colors.surface};` : ''}
+        ${colors.error ? `--error-container: ${colors.error};` : ''}
+        ${glassOpacity ? `--border-glass: 1px solid rgba(255, 255, 255, ${glassOpacity});` : ''}
+        
+        /* Regenerate Gradients */
+        --gradient-primary: linear-gradient(135deg, ${colors.primary || '#00f2ff'} 0%, ${colors.secondary || '#7701d0'} 100%);
+        --gradient-text: linear-gradient(135deg, ${colors.primary || '#00f2ff'} 30%, ${colors.secondary || '#7701d0'} 100%);
+      }
+    `;
+    document.head.appendChild(style);
+    console.info('[loader] Dynamic theme applied.');
+  }
+
 
 })();

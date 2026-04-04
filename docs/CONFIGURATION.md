@@ -126,10 +126,32 @@ contact: {
   enableDiscordDM: true,
   enableEmailJS: true,
 }
-```
+---
 
-> [!NOTE]
-> Setting `showBootScreen: false` will provide an **instant loading experience**, ideal for production environments where speed is prioritized.
+## Design & Theme (`design`)
+
+Control the visual identity and accent colors of your portfolio at runtime.
+
+| Flag | Description |
+|---|---|
+| `colors.primary` | Hex code for the primary accent (e.g., Cyan). |
+| `colors.secondary` | Hex code for the secondary accent (e.g., Purple). |
+| `colors.tertiary` | Hex code for the tertiary accent (e.g., Amber). |
+| `colors.surface` | Hex code for the main background color. |
+| `glassOpacity` | Decimal (0.01 to 0.1) for card transparency levels. |
+
+## Performance & Timing (`performance`)
+
+Fine-tune the "feel" and animation speeds of your portfolio.
+
+| Flag | Description |
+|---|---|
+| `bootMinDuration` | Minimum milliseconds to display the cinematic boot screen. |
+| `scrollOffset` | Pixel adjustment for the stopping point when navigating to sections. |
+| `pageTransitionSpeed`| Duration of the fade-in-up animations for page contents. |
+
+> [!TIP]
+> Use a higher `scrollOffset` (e.g., `80`) if you have a fixed header to prevent it from overlapping with your content.
 
 ---
 

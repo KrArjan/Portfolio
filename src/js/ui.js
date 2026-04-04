@@ -296,6 +296,21 @@ const UI = (() => {
     setInterval(update, 1000);
   }
 
+  /* ===================== SCROLL UTILS ===================== */
+  function scrollTo(el) {
+    if (!el) return;
+    const offset = SITE_DATA.performance?.scrollOffset || 80;
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = el.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+  }
+
   /* ===================== SCROLL TO TOP ===================== */
   function initScrollTop() {
     const btn = document.getElementById('btn-scroll-top');

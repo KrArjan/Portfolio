@@ -13,10 +13,14 @@
     return;
   }
 
+  // Reduce particle count on mobile for performance
+  const isMobile = window.innerWidth < 768;
+
   await tsParticles.load({
     id: 'particles-bg',
     options: {
-      fpsLimit: 60,
+      fpsLimit: 30,       // 30fps is imperceptible for subtle bg particles
+      pauseOnBlur: true,  // Suspend when tab is not focused
       background: {
         color: { value: 'transparent' },
       },
@@ -24,7 +28,7 @@
       /* ── Particles ─────────────────────────────────────────────── */
       particles: {
         number: {
-          value: 70,
+          value: isMobile ? 35 : 55,
           density: { enable: true, area: 800 },
         },
         color: {

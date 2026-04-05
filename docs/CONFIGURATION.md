@@ -17,15 +17,20 @@ Personalizing your portfolio is done through primary configuration files in the 
 
 The `meta` object in `portfolio.config.js` controls your personal identity and site-wide labels.
 
-```js
 meta: {
   name: 'Your Name',           // Shown on the home page
   role: 'Your Role',           // Professional title
   description: 'A short bio.', // SEO meta description
+  url: 'https://...',          // Canonical URL of your portfolio
+  ogImage: '/config/...',      // Preview image for social sharing
   email: 'you@example.com',    // Used for contact buttons
   github: 'https://...',       // Primary social links
 }
 ```
+
+> [!NOTE]
+> The `url` field is critical for correct SEO indexing and ensures that social media platforms link directly to your custom domain.
+
 
 ---
 
@@ -55,6 +60,17 @@ navLinks: [
   { id: 'lab',  label: 'Lab',  icon: 'science', enabled: false }, // Hides the Lab page
 ],
 ```
+
+---
+
+## 🖼️ Visual Assets
+
+You can customize the following visual assets without changing any code:
+
+1.  **`config/images/pfp.webp`**: Your profile picture shown on the Home and Profile pages.
+2.  **`config/images/social/social_bg.webp`**: The unified background image used for all social media cards on the Social page.
+3.  **`favicon.ico`**: Your browser tab icon (place in the root directory).
+
 
 ---
 

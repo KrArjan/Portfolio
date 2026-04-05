@@ -50,8 +50,11 @@ Follow the sequential guide below to personalize and deploy your professional po
 ## 🚀 Quick Start (60 Seconds)
 
 1. **Fork & Clone**: `git clone https://github.com/YOUR_USERNAME/Portfolio.git`
-2. **Personalize**: Edit `config/portfolio.config.js` (Frontend) and `config/connect.config.js` (Backend) with your details.
+2. **Personalize**: Edit **`config/portfolio.config.js`**. This handles your bio, social links, SEO tags, and feature flags.
 3. **Run Locally**: `npx serve .` and visit `http://localhost:3000`.
+
+> [!TIP]
+> This portfolio is designed to be **fully configurable from the `config/` directory**. You should avoid editing files in `src/` or `index.html` unless you want to modify the core engine.
 
 ---
 

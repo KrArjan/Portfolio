@@ -56,6 +56,11 @@ const Router = (() => {
     const prev = currentPage;
     currentPage = page;
 
+    // Update document title
+    const siteName = SITE_DATA?.meta?.title || 'KrArjan';
+    const pageLabel = SITE_DATA?.navLinks?.find(l => l.id === page)?.label;
+    document.title = pageLabel && page !== 'home' ? `${pageLabel} — ${siteName}` : siteName;
+
     // Callbacks
     onChangeCallbacks.forEach(cb => cb(page, prev));
   }
@@ -74,7 +79,9 @@ const Router = (() => {
   function init() {
     const path = window.location.pathname.replace(/^\/|\/$/g, '');
     const hash = window.location.hash.replace(/^#\/?/, '');
-    const validPages = ['home','profile','projects','stack','journey','lab','connect','social','404'];
+    // Dynamically build validPages from navLinks config + built-in pages
+    const navIds = (SITE_DATA?.navLinks || []).map(l => l.id);
+    const validPages = [...new Set([...navIds, '404', 'home'])];
     const resolved = path || hash || '';
     let startPage = validPages.includes(resolved) ? resolved : (resolved ? '404' : 'home');
 

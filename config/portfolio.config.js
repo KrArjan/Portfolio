@@ -25,14 +25,16 @@ const SITE_DATA = {
     title: 'KrArjan',                                    // CHANGE_ME: Browser tab title
     tagline: 'Building Since 2021.',                     // CHANGE_ME: Short tagline
     role: 'Student Developer & Technical Builder',       // CHANGE_ME: Your role/title
-    description: 'Building software, bots, tools, and digital systems that move the needle.', // CHANGE_ME: SEO description
+    description: 'Building software, bots, tools, and digital systems that move the needle.', // CHANGE_ME: SEO meta description
     version: '2.0.4',                                    // Your portfolio version
     buildRef: 'KR-77-LAB',                               // CHANGE_ME: Custom build reference
     email: 'krarjanwork@gmail.com',                      // CHANGE_ME: Your email
     github: 'https://github.com/KrArjan',                // CHANGE_ME: GitHub profile URL
     discord: 'https://discord.gg/nullbyte',              // CHANGE_ME: Discord server invite
-    site: 'https://nullbyte.qzz.io',                     // CHANGE_ME: Your main website
+    url: 'https://krarjan.dev',                          // CHANGE_ME: Your portfolio URL (used for canonical & OG tags)
+    site: 'https://nullbyte.qzz.io',                     // CHANGE_ME: Your main project/site URL
     cpanel: 'https://cpanel.nullbyte.qzz.io',            // CHANGE_ME: Admin panel (optional)
+    ogImage: '/config/images/pfp.webp',                  // CHANGE_ME: OG/social sharing preview image path
     authToken: '0x7701D0_A39C',                          // Decorative auth token shown in UI
     buildSince: '2021',                                  // CHANGE_ME: Year you started coding
   },

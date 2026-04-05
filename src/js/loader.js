@@ -107,9 +107,6 @@
     targetProgress = Math.min((assetsLoaded / totalAssets) * 100, 100);
   }
 
-  // Small delay for cinematic smoothness
-  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
   // Helper to fetch and track progress
   async function fetchWithProgress(url) {
     try {
@@ -173,7 +170,6 @@
     } finally {
       assetsLoaded++;
       updateTarget();
-      await sleep(0);
     }
   }
 

@@ -53,6 +53,8 @@ Before making detailed changes, verify that you can edit the global configuratio
 2. Locate the `meta` object in `portfolio.config.js`.
 3. Update a field (like your `name`) and refresh your browser.
 
+> [!TIP]
+> Everything from your bio and social links to your SEO metadata and site colors is controlled from the **`config/`** folder. You should almost never need to touch the HTML or core logic files.
 > [!IMPORTANT]
 > If your changes don't appear immediately, try a **Hard Refresh** (Ctrl + F5) to clear the browser's script cache.
 

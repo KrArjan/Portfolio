@@ -96,6 +96,19 @@ const UI = (() => {
     const turnstileEl = document.getElementById('connect-turnstile');
     if (!turnstileEl) return;
 
+    // Lazy-inject Turnstile script on first visit to connect page
+    const injectTurnstileScript = () => {
+      if (document.getElementById('turnstile-script')) return Promise.resolve();
+      return new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.id = 'turnstile-script';
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        s.async = true;
+        s.onload = resolve;
+        document.head.appendChild(s);
+      });
+    };
+
     // Check if already rendered (has children)
     if (turnstileEl.children.length > 0) {
       window.turnstile?.reset(turnstileEl);
@@ -124,19 +137,21 @@ const UI = (() => {
         });
       };
 
-      // Wait for script if not ready
-      if (!window.turnstile) {
-        let retries = 0;
-        const interval = setInterval(() => {
-          if (window.turnstile) {
-            clearInterval(interval);
-            render();
-          }
-          if (++retries > 20) clearInterval(interval);
-        }, 500);
-      } else {
-        render();
-      }
+      // Inject script if not already loaded, then render
+      injectTurnstileScript().then(() => {
+        if (!window.turnstile) {
+          let retries = 0;
+          const interval = setInterval(() => {
+            if (window.turnstile) {
+              clearInterval(interval);
+              render();
+            }
+            if (++retries > 20) clearInterval(interval);
+          }, 500);
+        } else {
+          render();
+        }
+      });
 
     } catch (err) {
       console.error("Turnstile Initialization Failure:", err);
@@ -327,6 +342,7 @@ const UI = (() => {
   }
 
   /* ===================== SCROLL REVEAL ===================== */
+  let scrollRevealInitialized = false;
   function initScrollReveal() {
     if (!('IntersectionObserver' in window)) return;
 
@@ -339,7 +355,8 @@ const UI = (() => {
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Only observe elements not already animated
+    document.querySelectorAll('.reveal:not(.anim-fade-in-up)').forEach(el => observer.observe(el));
   }
 
   /* ===================== SMOOTH HOVER TILT ===================== */

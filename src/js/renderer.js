@@ -248,7 +248,6 @@ const Renderer = (() => {
              style="min-height: ${h}; display:flex; flex-direction:column;">
 
           <div style="position:absolute;top:0;right:0;padding:24px;opacity:0.08;pointer-events:none;">
-            ${icon(p.icon, '')}
             <span class="material-symbols-outlined" style="font-size:5rem;color:${p.color}">${p.icon}</span>
           </div>
 

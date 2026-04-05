@@ -109,11 +109,11 @@
 /* ===================== ANIMATION CLASSES ===================== */
 
 /* Entrance Animations */
-.anim-fade-in      { animation: fadeIn      var(--dur-slow) var(--ease-smooth) both; }
-.anim-fade-in-up   { animation: fadeInUp    var(--dur-xslow) var(--ease-smooth) both; }
-.anim-fade-in-down { animation: fadeInDown  var(--dur-xslow) var(--ease-smooth) both; }
-.anim-fade-in-left { animation: fadeInLeft  var(--dur-xslow) var(--ease-smooth) both; }
-.anim-fade-in-right{ animation: fadeInRight var(--dur-xslow) var(--ease-smooth) both; }
+.anim-fade-in      { animation: fadeIn      var(--dur-slow)  var(--ease-smooth) both; backface-visibility: hidden; }
+.anim-fade-in-up   { animation: fadeInUp    var(--dur-xslow) var(--ease-smooth) both; backface-visibility: hidden; }
+.anim-fade-in-down { animation: fadeInDown  var(--dur-xslow) var(--ease-smooth) both; backface-visibility: hidden; }
+.anim-fade-in-left { animation: fadeInLeft  var(--dur-xslow) var(--ease-smooth) both; backface-visibility: hidden; }
+.anim-fade-in-right{ animation: fadeInRight var(--dur-xslow) var(--ease-smooth) both; backface-visibility: hidden; }
 
 /* Stagger Delays */
 .delay-1 { animation-delay: 100ms; }
@@ -146,6 +146,7 @@
   border-radius: 50%;
   background: currentColor;
   animation: ping 1.8s ease-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Glitch text */

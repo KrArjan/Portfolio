@@ -31,10 +31,12 @@
   padding: 16px;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  transition: transform var(--dur-base) var(--ease-spring),
+  border-radius: var(--radius-lg);
+  transition: transform var(--dur-slow) var(--ease-smooth),
               border-color var(--dur-base) var(--ease-smooth),
-              box-shadow var(--dur-base) var(--ease-smooth);
+              box-shadow var(--dur-base) var(--ease-smooth),
+              background var(--dur-base);
+  will-change: transform;
 }
 
 @media (min-width: 768px) {
@@ -145,6 +147,9 @@
   }
 }
 
+/* Bloom elements that animate get GPU promotion */
+.bloom { will-change: opacity; }
+
 /* ===================== BUTTONS ===================== */
 .btn {
   display: inline-flex;
@@ -202,14 +207,13 @@
 }
 
 .btn-ghost {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--on-surface);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.13);
 }
 
 .btn-sm {
@@ -326,17 +330,8 @@
 }
 
 /* ===================== PROJECT CARDS ===================== */
-.project-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  transition: transform var(--dur-slow) var(--ease-smooth),
-    background var(--dur-base);
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-}
+/* Note: .project-card is defined earlier in this file. This block
+   handles additional tag/tech styles only. */
 
 .project-card__tag {
   font-family: var(--font-headline);
@@ -380,6 +375,7 @@
   text-decoration: none;
   overflow: hidden;
   position: relative;
+  will-change: transform;
 }
 
 .social-card::before {

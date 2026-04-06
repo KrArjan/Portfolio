@@ -32,7 +32,7 @@ const SITE_DATA = {
     github: 'https://github.com/KrArjan',                // CHANGE_ME: GitHub profile URL
     discord: 'https://discord.gg/nullbyte',              // CHANGE_ME: Discord server invite
     url: 'https://krarjan.dev',                          // CHANGE_ME: Your portfolio URL (used for canonical & OG tags)
-    site: 'https://nullbyte.qzz.io',                     // CHANGE_ME: Your main project/site URL
+    site: 'https://krarjan.dev/projects',                // CHANGE_ME: Your main project/site URL
     cpanel: 'https://cpanel.nullbyte.qzz.io',            // CHANGE_ME: Admin panel (optional)
     ogImage: '/config/images/pfp.webp',                  // CHANGE_ME: OG/social sharing preview image path
     authToken: '0x7701D0_A39C',                          // Decorative auth token shown in UI

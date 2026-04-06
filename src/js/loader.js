@@ -11,7 +11,6 @@
 
   /* ── Partials injected directly before <main> ─────────────────── */
   const chromeParts = [
-    '/src/pages/boot.html',
     '/src/pages/shell.html',
   ];
 
@@ -73,7 +72,7 @@
   // ────────────────────────────────────────────────────────────────
   // Progress Management (Smooth Interpolation)
   // ────────────────────────────────────────────────────────────────
-  const totalAssets = (chromeParts.length - 1) + pageParts.length + afterMainParts.length + appScripts.length;
+  const totalAssets = chromeParts.length + pageParts.length + afterMainParts.length + appScripts.length;
   let assetsLoaded = 0;
   let targetProgress = 0;
   let currentProgress = 0;
@@ -123,22 +122,16 @@
   }
 
   // ────────────────────────────────────────────────────────────────
-  // Step 1 — Inject chrome partials (boot screen + shell)
+  // Step 1 — Inject chrome partials (shell)
   // ────────────────────────────────────────────────────────────────
   const placeholder = document.getElementById('partials-root');
 
-  // Inject boot screen first to show progress
-  try {
-    const bootHtml = await fetchHtml(chromeParts[0]);
-    placeholder.before(parseFragment(bootHtml));
-    startProgressLoop();
-  } catch (err) {
-    console.error('[loader] boot screen failed:', err);
-  }
+  // Start progress loop immediately since boot screen is already in DOM
+  startProgressLoop();
 
   // Fetch remaining chrome, page, and footer partials in parallel
   const [chromeRests, pageContents, footerContents] = await Promise.all([
-    Promise.all(chromeParts.slice(1).map(fetchWithProgress)),
+    Promise.all(chromeParts.map(fetchWithProgress)),
     Promise.all(pageParts.map(fetchWithProgress)),
     Promise.all(afterMainParts.map(fetchWithProgress))
   ]);

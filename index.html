@@ -36,8 +36,8 @@
   <!-- Fonts & Icons (Non-Blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap&font-display=swap" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap&font-display=swap" media="print" onload="this.media='all'" />
 
   <!-- Critical Styles (Inlined for 0-render block) -->
   <style>
@@ -64,6 +64,62 @@
     ::-webkit-scrollbar-track{background:var(--surface-lowest);}
     ::-webkit-scrollbar-thumb{background:var(--outline-variant);border-radius:2px;}
     .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;user-select:none;}
+
+    /* ── Boot screen styles (Inlined for Performance) ── */
+    #boot-screen { position: fixed; inset: 0; z-index: var(--z-boot); background: #050505; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100dvh; transition: opacity 0.6s var(--ease-smooth), visibility 0.6s var(--ease-smooth); }
+    #boot-screen .boot-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(0, 242, 255, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 242, 255, 0.04) 1px, transparent 1px); background-size: 40px 40px; }
+    #boot-screen .boot-vignette { position: absolute; inset: 0; background: linear-gradient(to bottom, #050505 0%, transparent 25%, transparent 75%, #050505 100%); pointer-events: none; }
+    #boot-screen .boot-terminal-bg { position: absolute; inset: 0; padding: 32px; display: flex; flex-direction: column; font-family: monospace; font-size: 9px; color: rgba(0, 242, 255, 0.04); overflow: hidden; user-select: none; pointer-events: none; line-height: 1.9; letter-spacing: 0.05em; }
+    #boot-screen .boot-scanline { position: absolute; left: 0; right: 0; height: 100px; background: linear-gradient(0deg, transparent 0%, rgba(0, 242, 255, 0.06) 50%, transparent 100%); opacity: 0.12; animation: bootScanSweep 8s linear infinite; pointer-events: none; }
+    @keyframes bootScanSweep { 0% { top: -100px; } 100% { top: 100%; } }
+    #boot-screen .boot-topbar { position: absolute; top: 48px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 16px; opacity: 0.4; }
+    #boot-screen .boot-topbar__line { height: 1px; width: 96px; background: var(--outline-variant); }
+    #boot-screen .boot-topbar__label { font-family: var(--font-headline); font-size: 0.625rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--on-surface); }
+    #boot-screen .cube-scene { position: relative; width: 200px; height: 200px; perspective: 800px; }
+    #boot-screen .cube-bloom { position: absolute; inset: -60px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 242, 255, 0.22) 0%, transparent 70%); filter: blur(32px); pointer-events: none; }
+    #boot-screen .shape-container { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: shapeRotate 12s linear infinite; }
+    @keyframes shapeRotate { 0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); } 100% { transform: rotateX(360deg) rotateY(720deg) rotateZ(0deg); } }
+    #boot-screen .shape-plane { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+    #boot-screen .shape-rect { position: absolute; top: 50%; left: 50%; width: 160px; height: 100px; margin-left: -80px; margin-top: -50px; border: 1.5px solid rgba(0, 242, 255, 0.7); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3), 0 0 5px rgba(0, 242, 255, 0.5) inset; background: rgba(0, 242, 255, 0.03); transform-style: preserve-3d; }
+    #boot-screen .shape-rect--0 { transform: rotateX(0deg) rotateY(0deg); }
+    #boot-screen .shape-rect--1 { transform: rotateX(90deg) rotateY(0deg); }
+    #boot-screen .shape-rect--2 { transform: rotateX(0deg) rotateY(90deg); }
+    #boot-screen .shape-core { position: absolute; top: 50%; left: 50%; width: 20px; height: 20px; margin-left: -10px; margin-top: -10px; background: radial-gradient(circle, #00f2ff 0%, #00d0ff 100%); border-radius: 50%; box-shadow: 0 0 20px rgba(0, 242, 255, 0.8), 0 0 40px rgba(0, 242, 255, 0.4); animation: corePulse 2s ease-in-out infinite; }
+    @keyframes corePulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.5); opacity: 0.4; } }
+    #boot-screen .boot-title { font-family: var(--font-headline); font-size: clamp(0.875rem, 2.5vw, 1.25rem); font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--primary-container); filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.4)); animation: glitch 4s ease-in-out infinite; text-align: center; }
+    #boot-screen .boot-status-list { display: flex; flex-direction: column; gap: 6px; }
+    #boot-screen .boot-status-row { display: flex; align-items: center; gap: 8px; font-family: var(--font-headline); font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-surface-variant); opacity: 0.7; }
+    #boot-screen .boot-status-row .material-symbols-outlined { font-size: 0.75rem; }
+    #boot-screen .boot-status-row--active { color: var(--primary-container); opacity: 1; }
+    #boot-screen .boot-progress-wrap { width: min(384px, 90vw); display: flex; flex-direction: column; gap: 8px; }
+    #boot-screen .boot-progress-meta { display: flex; justify-content: space-between; font-family: monospace; font-size: 0.5625rem; color: var(--on-surface-variant); text-transform: uppercase; letter-spacing: 0.05em; }
+    #boot-screen .boot-progress-track { height: 2px; width: 100%; background: var(--surface-highest); overflow: hidden; border-radius: 999px; }
+    #boot-screen .boot-progress-fill { height: 100%; background: var(--primary-container); box-shadow: 0 0 10px rgba(0, 242, 255, 0.8), 0 0 20px rgba(0, 242, 255, 0.4); width: 0%; position: relative; border-radius: 999px; }
+    #boot-screen .boot-progress-fill::after { content: ''; position: absolute; top: 0; right: 0; width: 16px; height: 100%; background: white; filter: blur(4px); opacity: 0.8; }
+    #boot-screen .boot-progress-ticks { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 4px; }
+    #boot-screen .boot-progress-ticks span { display: block; background: rgba(0, 242, 255, 0.2); }
+    #boot-screen .boot-progress-ticks span:nth-child(odd) { width: 1px; height: 16px; }
+    #boot-screen .boot-progress-ticks span:nth-child(even) { width: 1px; height: 8px; }
+    #boot-screen .boot-float-card { position: absolute; border: 1px solid rgba(0, 242, 255, 0.1); background: rgba(42, 42, 42, 0.05); backdrop-filter: blur(12px); border-radius: var(--radius-xl); display: none; }
+    @media (min-width: 1024px) { #boot-screen .boot-float-card { display: block; } }
+    #boot-screen .boot-float-card--right { top: 25%; right: 40px; width: 128px; height: 128px; transform: rotate(12deg); padding: 16px; }
+    #boot-screen .boot-float-card--right .card-line { height: 1px; background: rgba(0, 242, 255, 0.2); margin-bottom: 6px; }
+    #boot-screen .boot-float-card--right .card-line:nth-child(2) { width: 66%; }
+    #boot-screen .boot-float-card--right .card-coords { padding-top: 16px; font-family: monospace; font-size: 0.5rem; color: rgba(0, 242, 255, 0.35); line-height: 1.5; }
+    #boot-screen .boot-float-card--left { bottom: 25%; left: 40px; width: 192px; height: 96px; transform: rotate(-6deg); display: none; align-items: center; justify-content: center; }
+    @media (min-width: 1024px) { #boot-screen .boot-float-card--left { display: flex; } }
+    #boot-screen .boot-float-card--left span { font-family: var(--font-headline); font-size: 0.5625rem; letter-spacing: 0.45em; text-transform: uppercase; color: rgba(0, 242, 255, 0.1); }
+    #boot-screen .boot-footer { position: absolute; bottom: 48px; left: 48px; right: 48px; display: flex; flex-direction: column; align-items: center; gap: 12px; opacity: 0.3; }
+    @media (min-width: 768px) { #boot-screen .boot-footer { flex-direction: row; justify-content: space-between; } }
+    #boot-screen .boot-footer__node { display: flex; gap: 24px; }
+    #boot-screen .boot-footer__item { display: flex; flex-direction: column; gap: 2px; }
+    #boot-screen .boot-footer__item .label { font-family: monospace; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    #boot-screen .boot-footer__item .label--cyan { color: var(--primary-container); }
+    #boot-screen .boot-footer__item .label--purple { color: var(--secondary); }
+    #boot-screen .boot-footer__item .value { font-family: var(--font-headline); font-size: 0.625rem; font-weight: 700; color: var(--on-surface); }
+    #boot-screen .boot-footer__copy { font-family: monospace; font-size: 0.5625rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--on-surface-variant); text-align: right; line-height: 1.6; }
+    #boot-screen .boot-edge-ring { position: fixed; inset: 0; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(0, 242, 255, 0.08); }
+    #boot-screen .boot-noise { position: fixed; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px 200px; opacity: 0.025; z-index: 1; }
   </style>
 
   <!-- Deferred Non-Critical Styles -->
@@ -78,12 +134,95 @@
   <div id="particles-bg"></div>
   <div class="bg-digital-grid-global"></div>
 
-  <!--
-  All page sections and chrome (nav, drawer, footer, etc.) are loaded
-  at runtime by loader.js from the pages/ directory.
-  This placeholder is removed after injection is complete.
--->
+  <!-- Inlined Boot Screen for 500ms Speed Index -->
+  <div id="boot-screen">
+    <div class="boot-bg-grid"></div>
+    <div class="boot-vignette"></div>
+    <div class="boot-noise"></div>
+    <div class="boot-scanline"></div>
+    <div class="boot-terminal-bg" aria-hidden="true">
+      <p>SYSTEM_BOOT_SEQUENCE: INIT_START</p>
+      <p>LOAD_DRIVER: KERNEL_MODULE_G7X</p>
+      <p>FETCHING_REPOSITORY: PORTFOLIO_V2.0.4</p>
+      <p>ESTABLISHING_SECURE_HANDSHAKE...</p>
+      <p>BYPASSING_FIREWALL_LAYERS: [####################] 100%</p>
+      <p>REPLICATING_UI_NODES: SUCCESS</p>
+      <p>SYNCING_ASSETS_CACHE: OK</p>
+      <p>VALIDATING_ENCRYPTION_KEY_0x74f5ff...</p>
+      <p>LOADING_COMPONENTS: TopAppBar, NavigationDrawer, Footer</p>
+      <p>RENDER_ENGINE: KINETIC_TERMINAL_STABLE</p>
+      <p>LATENCY_CHECK: 14ms</p>
+      <p>STATUS: OPTIMAL</p>
+    </div>
+    <div class="boot-topbar" aria-hidden="true">
+      <span class="material-symbols-outlined" style="font-size:0.875rem;color:var(--primary-container);">terminal</span>
+      <div class="boot-topbar__line"></div>
+      <span class="boot-topbar__label">KrArjan v2.0.4-stable</span>
+      <div class="boot-topbar__line"></div>
+    </div>
+    <main style="position:relative;z-index:20;display:flex;flex-direction:column;align-items:center;gap:48px;padding:24px;">
+      <div class="cube-scene">
+        <div class="cube-bloom"></div>
+        <div class="shape-container">
+          <div class="shape-plane">
+            <div class="shape-rect shape-rect--0"></div>
+            <div class="shape-rect shape-rect--1"></div>
+            <div class="shape-rect shape-rect--2"></div>
+          </div>
+          <div class="shape-core"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">
+        <h1 class="boot-title">Initializing KrArjan Interface</h1>
+        <div class="boot-status-list">
+          <div class="boot-status-row">
+            <span class="material-symbols-outlined" style="color:var(--primary-fixed);">check_circle</span>
+            <span>BOOTING PORTFOLIO...</span>
+          </div>
+          <div class="boot-status-row">
+            <span class="material-symbols-outlined" style="color:var(--primary-fixed);">sync</span>
+            <span>SYNCING MODULES...</span>
+          </div>
+          <div class="boot-status-row boot-status-row--active anim-pulse">
+            <span class="material-symbols-outlined" style="color:var(--primary-container);">downloading</span>
+            <span>LOADING PROJECTS...</span>
+          </div>
+        </div>
+      </div>
+      <div class="boot-progress-wrap">
+        <div class="boot-progress-meta">
+          <span>Buffer Status</span>
+          <span id="boot-pct-label">0%</span>
+        </div>
+        <div class="boot-progress-track">
+          <div id="boot-bar" class="boot-progress-fill"></div>
+        </div>
+        <div class="boot-progress-ticks">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </main>
+    <div class="boot-footer" aria-hidden="true">
+      <div class="boot-footer__node">
+        <div class="boot-footer__item">
+          <span class="label label--cyan">Link_Established</span>
+          <span class="value">NODE_01_SECURE</span>
+        </div>
+        <div class="boot-footer__item">
+          <span class="label label--purple">Signal_Strength</span>
+          <span class="value">100_PERCENT</span>
+        </div>
+      </div>
+      <p class="boot-footer__copy">
+        <span>© 2026 KRARJAN // KINETIC TERMINAL</span><br>
+        <span>ESTABLISHING NEURAL_BRIDGE...</span>
+      </p>
+    </div>
+    <div class="boot-edge-ring"></div>
+  </div>
+
   <div id="partials-root"></div>
+
 
 
   <!-- =====================================================================

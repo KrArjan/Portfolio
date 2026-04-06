@@ -51,7 +51,6 @@
 .page-section {
   display: none;
   min-height: calc(100vh - 72px);
-  contain: layout style;
 }
 
 .page-section.active {

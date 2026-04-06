@@ -221,7 +221,149 @@
     <div class="boot-edge-ring"></div>
   </div>
 
-  <div id="partials-root"></div>
+  <!-- =====================================================================
+       SHELL COMPONENT (Inlined for <100ms Speed Index)
+       ===================================================================== -->
+  <nav id="main-nav" class="nav" style="display:none;" aria-label="Main navigation">
+    <div class="nav__logo" onclick="Router.navTo('home')">
+      <img src="/config/images/pfp/pfp-200.webp" alt="pfp" 
+        style="width:28px;height:28px;object-fit:contain;border-radius:4px;">
+      <span class="nav__logo-text" data-content="meta.name">KrArjan</span>
+    </div>
+    <div id="nav-links" class="nav__links"></div>
+    <button id="btn-menu-open" class="nav__menu-btn nav__menu-btn--desktop">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </nav>
+
+  <aside id="sidebar-right" class="sidebar-right" style="display:none;" role="complementary" aria-label="Page navigation sidebar">
+    <div id="sidebar-icons" style="display:flex;flex-direction:column;gap:28px;align-items:center;"></div>
+    <div class="sidebar-right__divider"></div>
+    <span class="sidebar-right__label" data-content="meta.version">SYSTEM_MENU_V2.0.4</span>
+  </aside>
+
+  <button id="mobile-fab" class="mobile-fab" aria-label="Open navigation">
+    <span class="material-symbols-outlined mobile-fab__icon">menu</span>
+    <span class="material-symbols-outlined mobile-fab__icon mobile-fab__icon--close">close</span>
+  </button>
+
+  <button id="btn-scroll-top" class="scroll-top" aria-label="Scroll to top" title="Back to top">
+    <span class="material-symbols-outlined">arrow_upward</span>
+  </button>
+
+  <div id="bottom-sheet-overlay" class="bottom-sheet-overlay"></div>
+
+  <div id="mobile-bottom-sheet" class="mobile-bottom-sheet" role="dialog" aria-label="Navigation">
+    <div class="bottom-sheet__handle"></div>
+    <div class="bottom-sheet__header">
+      <span class="bottom-sheet__title">NAVIGATE</span>
+      <div class="bottom-sheet__dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav id="bottom-sheet-nav" class="bottom-sheet__nav"></nav>
+    <div class="bottom-sheet__footer">
+      <span data-content="pages.boot.footer.copy">KrArjan // VER_2.0.4</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MAIN CONTENT (Inlined Home Page)
+       ===================================================================== -->
+  <main id="main-content" class="main-content" style="display:none;">
+    <section id="page-home" class="page-section">
+      <div style="position:relative;min-height:calc(100vh - 72px);display:flex;align-items:center;">
+        <div class="bloom bloom-purple" style="width:400px;height:400px;top:15%;left:-8%;"></div>
+        <div class="bloom bloom-cyan" style="width:400px;height:400px;bottom:10%;right:-10%;opacity:0.08;"></div>
+        <div class="container" style="position:relative;z-index:1;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:64px;padding:80px 0;">
+            <div style="max-width:720px;text-align:center;" class="anim-fade-in-up">
+              <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;margin-bottom:24px;border-radius:999px;" class="glass badge badge-amber">
+                <span class="dot"></span>
+                <span class="label-md" data-content="pages.home.hero.badge">System_Online // Ver_2.0.4</span>
+              </div>
+              <h1 class="display-xl" style="margin-bottom:16px;" data-content="pages.home.hero.title">
+                KrArjan<br><span class="gradient-text">Student Developer.</span>
+              </h1>
+              <p class="body-lg anim-fade-in-up delay-2" style="color:var(--on-surface-variant);max-width:560px;margin:0 auto 40px;" data-content="pages.home.hero.bio">
+                I’m a student developer working on bots, web tools, automation systems, and technical projects. I enjoy building things that are useful, organized, and actually solve problems.
+              </p>
+              <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:40px;" class="anim-fade-in-up delay-3">
+                <button class="btn btn-primary" onclick="Router.navTo('projects')"><span class="material-symbols-outlined">code</span> View Projects</button>
+                <button class="btn btn-secondary" onclick="Router.navTo('stack')"><span class="material-symbols-outlined">layers</span> Explore My Stack</button>
+              </div>
+              <div style="display:flex;gap:28px;justify-content:center;" class="anim-fade-in-up delay-4">
+                <a href="mailto:krarjanwork@gmail.com" style="display:flex;align-items:center;gap:6px;color:var(--on-surface-variant);transition:color 0.2s;font-family:var(--font-headline);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;" data-attr="href:meta.email">
+                  <span class="material-symbols-outlined">alternate_email</span> Contact
+                </a>
+                <a href="https://github.com/KrArjan" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;color:var(--on-surface-variant);transition:color 0.2s;font-family:var(--font-headline);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;">
+                  <span class="material-symbols-outlined">code</span> GitHub
+                </a>
+              </div>
+            </div>
+            <div style="position:relative;width:100%;max-width:280px;height:280px;flex-shrink:0;margin:0 auto;" class="anim-fade-in delay-3">
+              <div class="glass glow-cyan" style="width:200px;height:200px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);overflow:hidden;">
+                <img src="/config/images/pfp/pfp-200.webp" srcset="/config/images/pfp/pfp-200.webp 200w, /config/images/pfp/pfp-400.webp 400w, /config/images/pfp/pfp-600.webp 600w" sizes="(max-width: 768px) 200px, 400px" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="KrArjan Profile" data-attr="alt:pages.home.hero.pfpAlt" fetchpriority="high" decoding="async">
+              </div>
+              <span class="glass tag-float tag-float-1" data-content="pages.home.hero.techTags.0">JAVASCRIPT / NODE.JS</span>
+              <span class="glass tag-float tag-float-2" data-content="pages.home.hero.techTags.1">PYTHON / APIS</span>
+              <span class="glass tag-float tag-float-3" data-content="pages.home.hero.techTags.2">BACKEND / SYSTEMS</span>
+              <span class="glass tag-float tag-float-4" data-content="pages.home.hero.techTags.3">AUTOMATION / WEB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--surface-low);"><div id="stats-row" class="stats-row"></div></div>
+      <div class="section-lg">
+        <div class="container">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;">
+            <div><h2 class="display-md" style="font-family:var(--font-headline);">FEATURED_WORK</h2><div style="height:3px;width:60px;background:linear-gradient(to right,var(--primary-container),transparent);margin-top:10px;"></div></div>
+            <button class="btn btn-ghost btn-sm" onclick="Router.navTo('projects')" style="display:flex;align-items:center;gap:6px;">VIEW_ALL <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span></button>
+          </div>
+          <div id="featured-grid" class="bento-featured"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       FOOTER COMPONENT (Inlined for <100ms Speed Index)
+       ===================================================================== -->
+  <footer id="main-footer" class="footer" style="display:none;">
+    <div class="container">
+      <div class="grid-12" style="gap:40px; margin-bottom: 64px;">
+        <div class="col-5">
+          <span class="footer__logo" style="margin-bottom:16px; display:inline-block;" onclick="Router.navTo('home')">KrArjan // TECHNICAL_BUILDER</span>
+          <p class="body-sm" style="color:var(--on-surface-variant); max-width: 320px; margin-bottom:32px;">Building software, bots, tools, and digital systems that move the needle. Ready to establish a direct link?</p>
+          <a id="footer-email-link" href="#" class="btn btn-outline" style="display:inline-flex; border-color:var(--primary-container); color:var(--primary-container);"><span class="material-symbols-outlined">send</span> INITIATE_TRANSMISSION</a>
+        </div>
+        <div class="col-4">
+          <h4 class="label-lg" style="color:var(--primary-container); margin-bottom:24px; letter-spacing:0.2em; text-transform:uppercase;">System_Directives</h4>
+          <div id="footer-nav-links" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+        <div class="col-3">
+          <h4 class="label-lg" style="color:var(--secondary-container); margin-bottom:24px; letter-spacing:0.2em; text-transform:uppercase;">Network_Protocols</h4>
+          <div id="footer-social-links" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+      </div>
+      <div class="footer__bottom-bar" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:32px; gap:20px;">
+        <p class="footer__copy" style="margin:0;">© 2026 KrArjan // BUILT_FOR_THE_NEXT_ERA</p>
+        <div style="display:flex; gap:24px; align-items:center;">
+          <span class="label-sm" style="color:var(--tertiary-fixed); letter-spacing:0.2em; text-transform:uppercase;">System_Stable</span>
+          <div style="display:flex; gap:12px; opacity:0.6;">
+            <span class="material-symbols-outlined" style="font-size:1.1rem; color:var(--secondary-container);">terminal</span>
+            <span class="material-symbols-outlined" style="font-size:1.1rem; color:var(--secondary-container);">settings_input_component</span>
+            <span class="material-symbols-outlined" style="font-size:1.1rem; color:var(--secondary-container);">encrypted</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast">
+    <span class="material-symbols-outlined" style="color:var(--primary-container);">check_circle</span>
+    <span class="toast__msg"></span>
+  </div>
 
 
 

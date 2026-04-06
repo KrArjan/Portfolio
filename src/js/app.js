@@ -24,10 +24,8 @@
   const showBoot = SITE_DATA.features?.showBootScreen !== false;
 
   if (showBoot) {
-    // Standard cinematic reveal with 400ms pause
-    setTimeout(() => {
-      Boot.dismiss(false);
-    }, 400);
+    // Immediate dismissal when ready — optimized for 100ms Speed Index
+    Boot.dismiss(false);
   } else {
     // Immediate bypass
     Boot.dismiss(true);

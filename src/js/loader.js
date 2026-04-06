@@ -11,25 +11,25 @@
 
   /* ── Partials injected directly before <main> ─────────────────── */
   const chromeParts = [
-    '/src/pages/shell.html',
+    '/src/pages/shell',
   ];
 
   /* ── Page sections placed inside <main> ──────────────────────── */
   const pageParts = [
-    '/src/pages/home.html',
-    '/src/pages/profile.html',
-    '/src/pages/projects.html',
-    '/src/pages/stack.html',
-    '/src/pages/journey.html',
-    '/src/pages/lab.html',
-    '/src/pages/connect.html',
-    '/src/pages/social.html',
-    '/src/pages/404.html',
+    '/src/pages/home',
+    '/src/pages/profile',
+    '/src/pages/projects',
+    '/src/pages/stack',
+    '/src/pages/journey',
+    '/src/pages/lab',
+    '/src/pages/connect',
+    '/src/pages/social',
+    '/src/pages/404',
   ];
 
   /* ── Elements that must come AFTER <main> in the DOM ─────────── */
   const afterMainParts = [
-    '/src/pages/after-main.html',   // footer + toast
+    '/src/pages/after-main',   // footer + toast
   ];
 
   /* ── App scripts loaded in strict order after DOM is ready ───── */

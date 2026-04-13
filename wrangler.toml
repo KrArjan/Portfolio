@@ -1,4 +1,4 @@
-name = "portfolio"
+name = "opensource-portfolio"
 main = "_worker.js"
 compatibility_date = "2024-04-03"
 keep_vars = true

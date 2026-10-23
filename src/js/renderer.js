@@ -31,11 +31,14 @@ const Renderer = (() => {
     const map = {
       'ONGOING_PROCESS': 'amber',
       'ONGOING': 'amber',
+      'RESIGNED': 'amber',
+      'FAILED': 'red',
       'DEPLOYED': 'cyan',
       'IN_PROGRESS': 'purple',
       'RESEARCH': 'purple',
       'IDEATION': 'neutral',
       'BUILDING': 'cyan',
+      'ACTIVE': 'cyan',
     };
     return badge(status, map[status] || 'neutral');
   }
@@ -63,7 +66,11 @@ const Renderer = (() => {
       const [attrName, path] = attrStr.split(':');
       const val = getValue(path);
       if (val !== undefined && val !== null) {
-        el.setAttribute(attrName, val);
+        let finalVal = val;
+        if (attrName === 'href' && (path.includes('email') || (typeof val === 'string' && val.includes('@') && !val.startsWith('mailto:')))) {
+          finalVal = `mailto:${val}`;
+        }
+        el.setAttribute(attrName, finalVal);
       }
     });
   }
@@ -456,24 +463,29 @@ const Renderer = (() => {
       'IN_PROGRESS': 'var(--tertiary-fixed)',
       'RESEARCH': 'var(--secondary)',
       'IDEATION': 'var(--on-surface-variant)',
+      'ACTIVE': 'var(--primary-container)',
+      'ONGOING': 'var(--tertiary-fixed)',
+      'RESIGNED': 'var(--tertiary-fixed)',
+      'FAILED': '#ff5449',
     };
 
     container.innerHTML = `
       <!-- Main large card -->
       <div class="col-8 glass glow-border-left reveal" style="padding:32px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;">
-        <div style="position:absolute;top:0;right:0;padding:16px;font-family:var(--font-headline);font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--primary-container);opacity:0.4;">PRIORITY_01</div>
+        <div style="position:absolute;top:0;right:0;padding:16px;font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--primary-container);opacity:0.6;">${main.priority ? 'PRIORITY_' + main.priority : 'LAB_MAIN'}</div>
         <div>
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
             <span class="material-symbols-outlined" style="color:var(--primary-container);">${main.icon}</span>
             <h2 style="font-family:var(--font-headline);font-size:1.25rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Currently Building: ${main.title}</h2>
           </div>
-          <p class="body-sm" style="color:var(--on-surface-variant);max-width:480px;margin-bottom:24px;">${main.description}</p>
+          <p class="body-sm" style="color:var(--on-surface-variant);max-width:560px;margin-bottom:24px;line-height:1.6;">${main.description}</p>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
             ${(main.tags || []).map(t => `
               <span style="padding:6px 14px;background:rgba(42,42,42,0.6);border:1px solid rgba(0,242,255,0.2);font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-container);border-radius:var(--radius-sm);">${t}</span>
             `).join('')}
           </div>
         </div>
+        ${main.progress != null ? `
         <div>
           <div style="display:flex;justify-content:space-between;font-family:var(--font-headline);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--on-surface-variant);margin-bottom:8px;">
             <span>Build Progress</span><span style="color:var(--primary-container);">${main.progress}%</span>
@@ -482,6 +494,7 @@ const Renderer = (() => {
             <div class="progress-bar__fill" style="width:${main.progress}%"></div>
           </div>
         </div>
+        ` : ''}
       </div>
 
       <!-- Side small cards -->
@@ -537,7 +550,7 @@ const Renderer = (() => {
     // Social Page Secondary Grid
     if (directoryGrid) {
       // Filter out those already featured in the bento grid at the top
-      const featured = ['github', 'discord', 'linkedin', 'instagram'];
+      const featured = ['github', 'discord', 'linkedin', 'reddit'];
       const secondary = SITE_DATA.social.filter(s => !featured.includes(s.id));
 
       directoryGrid.innerHTML = secondary.map(s => `

@@ -33,9 +33,8 @@
 
       <!-- GitHub Card (Main Action) -->
       <a href="https://github.com/KrArjan" target="_blank" rel="noopener" class="col-8 glass-card glow-border-inset"
-        data-attr="href:meta.github"
         style="position:relative;padding:48px;display:flex;flex-direction:column;justify-content:space-between;min-height:400px;overflow:hidden;border:1px solid rgba(0,242,255,0.2);text-decoration:none;">
-        <img src="/config/images/social/social_bg.webp"
+        <img src="/config/images/social/github_bg.webp"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.25;mix-blend-mode:overlay;pointer-events:none; transition:transform var(--dur-slow);"
           alt="GitHub Network" onmouseover="this.style.transform='scale(1.05)'"
           onmouseout="this.style.transform='scale(1)'">
@@ -66,10 +65,10 @@
 
       <!-- Discord Card -->
       <a href="https://discord.com/users/606851356854321171" target="_blank" rel="noopener"
-        class="col-4 glass-card glow-border-top" data-attr="href:meta.discord"
+        class="col-4 glass-card glow-border-top"
         style="position:relative;padding:32px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(119,1,208,0.2);overflow:hidden;text-decoration:none;">
-        <img src="/config/images/social/social_bg.webp"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.15;pointer-events:none; transition:transform var(--dur-slow);"
+        <img src="/config/images/social/discord_bg.webp"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.25;pointer-events:none; transition:transform var(--dur-slow);"
           alt="Discord Background" onmouseover="this.style.transform='scale(1.1)'"
           onmouseout="this.style.transform='scale(1)'">
         <div style="position:relative;z-index:1;">
@@ -95,10 +94,10 @@
       </a>
 
       <!-- LinkedIn Card -->
-      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card" data-attr="href:social.5.href"
+      <a href="https://www.linkedin.com/in/krarjan/" target="_blank" rel="noopener" class="col-6 glass-card"
         style="position:relative;padding:32px;border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;text-decoration:none;">
-        <img src="/config/images/social/social_bg.webp"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.2;pointer-events:none; transition:transform var(--dur-slow);"
+        <img src="/config/images/social/linkedin_bg.webp"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.25;pointer-events:none; transition:transform var(--dur-slow);"
           alt="LinkedIn Background" onmouseover="this.style.transform='scale(1.1)'"
           onmouseout="this.style.transform='scale(1)'">
         <div style="position:relative;z-index:1;">
@@ -115,24 +114,24 @@
         <div class="btn btn-secondary" style="width:max-content; position:relative;z-index:1;">EXPAND_NETWORK</div>
       </a>
 
-      <a href="#" target="_blank" rel="noopener" class="col-6 glass-card glow-border-bottom"
-        data-attr="href:social.4.href"
-        style="position:relative;min-height:300px;overflow:hidden;border:1px solid rgba(0,242,255,0.1);display:block;text-decoration:none;">
-        <img src="/config/images/social/social_bg.webp"
+      <!-- Reddit Card -->
+      <a href="https://www.reddit.com/user/KrArjan/" target="_blank" rel="noopener" class="col-6 glass-card glow-border-bottom"
+        style="position:relative;min-height:300px;overflow:hidden;border:1px solid rgba(255,69,0,0.2);display:block;text-decoration:none;">
+        <img src="/config/images/social/reddit_bg.webp"
           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.35;transition:transform var(--dur-slow);"
-          alt="Instagram Aesthetic" onmouseover="this.style.transform='scale(1.1)'"
+          alt="Reddit Community" onmouseover="this.style.transform='scale(1.1)'"
           onmouseout="this.style.transform='scale(1)'">
         <div
           style="position:absolute;inset:0;background:linear-gradient(to top, var(--surface) 10%, transparent);padding:32px;display:flex;flex-direction:column;justify-content:flex-end;">
           <div
-            style="width:40px;height:40px;border-radius:8px;background:rgba(0,242,255,0.2);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-            <span class="material-symbols-outlined" style="color:var(--primary-container);">photo_camera</span>
+            style="width:40px;height:40px;border-radius:8px;background:rgba(255,69,0,0.2);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+            <span class="material-symbols-outlined" style="color:#ff6535;">forum</span>
           </div>
           <h2 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:4px;">
-            Instagram</h2>
+            Reddit</h2>
           <p
             style="font-family:var(--font-label);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--on-surface-variant);margin:0;">
-            A more casual side of things — visuals, moments, and life outside the terminal.</p>
+            Discussions, communities, and tech threads across Reddit.</p>
         </div>
       </a>
 
@@ -145,21 +144,6 @@
       <div id="social-directory-grid" class="grid-4" style="gap: 16px;">
         <!-- Populated by renderer.js -->
       </div>
-    </div>
-
-    <!-- Bottom Action Ribbon -->
-    <div class="glass"
-      style="margin-top:96px;padding:48px;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px;border-radius:var(--radius-lg);">
-      <div>
-        <h3 class="headline-lg" style="font-family:var(--font-headline);color:var(--on-surface);margin-bottom:8px;">
-          Synchronize Direct Node?</h3>
-        <p class="body-md" style="color:var(--on-surface-variant);">Available for high-impact collaborations and
-          consultations.</p>
-      </div>
-      <button class="btn btn-outline" style="border-color:var(--primary-container);color:var(--primary-container);"
-        onclick="Router.navTo('connect')">
-        ESTABLISH_UPLINK
-      </button>
     </div>
 
   </div>

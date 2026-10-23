@@ -55,7 +55,6 @@
 
 .page-section.active {
   display: block;
-  animation: fadeInUp 0.45s var(--ease-smooth) both;
 }
 
 /* Section spacing */

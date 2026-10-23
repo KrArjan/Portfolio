@@ -17,14 +17,14 @@
   /* ── Page sections placed inside <main> ──────────────────────── */
   const pageParts = [
     !document.getElementById('page-home') && '/src/pages/home',
-    '/src/pages/profile',
-    '/src/pages/projects',
-    '/src/pages/stack',
-    '/src/pages/journey',
-    '/src/pages/lab',
-    '/src/pages/connect',
-    '/src/pages/social',
-    '/src/pages/404',
+    !document.getElementById('page-profile') && '/src/pages/profile',
+    !document.getElementById('page-projects') && '/src/pages/projects',
+    !document.getElementById('page-stack') && '/src/pages/stack',
+    !document.getElementById('page-journey') && '/src/pages/journey',
+    !document.getElementById('page-lab') && '/src/pages/lab',
+    !document.getElementById('page-connect') && '/src/pages/connect',
+    !document.getElementById('page-social') && '/src/pages/social',
+    !document.getElementById('page-404') && '/src/pages/404',
   ].filter(Boolean);
 
   /* ── Elements that must come AFTER <main> in the DOM ─────────── */

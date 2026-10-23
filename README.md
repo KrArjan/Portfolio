@@ -76,4 +76,4 @@ Portfolio/
 
 MIT — see [LICENSE](LICENSE) for details.
 
-Built by **KrArjan** — [github.com/KrArjan](https://github.com/KrArjan)
+Built by **Arjan Kr** — [github.com/KrArjan](https://github.com/KrArjan)

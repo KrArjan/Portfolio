@@ -21,8 +21,8 @@ const SITE_DATA = {
    * CHANGE_ME: Update all fields with your info.
    * ================================================ */
   meta: {
-    name: 'KrArjan',                                     // CHANGE_ME: Your display name
-    title: 'KrArjan',                                    // CHANGE_ME: Browser tab title
+    name: 'Arjan Kr',                                    // CHANGE_ME: Your display name
+    title: 'Arjan Kr',                                   // CHANGE_ME: Browser tab title
     tagline: 'Building Since 2021.',                     // CHANGE_ME: Short tagline
     role: 'Student Developer & Technical Builder',       // CHANGE_ME: Your role/title
     description: 'Building software, bots, tools, and digital systems that move the needle.', // CHANGE_ME: SEO meta description
@@ -43,7 +43,7 @@ const SITE_DATA = {
    * Feature flags to toggle sections on/off.
    * ================================================ */
   features: {
-    showBootScreen: true,     // Toggle the cinematic loading animation
+    showBootScreen: false,    // Toggle the cinematic loading animation
     showStats: true,          // Toggle the statistic cards on home page
     showFeaturedWork: true,   // Toggle the featured projects bento on home page
     showLabNotes: false,      // Toggle terminal-style log entries on Lab page
@@ -67,10 +67,10 @@ const SITE_DATA = {
   pages: {
     home: {
       hero: {
-        badge: 'System_Online // Ver_2.0.4',
-        title: 'KrArjan<br><span class="gradient-text">Student Developer.</span>',
+        badge: 'Online',
+        title: 'Arjan Kr<br><span class="gradient-text">Student Developer.</span>',
         bio: 'I’m a student developer working on bots, web tools, automation systems, and technical projects. I enjoy building things that are useful, organized, and actually solve problems.',
-        pfpAlt: 'KrArjan Profile',
+        pfpAlt: 'Arjan Kr Profile',
         techTags: [
           'JAVASCRIPT / NODE.JS',
           'PYTHON / APIS',
@@ -100,7 +100,7 @@ const SITE_DATA = {
     profile: {
       hero: {
         badge: 'BIO_PROFILE_V2.0.4',
-        title: "I'm KrArjan,<br><span class=\"gradient-text\">Student Developer.</span>",
+        title: "I'm Arjan Kr,<br><span class=\"gradient-text\">Student Developer.</span>",
         bios: [
           'I’m a student developer with hands-on experience since 2021. I started by working on Minecraft servers, Discord communities, bots, technical systems, and online projects — which helped me understand how real digital systems work from the ground up.',
           'Over time, I became more interested in coding and building useful things through software, especially bots, automation, technical tools, and backend-focused systems.',
@@ -208,8 +208,8 @@ const SITE_DATA = {
       }
     },
     boot: {
-      title: 'Initializing KrArjan Interface',
-      version: 'KrArjan v2.0.4-stable',
+      title: 'Initializing Arjan Kr Interface',
+      version: 'Arjan Kr v2.0.4-stable',
       statuses: [
         'BOOTING PORTFOLIO...',
         'SYNCING MODULES...',
@@ -218,7 +218,7 @@ const SITE_DATA = {
       footer: {
         link: 'NODE_01_SECURE',
         signal: '100_PERCENT',
-        copy: '© 2026 KRARJAN // KINETIC TERMINAL',
+        copy: '© 2026 Arjan Kr',
         status: 'ESTABLISHING NEURAL_BRIDGE...'
       }
     }
@@ -601,7 +601,7 @@ const SITE_DATA = {
    * CHANGE_ME: Customize the boot sequence text.
    * ================================================ */
   bootLog: [
-    { text: 'Initializing KrArjan Interface', status: 'OK', delay: 300 },
+    { text: 'Initializing Arjan Kr Interface', status: 'OK', delay: 300 },
     { text: 'Loading Projects', status: 'PROC...', delay: 900, isActive: true },
     { text: 'Syncing Modules', status: 'WAIT', delay: 1500 },
     { text: 'Booting Portfolio', status: 'QUEUED', delay: 2100 },

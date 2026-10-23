@@ -57,7 +57,7 @@ const Router = (() => {
     currentPage = page;
 
     // Update document title
-    const siteName = SITE_DATA?.meta?.title || 'KrArjan';
+    const siteName = SITE_DATA?.meta?.title || 'Arjan Kr';
     const pageLabel = SITE_DATA?.navLinks?.find(l => l.id === page)?.label;
     document.title = pageLabel && page !== 'home' ? `${pageLabel} — ${siteName}` : siteName;
 

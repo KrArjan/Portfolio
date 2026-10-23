@@ -39,31 +39,37 @@ const Boot = (() => {
     const mainFooter  = document.getElementById('main-footer');
     const sidebar     = document.getElementById('sidebar-right');
 
-    if (bootScreen) {
-      if (instant) {
-        bootScreen.style.display = 'none';
-        [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
-          if (el) el.style.removeProperty('display');
-        });
-        if (onCompleteCallback) onCompleteCallback();
-        return;
-      }
+    const revealElements = () => {
+      [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
+        if (el) el.style.removeProperty('display');
+      });
+    };
 
-      setComplete();
-      bootScreen.style.opacity       = '0';
-      bootScreen.style.pointerEvents = 'none';
-
-      setTimeout(() => {
-        bootScreen.style.display = 'none';
-        [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
-          if (el) {
-            el.style.removeProperty('display');
-            el.classList.add('anim-fade-in');
-          }
-        });
-        if (onCompleteCallback) onCompleteCallback();
-      }, 800);
+    if (!bootScreen) {
+      revealElements();
+      if (onCompleteCallback) onCompleteCallback();
+      return;
     }
+
+    if (instant) {
+      bootScreen.style.display = 'none';
+      revealElements();
+      if (onCompleteCallback) onCompleteCallback();
+      return;
+    }
+
+    setComplete();
+    bootScreen.style.opacity       = '0';
+    bootScreen.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      bootScreen.style.display = 'none';
+      revealElements();
+      [mainNav, mainContent, mainFooter, sidebar].forEach(el => {
+        if (el) el.classList.add('anim-fade-in');
+      });
+      if (onCompleteCallback) onCompleteCallback();
+    }, 800);
   }
 
   /* ---- Public init ---- */

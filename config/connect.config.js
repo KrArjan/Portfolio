@@ -29,7 +29,7 @@ export const WORKER_CONFIG = {
    * ================================================ */
   notifications: {
     // Identity shown in the Discord message header
-    username: "KrArjan Portfolio",
+    username: "Arjan Kr Portfolio",
     avatar_url: "https://raw.githubusercontent.com/KrArjan/Portfolio/main/config/images/pfp.webp",
 
     // Rich Embed styling for Discord
@@ -44,7 +44,7 @@ export const WORKER_CONFIG = {
       color: 0x00D0FF,
 
       // Small text at the very bottom
-      footerText: "KrArjan Terminal",
+      footerText: "Arjan Kr Terminal",
     },
 
     // Email-specific settings
